@@ -1,0 +1,25 @@
+{
+    "id": "036-hunting_bow-Alpha",
+    "name": "hunting_bow",
+    "display_name": "Hunting Bow",
+    "description": "A bow designed for hunting, it offers functional precision and power.",
+    "card_type": "equipment",
+    "equipment_type": "weapon",
+    "stat_modifiers": {
+        "STR": 1,
+        "END": 1,
+        "DEF": 1,
+        "INT": 1,
+        "SPI": 1,
+        "MDF": 1,
+        "SPD": 1,
+        "LCK": 1,
+        "ACC": 1.01
+    },
+    "base_power": 20,
+    "attack_range": 4,
+    "attribute": "neutral",
+    "damage_stat": "STR",
+    "damage_type": "physical",
+    "rarity": "common"
+}

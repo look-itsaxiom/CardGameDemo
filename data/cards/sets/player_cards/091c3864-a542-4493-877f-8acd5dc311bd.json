@@ -1,0 +1,34 @@
+{
+    "id": "001-gignen-Alpha.playerA.2025-04-22T00:05:24.751Z/10.11.8.10.11.9.12.12.10._.+._._._._.+.++.+/091c3864-a542-4493-877f-8acd5dc311bd",
+    "name": "Gignen Warrior A",
+    "species": "gignen",
+    "card_type": "summon",
+    "attribute": "neutral",
+    "base_stats": {
+        "STR": 10,
+        "END": 11,
+        "DEF": 8,
+        "INT": 10,
+        "SPI": 11,
+        "MDF": 9,
+        "SPD": 12,
+        "LCK": 12,
+        "ACC": 10
+    },
+    "growth_rates": {
+        "STR": 1,
+        "END": 1.33,
+        "DEF": 1,
+        "INT": 1,
+        "SPI": 1,
+        "MDF": 1,
+        "SPD": 1.33,
+        "LCK": 2,
+        "ACC": 1.33
+    },
+    "rarity": "common",
+    "rank": 1,
+    "opened_date": "2025-04-22T00:05:24.751Z",
+    "opened_by": "playerA",
+    "template_id": "001-gignen_template-Alpha"
+}

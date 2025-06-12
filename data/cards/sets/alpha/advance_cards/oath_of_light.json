@@ -1,0 +1,37 @@
+{
+    "id": "033-oath_of_light-Alpha",
+    "name": "oath_of_light",
+    "display_name": "Oath of Light",
+    "description": "Promote a target warrior or magician based summon you control to the Paladin role, the epitome of holy warriors in terms of defense and support.",
+    "card_type": "advance",
+    "target": {
+        "type": "summon",
+        "zone": "in_play",
+        "controller": "player",
+        "amount": 1,
+        "range_from_caster": null,
+        "role_type": "magician|warrior",
+        "role_tier": "<= 2",
+        "current_level": "> 19"
+    },
+    "play_requirements": {
+        "target_valid": true,
+        "in_play_available": true
+    },
+    "resolve_requirements": {
+        "space_valid": true,
+        "target_valid": true,
+        "in_play": true
+    },
+    "trigger": ["on_play"],
+    "resolve_timing": ["immediate"],
+    "effects": [
+        {
+            "type": "role_change",
+            "value": "031-paladin-Alpha"
+        }
+    ],
+    "attribute": "light",
+    "rarity": "legend",
+    "zoneAfterResolve": "discard"
+}

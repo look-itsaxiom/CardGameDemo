@@ -1,0 +1,94 @@
+{
+    "id": "014-alrecht_barkstep-Alpha",
+    "name": "alrecht_barkstep",
+    "species": "gignen",
+    "display_name": "Alrecht Barkstep, Scoutmaster",
+    "flavor_text": "",
+    "card_type": "advance_named_summon",
+    "target": {
+        "type": "summon",
+        "zone": "in_play",
+        "controller": "player",
+        "amount": 1,
+        "range_from_caster": null,
+        "role": "scout",
+        "role_tier": "<= 2",
+        "current_level": ">= 10"
+    },
+    "space": {
+        "occupied": true,
+        "controller": "any",
+        "x": 1,
+        "y": 1,
+        "designated_at_set": false,
+        "designated_at_play": true,
+        "designated_at_resolve": true
+    },
+    "play_requirements": {
+        "space_valid": true,
+        "target_valid": true,
+        "in_play_available": true,
+        "custom_requirements": [
+            {
+                "find_in_log": "quest_card",
+                "custom_requirement_evaluation": "quest_card.target == target",
+                "unique": true
+            },
+            {
+                "find_in_log": "quest_card",
+                "custom_requirement_evaluation": "quest_card.target == target",
+                "unique": true
+            }
+        ]
+    },
+    "resolve_requirements": {
+        "space_valid": true,
+        "target_valid": true,
+        "in_play": true
+    },
+    "trigger": ["on_play"],
+    "resolve_timing": ["immediate"],
+    "effects": [
+        {
+            "type": "add_unique_action_card_to_hand",
+            "card_id": "114-follow_me!-Alpha",
+            "specific_trigger": ["on_play|on_every_turn_level_phase"]
+        },
+        {
+            "type": "inheritance"
+        }
+    ],
+    "attribute": "earth",
+    "rarity": "legend",
+    "base_stats": {
+        "STR": 11,
+        "END": 9,
+        "DEF": 8,
+        "INT": 8,
+        "SPI": 8,
+        "MDF": 8,
+        "SPD": 11,
+        "LCK": 10,
+        "ACC": 12
+    },
+    "growth_rates": {
+        "STR": 1.33,
+        "END": 1,
+        "DEF": 0.66,
+        "INT": 0.5,
+        "SPI": 0.5,
+        "MDF": 0.66,
+        "SPD": 1.5,
+        "LCK": 1.5,
+        "ACC": 2
+    },
+    "role": "0xx-rogue-Alpha",
+    "equipment": {
+        "weapon": "inherited",
+        "armor": "inherited",
+        "accessory": "inherited"
+    },
+    "current_position": "inherited",
+    "zoneAfterResolve": "in_play",
+    "zoneAfterDestroy": "removed"
+}

@@ -1,0 +1,43 @@
+{
+    "id": "132-nightmare_pain-Alpha",
+    "name": "nightmare_pain",
+    "display_name": "Nightmare Pain",
+    "description": "Trigger: A Warlock Summon you control takes damage. Target Summon receives an equal amount of the damage dealt as Dark damage.",
+    "card_type": "counter",
+    "target": {
+        "type": "summon",
+        "zone": "in_play",
+        "controller": "any",
+        "amount": 1,
+        "range_from_caster": null
+    },
+    "play_requirements": {
+        "In_Play_Available": true
+    },
+    "resolve_requirements": {
+        "target_valid": true
+    },
+    "trigger_requirements": {
+        "target_valid": true,
+        "controlled_role": "032-warlock-Alpha",
+        "custom_trigger": {
+            "trigger_property": "trigger.on_summon_damaged_controlled.damaged_summon.role",
+            "trigger_evaluation": "== '032-warlock-Alpha'"
+        }
+    },
+    "trigger": ["on_summon_damaged_controlled"],
+    "resolve_timing": ["immediate"],
+    "effects": [
+        {
+            "type": "damage",
+            "hit_formula": "always_hit",
+            "damage_formula": "trigger.on_summon_damaged_controlled.damaged_summon.damage_taken",
+            "damage_type": "magical",
+            "damage_attribute": "dark",
+            "can_crit": false
+        }
+    ],
+    "attribute": "dark",
+    "rarity": "common",
+    "zoneAfterResolve": "remove"
+}
