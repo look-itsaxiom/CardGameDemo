@@ -1,0 +1,33 @@
+{
+    "name": "Alpha Gignen Template",
+    "id": "001-gignen_template-Alpha",
+    "descrtiption": "Versatile and adaptive, Gignen are generalists suited to any role.",
+    "species": "gignen",
+    "base_stats": {
+        "STR": { "min": 8, "max": 12 },
+        "END": { "min": 8, "max": 12 },
+        "DEF": { "min": 8, "max": 12 },
+        "INT": { "min": 8, "max": 12 },
+        "SPI": { "min": 8, "max": 12 },
+        "MDF": { "min": 8, "max": 12 },
+        "SPD": { "min": 8, "max": 12 },
+        "LCK": { "min": 8, "max": 12 },
+        "ACC": { "min": 8, "max": 12 }
+    },
+    "card_type": "summon_template",
+    "attribute": "neutral",
+    "rarity_probability": {
+        "common": {
+            "probability": 0.6
+        },
+        "uncommon": {
+            "probability": 0.25
+        },
+        "rare": {
+            "probability": 0.1
+        },
+        "legend": {
+            "probability": 0.05
+        }
+    }
+}

@@ -1,0 +1,31 @@
+{
+    "id": "022-scout-Alpha",
+    "name": "scout",
+    "display_name": "Scout",
+    "description": "A nimble scout who excels in reconnaissance and agility, using their speed and ranged attacks to outmaneuver opponents.",
+    "card_type": "role",
+    "role_type": ["scout"],
+    "stat_modifiers": {
+        "STR": 1,
+        "END": 1,
+        "DEF": 1,
+        "INT": 1,
+        "SPI": 1,
+        "MDF": 1,
+        "SPD": 1.25,
+        "LCK": 1.25,
+        "ACC": 1
+    },
+    "requirements": {
+        "species": [
+            "gignen",
+            "fae",
+            "stoneheart",
+            "wilderling",
+            "demar",
+            "angar",
+            "creptilis"
+        ]
+    },
+    "tier": 1
+}
