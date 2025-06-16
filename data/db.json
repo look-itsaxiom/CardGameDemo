@@ -2159,7 +2159,7 @@
     },
     {
       "id": "001-gignen-Alpha.playerA.2025-04-22T00:05:24.751Z/10.11.8.10.11.9.12.12.10._.+._._._._.+.++.+/091c3864-a542-4493-877f-8acd5dc311bd",
-      "name": "Gignen Warrior A",
+      "display_name": "Gignen Scout A",
       "species": "gignen",
       "card_type": "summon",
       "attribute": "neutral",
@@ -2193,7 +2193,7 @@
     },
     {
       "id": "004-wilderling_template-Alpha:playerB.2025-05-12T00:05:24.751Z/15.11.7.6.11.7.13.7.13.-._._.++.--.-.*.++.*/2e335969-dbaa-4e90-a367-98c90bcfad51",
-      "name": "Wilderling Scout B",
+      "display_name": "Wilderling Scout B",
       "species": "wilderling",
       "card_type": "summon",
       "attribute": "wind",
@@ -2227,7 +2227,7 @@
     },
     {
       "id": "001-gignen-Alpha.playerA.2025-04-22T00:05:24.751Z/10.8.11.10.9.10.10.12.9.+._.--.+.+._._.++.--/7a02f02c-0bb2-4b7b-b3b8-f3121e5891bd",
-      "name": "Gignen Magician A",
+      "display_name": "Gignen Magician A",
       "species": "gignen",
       "card_type": "summon",
       "attribute": "neutral",
@@ -2261,7 +2261,7 @@
     },
     {
       "id": "002-fae_template-Alpha:playerB.2025-06-12T00:05:24.751Z/8.8.10.13.14.11.10.8.8._._._.+.+._._._.+/9344a30a-0814-4a5f-98e0-3290c9592563",
-      "name": "Fae Magician B",
+      "display_name": "Fae Magician B",
       "species": "fae",
       "card_type": "summon",
       "attribute": "earth",
@@ -2295,7 +2295,7 @@
     },
     {
       "id": "001-gignen-Alpha.playerA.2025-06-12T00:05:24.751Z/12.8.10.12.8.8.10.9.9.+._._.-._.-.--.++.-/b078b552-6dea-4b43-b375-87f9acf00501",
-      "name": "Gignen Warrior A",
+      "display_name": "Gignen Warrior A",
       "species": "gignen",
       "card_type": "summon",
       "attribute": "neutral",
@@ -2329,7 +2329,7 @@
     },
     {
       "id": "003-stoneheart_template-Alpha:playerB.2025-03-12T00:05:24.751Z/12.14.11.9.9.6.7.8.8.++._._._.+.-._.+._/c28e4f34-f8aa-4c82-9c94-17bcda45d49b",
-      "name": "Stoneheart Warrior B",
+      "display_name": "Stoneheart Warrior B",
       "species": "stoneheart",
       "card_type": "summon",
       "attribute": "fire",
