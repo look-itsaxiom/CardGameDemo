@@ -1,17 +1,29 @@
-import { useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { IRefPhaserGame, PhaserGame } from './PhaserGame';
 import { MainMenu } from './game/scenes/MainMenu';
+import { I3v3DeckLoadoutInfo, IPlayerInfo } from '../data/db';
+import db from '../data/db';
 
 function App()
 {
-    // The sprite can only be moved in the MainMenu Scene
-    const [canMoveSprite, setCanMoveSprite] = useState(true);
+    const players = db.getPlayers();
+    const [activePlayerInfo, setActivePlayerInfo] = useState<IPlayerInfo | null>(null);
+    const [opponentPlayerInfo, setOpponentPlayerInfo] = useState<IPlayerInfo | null>(null);
+    let playerActiveDeck = {} as I3v3DeckLoadoutInfo;
+    let opponentActiveDeck = {} as I3v3DeckLoadoutInfo;
+
+    useEffect(() => {
+        playerActiveDeck = db.getDeckById(activePlayerInfo?.active_deck || '') || {} as I3v3DeckLoadoutInfo;
+    }, [activePlayerInfo]);
+
+    useEffect(() => {
+        opponentActiveDeck = db.getDeckById(opponentPlayerInfo?.active_deck || '') || {} as I3v3DeckLoadoutInfo;
+    }, [opponentPlayerInfo]);
 
     //  References to the PhaserGame component (game and scene are exposed)
     const phaserRef = useRef<IRefPhaserGame | null>(null);
-    const [spritePosition, setSpritePosition] = useState({ x: 0, y: 0 });
 
-    const changeScene = () => {
+    const startGame = () => {
 
         if(phaserRef.current)
         {     
@@ -19,56 +31,7 @@ function App()
             
             if (scene)
             {
-                scene.changeScene();
-            }
-        }
-    }
-
-    const moveSprite = () => {
-
-        if(phaserRef.current)
-        {
-
-            const scene = phaserRef.current.scene as MainMenu;
-
-            if (scene && scene.scene.key === 'MainMenu')
-            {
-                // Get the update logo position
-                scene.moveLogo(({ x, y }) => {
-
-                    setSpritePosition({ x, y });
-
-                });
-            }
-        }
-
-    }
-
-    const addSprite = () => {
-
-        if (phaserRef.current)
-        {
-            const scene = phaserRef.current.scene;
-
-            if (scene)
-            {
-                // Add more stars
-                const x = Phaser.Math.Between(64, scene.scale.width - 64);
-                const y = Phaser.Math.Between(64, scene.scale.height - 64);
-    
-                //  `add.sprite` is a Phaser GameObjectFactory method and it returns a Sprite Game Object instance
-                const star = scene.add.sprite(x, y, 'star');
-    
-                //  ... which you can then act upon. Here we create a Phaser Tween to fade the star sprite in and out.
-                //  You could, of course, do this from within the Phaser Scene code, but this is just an example
-                //  showing that Phaser objects and systems can be acted upon from outside of Phaser itself.
-                scene.add.tween({
-                    targets: star,
-                    duration: 500 + Math.random() * 1000,
-                    alpha: 0,
-                    yoyo: true,
-                    repeat: -1
-                });
+                scene.startGame(activePlayerInfo, opponentPlayerInfo);
             }
         }
     }
@@ -76,25 +39,31 @@ function App()
     // Event emitted from the PhaserGame component
     const currentScene = (scene: Phaser.Scene) => {
 
-        setCanMoveSprite(scene.scene.key !== 'MainMenu');
+        console.log('Current Scene:', scene);
         
+    }
+
+    const setActivePlayer = (playerId: string, opponentId: string) => () => {
+        const playerIndex = players.findIndex((player) => player.id === playerId);
+        const opponentIndex = players.findIndex((player) => player.id === opponentId);
+        setActivePlayerInfo(players[playerIndex]);
+        setOpponentPlayerInfo(players[opponentIndex]);
     }
 
     return (
         <div id="app">
             <PhaserGame ref={phaserRef} currentActiveScene={currentScene} />
             <div>
+                <p>Active Player: {activePlayerInfo?.name}</p>
+                <p>Active Deck: {activePlayerInfo?.active_deck}</p>
                 <div>
-                    <button className="button" onClick={changeScene}>Change Scene</button>
+                    <button className="button" onClick={setActivePlayer('playerA', 'playerB')}>Set Active Player A</button>
                 </div>
                 <div>
-                    <button disabled={canMoveSprite} className="button" onClick={moveSprite}>Toggle Movement</button>
-                </div>
-                <div className="spritePosition">Sprite Position:
-                    <pre>{`{\n  x: ${spritePosition.x}\n  y: ${spritePosition.y}\n}`}</pre>
+                    <button className="button" onClick={setActivePlayer('playerB', 'playerA')}>Set Active Player B</button>
                 </div>
                 <div>
-                    <button className="button" onClick={addSprite}>Add New Sprite</button>
+                    <button disabled={!activePlayerInfo} className="button" onClick={startGame}>Start Game</button>
                 </div>
             </div>
         </div>
