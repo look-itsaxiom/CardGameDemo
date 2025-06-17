@@ -1,11 +1,9 @@
-import { GameObjects, Scene } from 'phaser';
-
-import { EventBus } from '../EventBus';
-import { IPlayerInfo } from '../../../data/db';
+import { Scene, GameObjects } from 'phaser';
 
 export class MainMenu extends Scene
 {
     background: GameObjects.Image;
+    logo: GameObjects.Image;
     title: GameObjects.Text;
 
     constructor ()
@@ -17,17 +15,18 @@ export class MainMenu extends Scene
     {
         this.background = this.add.image(512, 384, 'background');
 
-        this.title = this.add.text(512, 50, 'Card Game Demo', {
+        this.logo = this.add.image(512, 300, 'logo');
+
+        this.title = this.add.text(512, 460, 'Main Menu', {
             fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
             stroke: '#000000', strokeThickness: 8,
             align: 'center'
-        }).setOrigin(0.5).setDepth(100);
+        }).setOrigin(0.5);
 
-        EventBus.emit('current-scene-ready', this);
-    }
+        this.input.once('pointerdown', () => {
 
-    startGame (activePlayerInfo: IPlayerInfo | null, opponentPlayerInfo: IPlayerInfo | null)
-    {
-        this.scene.start('Game', { activePlayerInfo, opponentPlayerInfo });
+            this.scene.start('Game');
+
+        });
     }
 }
