@@ -1,39 +1,42 @@
 {
-    "id": "131-healing_touch-Alpha",
-    "name": "healing_touch",
-    "display_name": "Healing Touch",
-    "description": "A Paladin healing spell that restores a significant amount of health to a target summon.",
-    "card_type": "action",
-    "target": {
-        "type": "summon",
-        "zone": "in_play",
-        "controller": "any",
-        "amount": 1,
-        "range_from_caster": 2
-    },
-    "play_requirements": {
-        "controlled_role": "031-paladin-Alpha",
-        "target_valid": true
-    },
-    "resolve_requirements": {
-        "controlled_role": "031-paladin-Alpha",
-        "target_valid": true
-    },
-    "trigger": ["on_play"],
-    "resolve_timing": ["immediate"],
-    "effects": [
-        {
-            "type": "healing",
-            "healing_formula": "caster.SPI * (1 + base_power/100)",
-            "healing_type": "magical",
-            "healing_attribute": "light",
-            "base_power": 20,
-            "can_crit": true,
-            "crit_multiplier": 1.5,
-            "crit_formula": "standard"
-        }
-    ],
-    "attribute": "light",
-    "rarity": "uncommon",
-    "zoneAfterResolve": "removed"
+  "id": "131-healing_touch-Alpha",
+  "name": "healing_touch",
+  "display_name": "Healing Touch",
+  "description": "A Paladin healing spell that restores a significant amount of health to a target summon.",
+  "card_type": "action",
+  "caster": {
+    "role_type": "paladin"
+  },
+  "target": {
+    "type": "summon",
+    "zone": "in_play",
+    "controller": "any",
+    "amount": 1,
+    "range_from_caster": 1
+  },
+  "play_requirements": {
+    "caster_valid": true,
+    "target_valid": true
+  },
+  "resolve_requirements": {
+    "caster_valid": true,
+    "target_valid": true
+  },
+  "trigger": ["on_play"],
+  "resolve_timing": ["immediate"],
+  "effects": [
+    {
+      "type": "healing",
+      "healing_formula": "caster.SPI * (1 + base_power/100)",
+      "healing_type": "magical",
+      "healing_attribute": "light",
+      "base_power": 20,
+      "can_crit": true,
+      "crit_multiplier": 1.5,
+      "crit_formula": "standard"
+    }
+  ],
+  "attribute": "light",
+  "rarity": "uncommon",
+  "zone_after_resolve": "removed"
 }

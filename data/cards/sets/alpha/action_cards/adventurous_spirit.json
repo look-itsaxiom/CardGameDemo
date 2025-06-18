@@ -1,31 +1,31 @@
 {
-    "id": "013-adventurous_spirit-Alpha",
-    "name": "adventurous_spirit",
-    "display_name": "Adventurous Spirit",
-    "description": "Add target Quest card from your deck, recharge pile, or discard pile to your hand.",
-    "card_type": "action",
-    "target": {
-        "type": "quest",
-        "zone": "deck|recharge|discard",
-        "controller": "player",
-        "amount": 1
-    },
-    "play_requirements": {
-        "controlled_role": "scout",
-        "target_valid": true
-    },
-    "resolve_requirements": {
-        "controlled_role": "scout",
-        "target_valid": true
-    },
-    "trigger": ["on_play"],
-    "resolve_timing": ["immediate"],
-    "effects": [
-        {
-            "type": "change_target_zone_to_hand"
-        }
-    ],
-    "attribute": "earth",
-    "rarity": "common",
-    "zoneAfterResolve": "discard"
+  "id": "013-adventurous_spirit-Alpha",
+  "name": "adventurous_spirit",
+  "display_name": "Adventurous Spirit",
+  "description": "Add target Quest card from your deck, recharge pile, or discard pile to your hand.",
+  "card_type": "action",
+  "target": {
+    "type": "quest",
+    "zone": "deck|recharge|discard",
+    "controller": "player",
+    "amount": 1
+  },
+  "play_requirements": {
+    "controlled_role": "scout",
+    "target_valid": true
+  },
+  "resolve_requirements": {
+    "controlled_role": "scout",
+    "target_valid": true
+  },
+  "trigger": ["on_play"],
+  "resolve_timing": ["immediate"],
+  "effects": [
+    {
+      "type": "change_target_zone_to_hand"
+    }
+  ],
+  "attribute": "earth",
+  "rarity": "common",
+  "zone_after_resolve": "discard"
 }

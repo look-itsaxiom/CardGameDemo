@@ -1,44 +1,44 @@
 {
-    "id": "003-dramatic_return!-Alpha",
-    "name": "dramatic_return!",
-    "display_name": "Dramatic Return!",
-    "description": "Trigger: A Summon you control is removed from In Play. Target that Summon in your Discard and return it to an unoccupied space within your territory with 10% HP. This effect does not trigger Summon Draws.",
-    "card_type": "counter",
-    "target": {
-        "type": "summon",
-        "zone": "discard",
-        "controller": "player",
-        "amount": 1,
-        "range_from_caster": null
-    },
-    "space": {
-        "occupied": false,
-        "controller": "player",
-        "x": 1,
-        "y": 1,
-        "designated_at_set": false,
-        "designated_at_play": true,
-        "designated_at_resolve": true
-    },
-    "play_requirements": {
-        "In_Play_Available": true
-    },
-    "resolve_requirements": {
-        "space_valid": true,
-        "target_valid": true
-    },
-    "trigger_requirements": {
-        "space_valid": true,
-        "target_valid": true
-    },
-    "trigger": ["on_summon_removed_controlled"],
-    "resolve_timing": ["immediate"],
-    "effects": [
-        {
-            "type": "summon_special"
-        }
-    ],
-    "attribute": "light",
-    "rarity": "legend",
-    "zoneAfterResolve": "discard"
+  "id": "003-dramatic_return!-Alpha",
+  "name": "dramatic_return!",
+  "display_name": "Dramatic Return!",
+  "description": "Trigger: A Summon you control is removed from In Play. Target that Summon in your Discard and return it to an unoccupied space within your territory with 10% HP. This effect does not trigger Summon Draws.",
+  "card_type": "counter",
+  "target": {
+    "type": "summon",
+    "zone": "discard",
+    "controller": "player",
+    "amount": 1,
+    "range_from_caster": null
+  },
+  "space": {
+    "occupied": false,
+    "controller": "player",
+    "x": 1,
+    "y": 1,
+    "designated_at_set": false,
+    "designated_at_play": true,
+    "designated_at_resolve": true
+  },
+  "play_requirements": {
+    "In_Play_Available": true
+  },
+  "resolve_requirements": {
+    "space_valid": true,
+    "target_valid": true
+  },
+  "trigger_requirements": {
+    "space_valid": true,
+    "target_valid": true
+  },
+  "trigger": ["on_summon_removed_controlled"],
+  "resolve_timing": ["immediate"],
+  "effects": [
+    {
+      "type": "summon_special"
+    }
+  ],
+  "attribute": "light",
+  "rarity": "legend",
+  "zone_after_resolve": "discard"
 }
