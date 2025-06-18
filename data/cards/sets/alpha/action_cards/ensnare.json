@@ -1,47 +1,50 @@
 {
-    "id": "011-ensnare-Alpha",
-    "name": "ensnare",
-    "display_name": "Ensnare",
-    "description": "A ranged trap that ensnares a target Summon, immobilizing them from a distance and dealing a small amount of damage.",
-    "card_type": "action",
-    "target": {
-        "type": "summon",
-        "zone": "in_play",
-        "controller": "any",
-        "amount": 1,
-        "range_from_caster": 5
+  "id": "011-ensnare-Alpha",
+  "name": "ensnare",
+  "display_name": "Ensnare",
+  "description": "A ranged trap that ensnares a target Summon, immobilizing them from a distance and dealing a small amount of damage.",
+  "card_type": "action",
+  "caster": {
+    "role_type": "scout"
+  },
+  "target": {
+    "type": "summon",
+    "zone": "in_play",
+    "controller": "any",
+    "amount": 1,
+    "range_from_caster": 5
+  },
+  "play_requirements": {
+    "caster_valid": true,
+    "target_valid": true
+  },
+  "resolve_requirements": {
+    "caster_valid": true,
+    "target_valid": true
+  },
+  "trigger": ["on_play"],
+  "resolve_timing": ["immediate"],
+  "effects": [
+    {
+      "type": "damage",
+      "base_accuracy": 0.75,
+      "hit_formula": "base_accuracy + (caster.ACC / 10) + (caster.LCK / 10)",
+      "damage_formula": "caster.STR * (1 + base_power/100) * (caster.STR / target.DEF)",
+      "damage_type": "physical",
+      "damage_attribute": "neutral",
+      "base_power": 25,
+      "can_crit": true,
+      "crit_multiplier": 1.5,
+      "crit_formula": "standard"
     },
-    "play_requirements": {
-        "controlled_role": "scout",
-        "target_valid": true
-    },
-    "resolve_requirements": {
-        "controlled_role": "scout",
-        "target_valid": true
-    },
-    "trigger": ["on_play"],
-    "resolve_timing": ["immediate"],
-    "effects": [
-        {
-            "type": "damage",
-            "base_accuracy": 0.75,
-            "hit_formula": "base_accuracy + (caster.ACC / 10) + (caster.LCK / 10)",
-            "damage_formula": "caster.STR * (1 + base_power/100) * (caster.STR / target.DEF)",
-            "damage_type": "physical",
-            "damage_attribute": "neutral",
-            "base_power": 25,
-            "can_crit": true,
-            "crit_multiplier": 1.5,
-            "crit_formula": "standard"
-        },
-        {
-            "type": "status",
-            "specific_trigger": "on_summon_damage_by_this_effect",
-            "status": "immobilized",
-            "duration": 1
-        }
-    ],
-    "attribute": "earth",
-    "rarity": "uncommon",
-    "zoneAfterResolve": "discard"
+    {
+      "type": "status",
+      "specific_trigger": "on_summon_damage_by_this_effect",
+      "status": "immobilized",
+      "duration": 1
+    }
+  ],
+  "attribute": "earth",
+  "rarity": "uncommon",
+  "zone_after_resolve": "discard"
 }

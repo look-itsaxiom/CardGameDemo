@@ -1,47 +1,50 @@
 {
-    "id": "016-life_alchemy-Alpha",
-    "name": "life_alchemy",
-    "display_name": "Life Alchemy",
-    "description": "Target Summon you control, it loses 25% of its max HP and restores that amount to another target Summon you control.",
-    "card_type": "action",
-    "target": {
-        "type": "summon",
-        "zone": "in_play",
-        "controller": "player",
-        "amount": 2,
-        "range_from_caster": 4
+  "id": "016-life_alchemy-Alpha",
+  "name": "life_alchemy",
+  "display_name": "Life Alchemy",
+  "description": "Target Summon you control, it loses 25% of its max HP and restores that amount to another target Summon you control.",
+  "card_type": "action",
+  "caster": {
+    "role_type": "magician"
+  },
+  "target": {
+    "type": "summon",
+    "zone": "in_play",
+    "controller": "player",
+    "amount": 2,
+    "range_from_caster": 4
+  },
+  "play_requirements": {
+    "caster_valid": true,
+    "target_valid": true
+  },
+  "resolve_requirements": {
+    "caster_valid": true,
+    "target_valid": true
+  },
+  "trigger": ["on_play"],
+  "resolve_timing": ["immediate"],
+  "effects": [
+    {
+      "type": "damage",
+      "hit_formula": "always_hit",
+      "damage_formula": "target.1.max_hp * 0.25",
+      "damage_type": "neutral",
+      "damage_attribute": "neutral",
+      "can_crit": false
     },
-    "play_requirements": {
-        "controlled_role": "magician",
-        "target_valid": true
-    },
-    "resolve_requirements": {
-        "controlled_role": "magician",
-        "target_valid": true
-    },
-    "trigger": ["on_play"],
-    "resolve_timing": ["immediate"],
-    "effects": [
-        {
-            "type": "damage",
-            "hit_formula": "always_hit",
-            "damage_formula": "target.1.max_hp * 0.25",
-            "damage_type": "neutral",
-            "damage_attribute": "neutral",
-            "can_crit": false
-        },
-        {
-            "type": "healing",
-            "specific_trigger": "on_summon_damage_by_this_effect",
-            "healing_formula": "damage",
-            "specific_target": "target.2",
-            "healing_type": "magical",
-            "healing_attribute": "dark",
-            "base_power": null,
-            "can_crit": false
-        }
-    ],
-    "attribute": "dark",
-    "rarity": "common",
-    "zoneAfterResolve": "discard"
+    {
+      "type": "healing",
+      "specific_trigger": "on_summon_damage_by_this_effect",
+      "healing_formula": "damage",
+      "specific_target": "target.2",
+      "healing_type": "magical",
+      "healing_attribute": "dark",
+      "base_power": null,
+      "can_crit": false
+    }
+  ],
+  "attribute": "dark",
+  "rarity": "common",
+  "zone_after_resolve": "discard"
 }
