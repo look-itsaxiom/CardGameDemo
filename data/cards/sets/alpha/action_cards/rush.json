@@ -8,8 +8,11 @@
     "type": "summon",
     "zone": "in_play",
     "controller": "player",
-    "target_property": "role_type",
-    "target_property_evaluation": "contains('warrior')",
+    "target_evaluation_and": [{
+      "property": "role_type",
+      "operator": "contains",
+      "value": "warrior"
+    }],
     "amount": 1,
     "range_from_caster": null
   },

@@ -6,8 +6,11 @@
   "card_type": "action",
   "target": {
     "type": "equipment",
-    "target_property": "equipment_type",
-    "target_property_evaluation": "== 'weapon'",
+    "target_evaluation_and": [{
+      "property": "equipment_type",
+      "operator": "==",
+      "value": "weapon"
+    }],
     "zone": "in_play",
     "controller": "player",
     "amount": 1,
