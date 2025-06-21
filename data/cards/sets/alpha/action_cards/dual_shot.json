@@ -9,7 +9,12 @@
     "zone": "in_play",
     "controller": "player",
     "amount": 1,
-    "range_from_caster": null
+    "range_from_caster": null,
+    "target_evaluation_and": [{
+      "property": "role_type",
+      "operator": "contains",
+      "value": "scout"
+    }]
   },
   "play_requirements": {
     "controlled_role": "scout",

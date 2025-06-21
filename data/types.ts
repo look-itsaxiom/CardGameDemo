@@ -55,7 +55,7 @@ export type ResolveTimingKey =
   | `${ResolveTimingKeyBase}|${ResolveTimingKeyBase}|${ResolveTimingKeyBase}`
   | `${ResolveTimingKeyBase}|${ResolveTimingKeyBase}|${ResolveTimingKeyBase}|${ResolveTimingKeyBase}`;
 
-export type ExperiationTypeKey = "indefinite" | "end_of_turn";
+export type ExpirationTypeKey = "indefinite" | "end_of_turn";
 
 export type EquipmentType = "weapon" | "offhand" | "armor" | "accessory";
 
@@ -64,6 +64,12 @@ export type GrowthRates = 0.5 | 0.66 | 1 | 1.33 | 1.5 | 2;
 export type Formula = string | "standard";
 
 export type HitFormula = Formula | "always_hit";
+
+export type EvaluationOperator = "==" | "!=" | "<" | "<=" | ">" | ">=" | "contains" | "!contains";
+
+export type EvaluationRawValue = string | number | boolean;
+
+export type EvaluationValue = EvaluationRawValue | EvaluationRawValue[];
 
 export type CostTypeKey = "send_card_to_recharge";
 
@@ -79,6 +85,12 @@ export enum Controller {
 export type StatusKey = "immobilized";
 
 export type FormulaModEffectTargetKey = "movement_speed" | "basic_attack_damage";
+
+export interface ITargetEvaluation {
+  property: string; // too large to type e.g. literally any property that exists on a valid TargetType (from TargetTypeKey, deep nested properties included)
+  operator: EvaluationOperator;
+  value: EvaluationValue;
+}
 
 // Base stats for Summons
 export interface IStats {
@@ -165,7 +177,7 @@ export interface IEffect {
 }
 
 export interface IExpirationType {
-  type: ExperiationTypeKey;
+  type: ExpirationTypeKey;
 }
 
 export interface IDamageEffect extends IEffect {
@@ -245,8 +257,8 @@ export interface ITarget {
   controller: Controller;
   amount: number | "any";
   range_from_caster?: number | "any" | null;
-  target_property?: string | null; // too large to type properly
-  target_property_evaluation?: string; // e.g. "> 5", "<= 3", "== 10, contains('x')"
+  target_evaluation_and?: ITargetEvaluation[]; // all conditions must be true
+  target_evaluation_or?: ITargetEvaluation[]; // at least one condition must be true
 }
 
 export interface IPlaySpace extends IBoardSpace {

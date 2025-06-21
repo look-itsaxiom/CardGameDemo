@@ -8,8 +8,11 @@
     "type": "action",
     "zone": "recharge|discard",
     "controller": "player",
-    "target_property": "play_requirements.controlled_role",
-    "target_property_evaluation": "== 'magician'",
+    "target_evaluation_and": [{
+      "property": "play_requirements",
+      "operator": "==",
+      "value": "magician"
+    }],
     "amount": 1
   },
   "play_requirements": {

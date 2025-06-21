@@ -61,8 +61,8 @@
         "type": "advance_summon",
         "zone": "advance_deck",
         "controller": "player",
-        "target_property": "play_requirements",
-        "target_property_evaluation": "target_valid == true"
+        "target_property": "play_requirements.target_valid",
+        "target_property_evaluation": "== true"
       },
       "specific_resolve_requirements": {
         "target_valid": true

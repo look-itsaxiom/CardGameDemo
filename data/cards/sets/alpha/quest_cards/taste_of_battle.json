@@ -11,8 +11,13 @@
     "controller": "player",
     "amount": 1,
     "range_from_caster": null,
-    "target_property": "current_level",
-    "target_property_evaluation": "< 10"
+    "target_evaluation_and": [
+      {
+        "property": "current_level",
+        "operator": "<",
+        "value": 10
+      }
+    ]
   },
   "play_requirements": {
     "target_valid": true
