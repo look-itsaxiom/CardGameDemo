@@ -17,26 +17,13 @@
         "ACC": 1
     },
     "requirements": {
-        "species": [
-            "gignen",
-            "fae",
-            "stoneheart",
-            "wilderling",
-            "demar",
-            "angar",
-            "creptilis"
-        ],
+        "species": ["gignen", "fae", "stoneheart", "wilderling", "demar", "angar", "creptilis"],
         "role": {
-            "based_on": [
-                "020-warrior-Alpha",
-                "021-magician-Alpha",
-                "027-light_mage-Alpha",
-                "024-knight-Alpha"
-            ]
+            "based_on": ["020-warrior-Alpha", "021-magician-Alpha", "027-light_mage-Alpha", "024-knight-Alpha"]
         },
         "effects": [
             {
-                "type": "add_unique_action_card_to_hand",
+                "type": "add_unique_card_to_hand",
                 "card_id": "131-healing_touch-Alpha",
                 "specific_trigger": ["on_play|on_every_turn_level_phase"],
                 "specific_resolve_requirements": {
