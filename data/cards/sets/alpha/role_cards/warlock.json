@@ -17,21 +17,13 @@
         "ACC": 1.75
     },
     "requirements": {
-        "species": [
-            "gignen",
-            "fae",
-            "stoneheart",
-            "wilderling",
-            "demar",
-            "angar",
-            "creptilis"
-        ],
+        "species": ["gignen", "fae", "stoneheart", "wilderling", "demar", "angar", "creptilis"],
         "role": {
             "based_on": ["021-magician-Alpha", "027-dark_mage-Alpha"]
         },
         "effects": [
             {
-                "type": "add_unique_action_card_to_hand",
+                "type": "add_unique_card_to_hand",
                 "card_id": "132-nightmare_pain-Alpha",
                 "specific_trigger": ["on_play|on_player_next_turn_end_phase"],
                 "specific_resolve_requirements": {
