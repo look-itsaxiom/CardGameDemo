@@ -21,7 +21,8 @@ export type TriggerKeyBase =
     | "on_effect_cost_paid"
     | "on_play"
     | "on_summon_in_occupied_space"
-    | "on_level_up";
+    | "on_level_up"
+    | "on_trigger_response";
 
 export type TriggerKey =
     | TriggerKeyBase
