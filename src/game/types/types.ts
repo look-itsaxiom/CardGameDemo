@@ -589,11 +589,12 @@ export interface IGameState {
     game_status: GameStatus;
     winner?: IGamePlayer; // optional winner if the game is completed
     event_log: IEventLogEntry[];
-    game_action_stack: ITriggerEvent[]; // trigger -> responses -> triggers -> responses -> resolutions -> triggers
+    game_action_stack: (ITriggerEvent | ITriggerResponse | IResolutionEvent)[]; // trigger -> responses -> triggers -> responses -> resolutions -> triggers
 }
 
 export interface ITriggerEvent {
     trigger: TriggerKey;
+    event_type: "trigger" | "response" | "resolution"; // type of the event
     source_id: string; // card ID that triggered the event
     target_id?: string; // optional target card ID
     additional_data?: Record<string, any>; // any additional data related to the event
@@ -601,12 +602,14 @@ export interface ITriggerEvent {
 }
 
 export interface ITriggerResponse extends ITriggerEvent {
+    event_type: "response"; // this is a response to a trigger event
     responder_id: string; // card ID of the responder
     response_effects: IEffect[]; // effects that were triggered in response
     game_state_snapshot?: IGameState; // optional game state snapshot after the response
 }
 
 export interface IResolutionEvent extends ITriggerEvent {
+    event_type: "resolution";
     resolved_effects: IEffect[]; // effects that were resolved
     game_state_snapshot?: IGameState; // optional game state snapshot after the resolution
 }
