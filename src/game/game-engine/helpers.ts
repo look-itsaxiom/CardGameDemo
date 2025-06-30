@@ -1,4 +1,4 @@
-import { ICard, IPlayableCard, ISummonSlotCard, MainDeckCard } from "../types/types";
+import { ICard, IPlayableCard, ISummonSlotCard, MainDeckCard } from "../types";
 
 /**
  * Shuffles an array in place using the Fisher-Yates algorithm.

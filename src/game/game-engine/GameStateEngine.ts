@@ -11,7 +11,7 @@ import {
     IPlayableCard,
     IResolutionEvent,
     ITriggerResponse,
-} from "../types/types";
+} from "../types";
 import BoardManager from "./BoardManager";
 import GamePlayer from "./GamePlayer";
 import db from "../../../data/db";
@@ -274,6 +274,13 @@ class GameStateEngine implements IGameState {
                     // Handle trigger events
                     console.log("Resolving trigger:", gameAction);
                     // Here you would implement the logic to resolve the trigger
+                    this.event_log.push({
+                        entry: this.game_action_stack.pop() as ITriggerEvent,
+                        timestamp: new Date().toISOString(),
+                        turn_number: this.current_turn_number,
+                        turn_phase: this.current_turn_phase,
+                        turn_player: this.turn_player,
+                    });
                     break;
                 case "response":
                     // Handle trigger responses

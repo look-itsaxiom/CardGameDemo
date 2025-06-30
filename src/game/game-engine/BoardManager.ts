@@ -1,4 +1,4 @@
-import { Controller, IBoardSpace, IBoardState } from "../types/types";
+import { Controller, IBoardSpace, IBoardState } from "../types";
 
 export default class BoardManager implements IBoardState {
     width: number = 12;
