@@ -1,5 +1,5 @@
 import db from "../../../data/db";
-import { IDeck, IGamePlayer, InHandCard, IPlayerData, IPlayerZones } from "../types/types";
+import { IDeck, IGamePlayer, InHandCard, IPlayerData, IPlayerZones } from "../types";
 import { generateInstanceId, isMainDeckCard, shuffleDeck } from "./helpers";
 
 export default class GamePlayer implements IGamePlayer {

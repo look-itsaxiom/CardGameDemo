@@ -619,5 +619,5 @@ export interface IEventLogEntry {
     timestamp: string; // ISO date string
     turn_number: number; // turn number when the event occurred
     turn_phase: GamePhase; // turn phase when the event occurred
-    turn_player: string;
+    turn_player: IGamePlayer;
 }
