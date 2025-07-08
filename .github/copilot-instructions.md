@@ -546,7 +546,169 @@ The Named Summon Card enters the In Play Zone, revealing it to Player B and prom
 Player A's Summon: Species: Gignen, Role: Rogue, Level 10, HP 132/132, MV 7, STR 24, END 19, DEF 14, INT 13, SPI 13, MDF 14, SPD 35, LCK 37, ACC 43, Growth Rates: STR 1.33, END 1, DEF 0.66, INT 0.5, SPI 0.5, MDF 0.66, SPD 1.5, LCK 1.5, ACC 2, Equipment: Inherited from Gignen Scout
 Named Summons do not trigger Summon Draws, so Player A does not draw any cards.
 Named Summons inherit certain designated properties from the target Summon used as material, in this case, Alrecht Barkstep, Scoutmaster inherits the Gignen Scout's equipment: "Hunting Bow" (037-hunting_bow-Alpha) and position on the board: (6,2).
-Alrecht Barkstep, Scoutmaster also has an effect that triggers when it enters play and on the beginning of its controller's turn:
+Alrecht Barkstep, Scoutmaster also has an effect that triggers when it enters play and on the beginning of its controller's turn that adds its unique Action card "Follow Me!" to its controller's hand.
+Player A's "Follow Me!" enters their hand, and with no response available from Player B, the effect resolves.
+Player A then selects "Follow Me!" from their hand, selecting Alrecht Barkstep, Scoutmaster as the caster and their Gignen Berserker as the target for the card's effect.
+Follow Me! enters the In Play Zone and with no response available from Player B, resolves its effect.
+Follow Me!'s effect changes the position of the target Summon to a space adjacent to the caster. And because the effect specifies that it changes the position of the target rather than moving it, the target being immobilized does not prevent the effect from resolving.
+Player A selects a valid space adjacent to Alrecht Barkstep, Scoutmaster: (6,3) and moves their Gignen Berserker to that space.
+Since inherting the Gignen Scout's position and game state, technically Alrecht Barkstep, Scoutmaster has moved 3 spaces already this turn. However, its Movement Speed is now 7 so Player A moves the additional 4 spaces to (5,6)
+Now in attack range of Player B's Wilderling Scout, Player A initates a basic attack using Alrecht Barkstep, Scoutmaster.
+First, we need to determine if the attack hits:
+ToHit = 90 + (Player A's Alrecht Barkstep, Scoutmaster ACC / 10) = 90 + (43 / 10) = 94.3%
+A random number between 1 and 100 is generated, if it's less than or equal to 94.3, the attack hits. The random number generated is 52, so the attack hits.
+Next we determine if the attack crits using the standard crit formula for basic attacks:
+CritChance = Floor((Player A's Alrecht Barkstep, Scoutmaster LCK x 0.3375) + 1.65) = Floor((37 x 0.3375) + 1.65) = Floor(12.4875 + 1.65) = Floor(14.1375) = 14%
+A random number between 1 and 100 is generated, if it's less than or equal to 14, the attack crits. The random number generated is 20, so the attack does crit.
+Now we can calculate the damage dealt, first by the weapon attack using the basic attack damage formula for the equipped weapon: "((STR+ACC)/2) x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT"
+Damage = ((Player A's Alrecht Barkstep, Scoutmaster STR + Player A's Alrecht Barkstep, Scoutmaster ACC) / 2) x (1 + Weapon Power / 100) x (Player A's Alrecht Barkstep, Scoutmaster STR / Player B's Wilderling Scout DEF) x IF_CRIT
+Damage = ((24 + 43) / 2) x (1 + 30 / 100) x (24 / 13) x 1.5 = (67 / 2) x 1.3 x 1.8461538461538463 x 1.5 = 33.5 x 1.3 x 1.8461538461538463 x 1.5 = 130.5
+The damage is rounded down to 130.
+Check for any additional factors that may modify the damage dealt. In this case, there are no additional factors to consider, so the final damage dealt is 130.
+Player B's Wilderling Scout takes 130 damage, reducing its HP from 89 to -41.
+Because Player B's Wilderling Scout's HP has dropped to 0 or below, it is defeated and removed from the game.
+Player A is awarded 1 Victory Point for defeating an opponent's Summon Unit. They now have 2 Victory Points.
+Player B activates their face down Counter card "Graverobbing" in response to their Wilderling Scout being defeated.
+Player B's "Graverobbing" enters the In Play Zone and with no response available from Player A, resolves its effect.
+Graverobbing's effect nullifies the gain of a Victory Point from defeating a Summon Unit, and has an additional activation cost of discarding a card from your hand.
+Player B discards "Spell Recall" from their hand to pay the cost of Graverobbing.
+The effect of Graverobbing then nullifies the Victory Point gain from Player A's defeat of Player B's Wilderling Scout, so Player A does not gain a Victory Point.
+Player A remains at 1 Victory Point.
+Graverobbing is then moved to Player B's Discard Pile, as designated by the card.
+Player A selects their Gignen Magician and moves it 2 spaces forward to (4,7), steadily advancing towards Player B's territory.
+Player A initiates the end of their turn, the immobilize status effect on their Gignen Berserker ends and Player A's turn ends, prompting Player B's turn to begin.
+
+Turn 8 - Player B:
+Player B begins their turn by drawing a card from their Main Deck, adding it to their hand during their Draw Phase. The card is "Magician's Sanctum".
+With their Fae Magician in play, it levels up during their Level Phase.
+Player B's Fae Magician levels up from 7 to 8 during their Level Phase.
+Player B's Fae Magician's stats are recalculated for level 8 per its Growth Rates: HP 41/114, MV 3, STR 16, END 16, DEF 18, INT 29, SPI 30, MDF 19, SPD 18, LCK 16, ACC 18
+Player B begins their Action Phase, beginning to worry about the board state.
+Player B uses their Turn Summon to play their Stoneheart Warrior, selecting a valid space in their territory: (4,12). Inside of the Dark Altar's occupied spaces.
+The Summon Card enters the In Play Zone, revealing it to Player A and prompting a response. With no response available from Player A, the Summon materializes on the game board and its stats and properties are calculated:
+Player B's Summon: Species: Stoneheart, Role: Warrior, Level 5, HP 146/146 STR 14, END 12, DEF 11, INT 6, SPI 11, MDF 8, SPD 9, LCK 11, ACC 9, Growth Rates: STR 1.33, END 1, DEF 1, INT 1, SPI 1.33, MDF 1.5, SPD 1, LCK 0.66, ACC 1.5, Equipment: "Heirloom Sword" (038-heirloom_sword-Alpha) 
+Successfully performing their Turn Summon, Player B draws their 3 Summon Draws but does not have quite enough cards in their Main Deck to draw 3, so they draw 2 cards instead then shuffle their Recharge Pile to form a new Main Deck and draw their last card.
+Player B's Summon Draws are "Obliterate", "Stonewarden's Command", and "Blast Bolt". 2 Action Cards and a Reaction Card.
+Player B moves their Fae Magician a space forward to (5,12) to be adjacent to their Stoneheart Warrior.
+Player B selects "Life Alchemy" from their hand, selecting their Fae Magician as the caster and their Stoneheart Warrior as the target for the card's effect.
+Player B's "Life Alchemy" enters the In Play Zone and with no response available from Player A, resolves its effect.
+Life Alchemy has a two part effect, first it deals damage to a target Summon the player controls, then heals another target Summon that player controls the same amount.
+The hit formula designated by the damaging effect on Life Alchemy indicates that it always hits, so no to hit check is necessary.
+Life Alchemy also indicates that this damage cannot crit and is both neutral type and attribute.
+The damage dealt is equal to 25% of the target's max HP.
+Damage = Player B's Stoneheart Warrior HP x 0.25 = 146 x 0.25 = 36.5
+The damage is rounded down to 36.
+Player B's Stoneheart Warrior takes 36 damage, reducing its HP from 146 to 110.
+Then the healing effect of Life Alchemy is applied to Player B's Fae Magician, healing it for the same amount of damage dealt.
+Heal Amount = Damage Dealt = 36
+Player B's Fae Magician heals 36 HP, increasing its HP from 41/114 to 77/114.
+Once the effect resolves, "Life Alchemy" is moved to Player B's Discard Pile, as designated by the card.
+Player B then moves their Magician another 2 spaces forward to (4, 10), placing them in weapon ranged attack range of Player A's Gignen Magician.
+Player B initiates a basic attack using their Fae Magician against Player A's Gignen Magician.
+First, we need to determine if the attack hits:
+ToHit = 90 + (Player B's Fae Magician ACC / 10) = 90 + (18 / 10) = 91.8%
+A random number between 1 and 100 is generated, if it's less than or equal to 91.8, the attack hits. The random number generated is 40, so the attack hits.
+Next we determine if the attack crits using the standard crit formula for basic attacks:
+CritChance = Floor((Player B's Fae Magician LCK x 0.3375) + 1.65) = Floor((16 x 0.3375) + 1.65) = Floor(5.4 + 1.65) = Floor(7.05) = 7%
+A random number between 1 and 100 is generated, if it's less than or equal to 7, the attack crits. The random number generated is 74, so the attack does not crit.
+Now we can calculate the damage dealt using the basic attack damage formula for the equipped weapon: "INT x (1 + Weapon Power / 100) x (INT / Target MDF) x IF_CRIT"
+Damage = Player B's Fae Magician INT x (1 + Weapon Power / 100) x (Player B's Fae Magician INT / Player A's Gignen Magician MDF) x IF_CRIT
+Damage = Player B's Fae Magician INT x (1 + 30 / 100) x (Player B's Fae Magician INT / Player A's Gignen Magician MDF) x 1
+Damage = 29 x (1 + 30 / 100) x (29 / 18) x 1 = 29 x 1.3 x 1.6111111111111112 x 1 = 76.66666666666667
+The damage is rounded down to 76.
+Player A's Gignen Magician takes 76 damage, reducing its HP from 38 to -38.
+Because Player A's Gignen Magician's HP has dropped to 0 or below, it is defeated and removed from the game.
+Player B is awarded 1 Victory Point for defeating an opponent's Summon Unit. They now have 1 Victory Point.
+Player B then selects "Magician's Sanctum" from their hand, selecting their Fae Magician as the target for the card's effect.
+Player B's "Magician's Sanctum" enters the In Play Zone and with no response available from Player A, resolves its effect.
+Magician's Sanctum's effect allows the Magician to add half of their DEF to their MDF or half of their MDF to their DEF when calculating damage until the end of the opponent's next turn.
+It comes with the caveat that if the Magician moves, the effect ends immediately.
+Player B initiates the end of their turn, which triggers the beginning of Dark Altar's chain of effects.
+Player A is given the opportunity to respond, but with no response available, the effect resolves.
+Player B's Dark Altar is destroyed, their Stoneheart Warrior destroyed along with it, as it occupied the Dark Altar's spaces.
+Dark Altar is moved to Player B's Discard Pile, as designated by the card.
+Player B's Stoneheart Warrior is removed from the game, as it was destroyed by the effect of Dark Altar.
+Due to Dark Altar's effect destroying a Summon, Player B is able to select their Fae Magician as the target for the effect, which levels it up to level 20.
+Additionally, Player A is awarded 1 Victory Point for Player B's Stoneheart Warrior being destroyed, bringing Player A's total to 2 Victory Points.
+Finally, Player B is given the opportunity to Advance Summon immediately providing their Fae Magician is a valid target.
+Player B selects the advance card "Shadow Pact" from their Advance Deck, now eligible to be played due to the Fae Magician being level 20 and via the effect of Dark Altar.
+The Named Summon Card enters the In Play Zone, revealing it to Player A and prompting a response. With no response available from Player A, the effect resolves.
+Player B's Fae Magician's Role changes from Magician to Warlock indefinitely. The Warlock's Role has different stat modifiers and triggers stat recalculation.
+Player B's Fae Magician's stats are recalculated for level 20 per its Growth Rates: HP 167/198, MV 6, STR 28, END 28, DEF 30, INT 83, SPI 40, MDF 41, SPD 30, LCK 35, ACC 60
+Once the effect resolves, "Shadow Pact" is moved to Player B's Discard Pile as designated by the card.
+Player B enters their End Phase, with no responses to resolve, Player B's turn ends and Player A's turn begins.
+
+Turn 9 - Player A:
+Player A begins their turn in their Draw Phase, however there are no cards left in their Main Deck or Recharge Pile so nothing occurs during this phase.
+Alrecht Barkstep, Scoutmaster's effect adds "Follow Me!" to Player A's hand at the beginning of their turn, so Player A adds "Follow Me!" to their hand.
+Player A begins their Level Phase, their Gignen Berserker levels up from 13 to 14, and Alrecht Barkstep, Scoutmaster levels up from 10 to 11.
+Player A's Gignen Berserker's stats are recalculated for level 14 per its Growth Rates: HP 84/206, MV 4, STR 48, END 29, DEF 24, INT 21, SPI 22, MDF 17, SPD 21, LCK 37, ACC 18
+Player A's Alrecht Barkstep, Scoutmaster's stats are recalculated for level 11 per its Growth Rates: HP 139/139, MV 7, STR 25, END 20, DEF 15, INT 13, SPI 13, MDF 15, SPD 37, LCK 39, ACC 45
+Player A begins their Action Phase, knowing that this is likely their last turn.
+Player A selects Alrecht Barkstep, Scoutmaster and moves it 2 spaces forward to (4,8), placing it in weapon range of Player B's Fae Magician.
+Player A initiates a basic attack using Alrecht Barkstep, Scoutmaster against Player B's Fae Magician.
+First, we need to determine if the attack hits:
+ToHit = 90 + (Player A's Alrecht Barkstep, Scoutmaster ACC / 10) = 90 + (45 / 10) = 94.5%
+A random number between 1 and 100 is generated, if it's less than or equal to 94.5, the attack hits. The random number generated is 86, so the attack hits.
+Next we determine if the attack crits using the standard crit formula for basic attacks:
+CritChance = Floor((Player A's Alrecht Barkstep, Scoutmaster LCK x 0.3375) + 1.65) = Floor((39 x 0.3375) + 1.65) = Floor(13.1625 + 1.65) = Floor(14.8125) = 14%
+A random number between 1 and 100 is generated, if it's less than or equal to 14, the attack crits. The random number generated is 40, so the attack does not crit.
+Now we can calculate the damage dealt using the basic attack damage formula for the equipped weapon: "((STR + ACC) / 2) x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT"
+Damage = ((Player A's Alrecht Barkstep, Scoutmaster STR + Player A's Alrecht Barkstep, Scoutmaster ACC) / 2) x (1 + Weapon Power / 100) x (Player A's Alrecht Barkstep, Scoutmaster STR / Player B's Fae Magician DEF) x IF_CRIT
+Due to the current effect of Magician's Sanctum, Player B's Fae Magician's DEF for this calculation is increased by half of its MDF.
+Player B's Fae Magician MDF is 41, so its DEF is increased by 20.5, rounded to 20.
+Player B's Fae Magician's DEF is treated as 50 for this calculation.
+Damage = ((25 + 45) / 2) x (1 + 30 / 100) x (25 / 50) x 1 = (70 / 2) x 1.3 x 0.5 x 1 = 35 x 1.3 x 0.5 x 1 = 22.75
+The damage is rounded down to 22.
+Player B's Fae Magician takes 22 damage, reducing its HP from 167 to 145.
+Check for any additional factors that may modify the damage dealt. In this case, there are no additional factors to consider, so the final damage dealt is 22.
+Player A then selects "Follow Me!" from their hand, selecting Alrecht Barkstep, Scoutmaster as the caster and their Gignen Berserker as the target for the card's effect.
+Follow Me! enters the In Play Zone and with no response available from Player B, resolves its effect.
+Follow Me!'s effect changes the position of the target Summon to a space adjacent to the caster.
+Player A selects the space in front of Alrecht Barkstep, Scoutmaster: (4,9) and moves their Gignen Berserker to that space, thus bringing their Berserker into weapon range to attack Player B's Fae Magician.
+Player A initiates a basic attack using their Gignen Berserker against Player B's Fae Magician.
+First, we need to determine if the attack hits:
+ToHit = 90 + (Player A's Gignen Berserker ACC / 10) = 90 + (18 / 10) = 91.8%
+A random number between 1 and 100 is generated, if it's less than or equal to 91.8, the attack hits. The random number generated is 40, so the attack hits.
+Next we determine if the attack crits using the standard crit formula for basic attacks:
+CritChance = Floor((Player A's Gignen Berserker LCK x 0.3375) + 1.65) = Floor((37 x 0.3375) + 1.65) = Floor(12.4875 + 1.65) = Floor(14.1375) = 14%
+A random number between 1 and 100 is generated, if it's less than or equal to 14, the attack crits. The random number generated is 19, so the attack does not crit.
+Now we can calculate the damage dealt using the basic attack damage formula for the equipped weapon: "STR x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT"
+Damage = Player A's Gignen Berserker STR x (1 + Weapon Power / 100) x (Player A's Gignen Berserker STR / Player B's Fae Magician DEF) x IF_CRIT
+Due to the current effect of Magician's Sanctum, Player B's Fae Magician's DEF is calculated as 50.
+Damage = Player A's Gignen Berserker STR x (1 + 30 / 100) x (Player A's Gignen Berserker STR / Player B's Fae Magician DEF) x 1
+Damage = 48 x (1 + 30 / 100) x (48 / 50) x 1 = 48 x 1.3 x 0.96 x 1 = 60.672
+The damage is rounded down to 60.
+Player B's Fae Magician takes 60 damage, reducing its HP from 145 to 85.
+Check for any additional factors that may modify the damage dealt. In this case, there are no additional factors to consider, so the final damage dealt is 60.
+Out of options, Player A is only able to move their Gignen Berserker 4 spaces away to (5,5) to avoid being attacked by Player B's Fae Magician.
+Player A enters their End Phase, the effects of Magician's Sanctum end, Player A's turn ends and Player B's turn begins.
+
+Turn 10 - Player B:
+Player B begins their turn in their Draw Phase, drawing a card from their Main Deck, adding it to their hand. The card is "Drain Touch".
+Warlock's Role effect triggers at the Draw Phase, adding the unique Counter Card "Nightmare Pain" to Player B's hand.
+Player B begins their Level Phase, their Fae Magician is already at the max level 20, so it does not level up.
+Player B begins their Action Phase, debating which target to pursue to end the game.
+Player B selects their Fae Magician and moves it 2 spaces forward to (4,7), placing it in weapon range of Player A's Gignen Berserker.
+Player B selects "Blast Bolt" from their hand, selecting their Fae Magician as the caster and Player A's Gignen Berserker as the target for the card's effect.
+Player B's "Blast Bolt" enters the In Play Zone and with no response available from Player A, resolves its damaging effect.
+Because Blast Bolt has a base accuracy of 85 and its hit formula is designated to use the default standard one, we first need to determine if the attack hits:
+ToHit = 85 + (Player B's Fae Magician ACC / 10) = 85 + (18 / 10) = 86.8%
+A random number between 1 and 100 is generated, if it's less than or equal to 86.8, the attack hits. The random number generated is 17, so the attack hits.
+Next we determine if the attack crits using the standard crit formula for basic attacks:
+CritChance = Floor((Player B's Fae Magician LCK x 0.3375) + 1.65) = Floor((16 x 0.3375) + 1.65) = Floor(5.4 + 1.65) = Floor(7.05) = 7%
+A random number between 1 and 100 is generated, if it's less than or equal to 7, the attack crits. The random number generated is 93, so the attack does not crit.
+Now we can calculate the damage dealt by the damaging effect of Blast Bolt using the damage formula for the card: "INT x (1 + Weapon Power / 100) x (INT / Target MDF) x IF_CRIT"
+Damage = Player B's Fae Magician INT x (1 + Weapon Power / 100) x (Player B's Fae Magician INT / Player A's Gignen Berserker MDF) x IF_CRIT
+Damage = Player B's Fae Magician INT x (1 + 30 / 100) x (Player B's Fae Magician INT / Player A's Gignen Berserker MDF) x 1
+Damage = 83 x (1 + 30 / 100) x (83 / 17) x 1 = 83 x 1.3 x 4.882352941176471 x 1 = 502.6666666666667
+The damage is rounded down to 502.
+Player A's Gignen Berserker takes 502 damage, reducing its HP from 84 to -418.
+Because Player A's Gignen Berserker's HP has dropped to 0 or below, it is defeated and removed from the game.
+Player B is awarded 2 Victory points for defeating an opponent's tier 2 or higher Summon Unit. They now have 3 Victory Points.
+Player A is given the opportunity to respond, but with no response available, Player B wins the game by reaching 3 Victory Points.
+
+Game Over - Player B Wins!
 
 # Additional Notes
 
