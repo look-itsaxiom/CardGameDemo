@@ -715,16 +715,3 @@ Game Over - Player B Wins!
 In the future, my vision for this game is a fully realized multiplayer experience with microtransactions with in game currency to purchase card packs and cosmetic items.
 I also want to implement an auction house system for players to use in game currency to trade cards with each other.
 I have a lot of faith in this project and I believe it has the potential to be a great game but a lot hinges on the execution to create something that can be extended over time to create new and interesting mechanics and archetypes as the game evolves.
-
-Here are the phases of this project:
-
-1. Create a demo that showcases the core gameplay mechanics and UI. We're currently here in this phase.
-2. Create a small shippable product to gather feedback and iterate on the design.
-3. Implement a full card game engine to support the core gameplay mechanics and UI.
-4. Implement a backend API and database to support user authentication, multiplayer support, and card collection.
-5. Implement a full multiplayer experience with matchmaking and leaderboards.
-6. Continue to iterate on the game design and mechanics based on player feedback and data.
-7. Implement microtransactions and an auction house system for players to trade cards with each other.
-8. Expand the game with new card types, mechanics, and archetypes to keep the game fresh and engaging.
-   ???
-   Profit
