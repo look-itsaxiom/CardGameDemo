@@ -1,0 +1,416 @@
+import { EnhancedCardBase } from '../../types/index';
+
+// Legacy card format interface (based on your existing data)
+interface LegacyCard {
+  id: string;
+  name: string;
+  display_name: string;
+  description: string;
+  card_type: string;
+  target?: any;
+  caster?: any;
+  play_requirements?: any;
+  resolve_requirements?: any;
+  trigger?: string[];
+  resolve_timing?: string[];
+  effects?: any[];
+  attribute?: string;
+  rarity?: string;
+  zone_after_resolve?: string;
+}
+
+/**
+ * Converts legacy card definitions to the new enhanced schema
+ */
+export class LegacyCardConverter {
+  
+  convert(legacyCard: LegacyCard): EnhancedCardBase {
+    return {
+      id: legacyCard.id,
+      name: legacyCard.display_name || legacyCard.name,
+      type: this.mapCardType(legacyCard.card_type),
+      description: legacyCard.description,
+      
+      metadata: {
+        set: this.extractSet(legacyCard.id),
+        rarity: (legacyCard.rarity as any) || "common",
+        attribute: legacyCard.attribute,
+        tags: this.generateTags(legacyCard),
+        version: "1.0"
+      },
+
+      gameRules: {
+        playRestrictions: this.convertPlayRestrictions(legacyCard),
+        triggers: this.convertTriggers(legacyCard),
+        effects: [], // Most effects are now in triggers
+        staticAbilities: []
+      },
+
+      presentation: {
+        displayName: legacyCard.display_name || legacyCard.name,
+        flavorText: undefined, // Not in legacy format
+        artAssets: [
+          {
+            type: "image",
+            url: `/assets/cards/${legacyCard.name}.png`,
+            tags: ["card-art"]
+          }
+        ],
+        uiHints: this.generateUIHints(legacyCard)
+      }
+    };
+  }
+
+  private mapCardType(legacyType: string): any {
+    const typeMap: Record<string, any> = {
+      'action': 'action',
+      'reaction': 'reaction', 
+      'counter': 'counter',
+      'building': 'building',
+      'quest': 'quest',
+      'advance': 'advance',
+      'role': 'role',
+      'equipment': 'equipment',
+      'summon': 'summon'
+    };
+    return typeMap[legacyType] || 'action';
+  }
+
+  private extractSet(id: string): string {
+    // Extract set from ID format like "001-blast_bolt-Alpha"
+    const parts = id.split('-');
+    return parts[parts.length - 1] || "Unknown";
+  }
+
+  private generateTags(legacyCard: LegacyCard): string[] {
+    const tags: string[] = [];
+    
+    // Add type-based tags
+    tags.push(legacyCard.card_type);
+    
+    // Add attribute-based tags
+    if (legacyCard.attribute) {
+      tags.push(legacyCard.attribute);
+    }
+    
+    // Add effect-based tags
+    if (legacyCard.effects) {
+      for (const effect of legacyCard.effects) {
+        if (effect.type === 'damage') tags.push('damage');
+        if (effect.type === 'healing') tags.push('healing');
+        if (effect.type === 'summon_special') tags.push('summon');
+      }
+    }
+    
+    return tags;
+  }
+
+  private convertPlayRestrictions(legacyCard: LegacyCard): any[] {
+    const restrictions: any[] = [];
+    
+    // Convert play requirements to new format
+    if (legacyCard.play_requirements) {
+      const requirements: any[] = [];
+      
+      if (legacyCard.play_requirements.controlled_role) {
+        requirements.push({
+          type: "hasRoleInPlay",
+          params: { 
+            role: legacyCard.play_requirements.controlled_role,
+            includeDescendants: true 
+          }
+        });
+      }
+      
+      if (legacyCard.play_requirements.caster_valid && legacyCard.caster) {
+        requirements.push({
+          type: "hasRoleInPlay",
+          params: { 
+            role: legacyCard.caster.role_type,
+            includeDescendants: true 
+          }
+        });
+      }
+      
+      restrictions.push({
+        phase: ["action"], // Most legacy cards were action phase
+        requirements,
+        timing: legacyCard.card_type === 'counter' ? "instant" : "sorcery"
+      });
+    }
+    
+    return restrictions;
+  }
+
+  private convertTriggers(legacyCard: LegacyCard): any[] {
+    const triggers: any[] = [];
+    
+    if (legacyCard.trigger && legacyCard.effects) {
+      for (const triggerType of legacyCard.trigger) {
+        triggers.push({
+          id: `${legacyCard.name}_${triggerType}`,
+          type: this.mapTriggerType(triggerType),
+          priority: 0,
+          conditions: this.convertTriggerConditions(legacyCard),
+          response: {
+            type: legacyCard.card_type === 'counter' ? "optional" : "automatic",
+            effects: this.convertEffects(legacyCard)
+          }
+        });
+      }
+    }
+    
+    return triggers;
+  }
+
+  private mapTriggerType(legacyTrigger: string): string {
+    const triggerMap: Record<string, string> = {
+      'on_play': 'onPlay',
+      'on_summon_removed_controlled': 'onSummonDefeated',
+      'on_player_next_turn_end_phase': 'onPhaseStart',
+      'on_summon_damage_by_this_effect': 'onEffectResolved'
+    };
+    return triggerMap[legacyTrigger] || 'onPlay';
+  }
+
+  private convertTriggerConditions(legacyCard: LegacyCard): any[] {
+    const conditions: any[] = [];
+    
+    // Convert resolve requirements to trigger conditions
+    if (legacyCard.resolve_requirements) {
+      if (legacyCard.resolve_requirements.controlled_role) {
+        conditions.push({
+          requirement: {
+            type: "hasRoleInPlay",
+            params: { role: legacyCard.resolve_requirements.controlled_role }
+          }
+        });
+      }
+    }
+    
+    return conditions;
+  }
+
+  private convertEffects(legacyCard: LegacyCard): any[] {
+    const effects: any[] = [];
+    
+    if (legacyCard.effects) {
+      for (const legacyEffect of legacyCard.effects) {
+        effects.push(this.convertSingleEffect(legacyEffect, legacyCard));
+      }
+    }
+    
+    return effects;
+  }
+
+  private convertSingleEffect(legacyEffect: any, card: LegacyCard): any {
+    const baseEffect = {
+      id: `${card.name}_${legacyEffect.type}`,
+      type: this.mapEffectType(legacyEffect.type),
+      timing: { when: "immediate" as const },
+      targeting: this.convertTargeting(card),
+      execution: {
+        steps: this.convertEffectSteps(legacyEffect)
+      }
+    };
+
+    return baseEffect;
+  }
+
+  private mapEffectType(legacyType: string): string {
+    const effectMap: Record<string, string> = {
+      'damage': 'dealDamage',
+      'healing': 'heal',
+      'change_target_zone_to_hand': 'drawCard',
+      'destroy_self': 'destroy',
+      'summon_special': 'custom'
+    };
+    return effectMap[legacyType] || 'custom';
+  }
+
+  private convertTargeting(card: LegacyCard): any[] {
+    const targeting: any[] = [];
+    
+    if (card.target) {
+      targeting.push({
+        selector: {
+          type: this.mapTargetType(card.target.type),
+          params: {
+            zone: card.target.zone || "inPlay",
+            controller: card.target.controller
+          }
+        },
+        count: {
+          min: card.target.amount || 1,
+          max: card.target.amount || 1
+        },
+        restrictions: card.target.range_from_caster ? [
+          {
+            type: "range",
+            params: { maxDistance: card.target.range_from_caster }
+          }
+        ] : []
+      });
+    }
+    
+    return targeting;
+  }
+
+  private mapTargetType(legacyType: string): string {
+    const targetMap: Record<string, string> = {
+      'summon': 'enemySummon',
+      'quest': 'questCard',
+      'any': 'anySummon'
+    };
+    return targetMap[legacyType] || 'enemySummon';
+  }
+
+  private convertEffectSteps(legacyEffect: any): any[] {
+    const steps: any[] = [];
+    
+    switch (legacyEffect.type) {
+      case 'damage':
+        if (legacyEffect.base_accuracy) {
+          steps.push({
+            action: "calculate",
+            params: { resultKey: "hitChance" },
+            formula: {
+              expression: legacyEffect.hit_formula === 'standard' 
+                ? "baseAccuracy + (caster.ACC / 10)"
+                : legacyEffect.hit_formula,
+              variables: [
+                { name: "baseAccuracy", source: "constant" },
+                { name: "caster.ACC", source: "caster", path: "ACC" }
+              ]
+            }
+          });
+          
+          steps.push({
+            action: "apply",
+            params: { 
+              type: "hitRoll",
+              successThreshold: "hitChance"
+            }
+          });
+        }
+        
+        if (legacyEffect.damage_formula) {
+          steps.push({
+            action: "calculate",
+            params: { resultKey: "damage" },
+            formula: {
+              expression: legacyEffect.damage_formula,
+              variables: this.extractFormulaVariables(legacyEffect.damage_formula)
+            }
+          });
+        }
+        
+        steps.push({
+          action: "apply",
+          params: {
+            type: "damage",
+            amount: "damage",
+            damageType: legacyEffect.damage_type,
+            attribute: legacyEffect.damage_attribute
+          }
+        });
+        break;
+        
+      case 'healing':
+        if (legacyEffect.healing_formula) {
+          steps.push({
+            action: "calculate", 
+            params: { resultKey: "healing" },
+            formula: {
+              expression: legacyEffect.healing_formula,
+              variables: this.extractFormulaVariables(legacyEffect.healing_formula)
+            }
+          });
+        }
+        
+        steps.push({
+          action: "apply",
+          params: {
+            type: "heal",
+            amount: "healing",
+            healType: legacyEffect.healing_type,
+            attribute: legacyEffect.healing_attribute
+          }
+        });
+        break;
+        
+      default:
+        steps.push({
+          action: "apply",
+          params: { type: "custom", legacyEffect }
+        });
+    }
+    
+    return steps;
+  }
+
+  private extractFormulaVariables(formula: string): any[] {
+    const variables: any[] = [];
+    
+    // Simple regex to find variable patterns like "caster.INT", "target.MDF", etc.
+    const variableRegex = /(caster|target)\.(\w+)/g;
+    let match;
+    
+    while ((match = variableRegex.exec(formula)) !== null) {
+      const [fullMatch, source, stat] = match;
+      if (!variables.some(v => v.name === fullMatch)) {
+        variables.push({
+          name: fullMatch,
+          source: source as any,
+          path: stat
+        });
+      }
+    }
+    
+    // Look for constants like "base_power", "basePower" 
+    const constantRegex = /\b(base_?power|base_?accuracy)\b/g;
+    while ((match = constantRegex.exec(formula)) !== null) {
+      if (!variables.some(v => v.name === match[0])) {
+        variables.push({
+          name: match[0],
+          source: "constant" as any
+        });
+      }
+    }
+    
+    return variables;
+  }
+
+  private generateUIHints(legacyCard: LegacyCard): any[] {
+    const hints: any[] = [];
+    
+    // Add hints based on card type
+    if (legacyCard.card_type === 'action' && legacyCard.effects?.some(e => e.type === 'damage')) {
+      hints.push({
+        type: "highlight",
+        trigger: "onTargetValid", 
+        params: { color: "red", intensity: 0.8 }
+      });
+    }
+    
+    if (legacyCard.card_type === 'counter') {
+      hints.push({
+        type: "glow",
+        trigger: "onActivation",
+        params: { color: "blue", duration: 2000 }
+      });
+    }
+    
+    return hints;
+  }
+}
+
+// Utility function to convert a batch of legacy cards
+export function convertLegacyCards(legacyCards: LegacyCard[]): EnhancedCardBase[] {
+  const converter = new LegacyCardConverter();
+  return legacyCards.map(card => converter.convert(card));
+}
+
+// Example usage:
+// const legacyData = JSON.parse(fs.readFileSync('legacy-data/db.json', 'utf8'));
+// const enhancedCards = convertLegacyCards(legacyData.cards);

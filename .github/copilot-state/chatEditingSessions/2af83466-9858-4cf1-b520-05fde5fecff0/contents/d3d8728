@@ -1,0 +1,86 @@
+# Project Master Plan: Tactical Card Game Demo
+
+## Vision
+
+Deliver a robust, extensible, and data-driven tactical RPG card game demo. The MVP is a self-contained, local snapshot of the larger product, focused on the core gameplay loop, data models, and extensibility. This demo will serve as the foundation for future expansion into a full-stack, multiplayer, authoritative-server product.
+
+## MVP Goals
+
+- All game data (cards, decks, board, etc.) is defined in TypeScript interfaces and/or static JSON, not hardcoded logic.
+- The game engine is modular, with strict separation between game logic (engine/state) and UI (Phaser/React).
+- The core gameplay loop (turns, phases, actions, triggers, stack, win/loss) is fully implemented and testable.
+- The system is designed for easy extension: new cards, mechanics, or rules can be added by editing data, not code.
+- UI is functional and clear, using React for menus/collection/deckbuilder and Phaser 3 for the board/gameplay.
+- No backend, authentication, or real-time multiplayer—just local, stubbed data and single-session play.
+
+## Core Design Pillars
+
+1. **Data-Driven Game Logic**
+   - All card effects, requirements, triggers, and rules are defined in structured data (JSON/TypeScript), not as bespoke scripts per card.
+   - The engine interprets this data to drive all gameplay mechanics.
+
+2. **Separation of Concerns**
+   - Game logic (engine/state) is completely decoupled from UI (Phaser/React).
+   - The UI is a “dumb” renderer and input collector, never the source of truth.
+
+3. **Authoritative Server Mindset**
+   - The architecture treats the game engine as the “server” and the UI as “clients” that submit actions and receive state updates.
+   - This enables a future transition to a true backend authoritative server with minimal refactor.
+
+## System Breakdown & Architecture Overview
+
+### 1. Data Layer
+- **Card Definitions:** All card types, effects, triggers, requirements, and stats defined in JSON or TypeScript interfaces.
+- **Decks & Collections:** Player decks, collections, and stubbed user data.
+- **Board & Zones:** Board layout, zones, and initial state.
+
+### 2. Game Engine (Authoritative Logic)
+- **State Management:** Holds the canonical game state (board, hands, decks, discard, etc.).
+- **Action Interpreter:** Receives user actions (play card, move unit, attack, etc.), validates them, and applies state changes.
+- **Effect/Trigger System:** Evaluates triggers, requirements, and resolves effects using data definitions.
+- **Stack & Priority:** Manages the stack, responses, and resolution order.
+- **Stat Calculation:** Computes unit stats, damage, healing, and other derived values from data.
+- **Victory/End Conditions:** Checks for win/loss/draw and game over.
+
+### 3. UI Layer
+- **React UI:** Deck builder, card collection, menus, and game setup.
+- **Phaser 3 Board:** Visualizes the board, units, and in-play actions.
+- **UI-State Sync:** Subscribes to game state updates and renders accordingly. Sends user actions to the engine.
+
+### 4. Extensibility & Testing
+- **Data-Driven Expansion:** New cards, effects, and mechanics added via data, not code changes.
+- **Unit & Integration Tests:** Test game logic, state transitions, and effect resolution.
+- **Debug Tools:** UI for inspecting state, simulating actions, and visualizing the stack.
+
+### 5. Future-Proofing
+- **Server-Client Split:** Engine is designed to run headless (server-side) or in-browser (client-side) with the same API.
+- **Networking Ready:** All user actions are serializable and replayable for multiplayer or server validation.
+
+---
+
+## Next: Top-Level Entity Map & Relationships
+- Define the main entities (GameState, Player, Card, Board, Action, etc.) and how they relate.
+- Use diagrams or tables if helpful.
+
+## Next: Card & Effect Schema Design
+- Draft TypeScript interfaces for cards, effects, triggers, requirements, and actions.
+- Use real examples from the Play Example to validate the schema.
+
+## Next: Game Engine Core Loop
+- Outline the main phases and state transitions (Draw, Level, Action, End, etc.).
+- Define how actions are submitted, validated, and resolved.
+
+## Next: UI & Client Integration
+- Describe how React and Phaser 3 interact with the engine.
+- Define the flow of user actions and state updates.
+
+## Next: Testing & Debugging Tools
+- Plan for unit/integration tests and debug UIs.
+
+## Next: Roadmap to Full Product
+- Identify what needs to be added for multiplayer, backend, and live ops.
+- Plan for migration from MVP to full-stack, authoritative server architecture.
+
+---
+
+*This document is a living master plan. Each section will be expanded and refined as the project evolves.*

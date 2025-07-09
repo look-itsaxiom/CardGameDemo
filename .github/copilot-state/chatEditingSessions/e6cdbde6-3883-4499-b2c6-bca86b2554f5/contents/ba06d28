@@ -1,0 +1,234 @@
+# Enhanced Data-Driven Card Game Schema
+
+## Overview
+
+This document outlines the improved schema design for the tactical card game that addresses the scalability and modularity issues encountered in previous implementations. The new schema is built around a robust **Trigger-Response-Resolution** cycle that separates concerns and allows for easy extension.
+
+## Key Improvements Over Legacy System
+
+### 1. **Modular Effect System**
+- **Before**: Effects mixed damage calculations, targeting, and outcomes in single objects
+- **After**: Effects are broken into discrete, composable steps with clear execution phases
+
+### 2. **Contextual Trigger System**
+- **Before**: Triggers were simple strings with limited context
+- **After**: Rich trigger events with full context, priority ordering, and conditional responses
+
+### 3. **Formula Abstraction**
+- **Before**: Hard-coded formulas mixed with effect definitions
+- **After**: Declarative formula system with variable resolution and modifiers
+
+### 4. **Composable Targeting**
+- **Before**: Targeting embedded in effects, hard to reuse
+- **After**: Reusable targeting rules with filters, restrictions, and priorities
+
+### 5. **Stack Management**
+- **Before**: No formal stack representation
+- **After**: Full stack system with speed levels, timestamps, and resolution tracking
+
+## Core Architectural Concepts
+
+### The Trigger-Response-Resolution Cycle
+
+```
+1. TRIGGER EVENT occurs (e.g., "card played", "summon defeated")
+   ↓
+2. STACK ENTRY created with trigger details and context
+   ↓  
+3. RESPONSES collected from all listening cards/effects
+   ↓
+4. STACK ORDERED by speed level and priority
+   ↓
+5. RESOLUTION processed top-to-bottom, each effect executes its steps
+   ↓
+6. NEW TRIGGERS may be generated, cycle repeats until stack empty
+```
+
+### Data-Driven Philosophy
+
+Every game rule, effect, and mechanic is represented as data that the engine interprets, rather than hardcoded logic. This means:
+
+- **New cards** can be added by editing JSON, not writing code
+- **New mechanics** can be introduced by extending the data schema
+- **Complex interactions** emerge from composing simple, reusable components
+- **Testing and debugging** is easier with declarative rules
+
+## Schema Components Breakdown
+
+### 1. Game Context & State
+
+The `GameContext` tracks the complete game state:
+- Current phase, turn, and player
+- All game zones (hands, decks, board, etc.)
+- Active effects and status modifiers
+- Stack state and trigger history
+
+### 2. Enhanced Card Structure
+
+Cards now have three main sections:
+
+#### Metadata
+```typescript
+metadata: {
+  set: "Alpha",
+  rarity: "rare", 
+  attribute: "fire",
+  tags: ["spell", "damage"],
+  version: "1.0"
+}
+```
+
+#### Game Rules
+```typescript
+gameRules: {
+  playRestrictions: [...], // When/how card can be played
+  triggers: [...],         // What events this card responds to  
+  effects: [...],          // What this card does
+  staticAbilities: [...]   // Passive, always-on effects
+}
+```
+
+#### Presentation
+```typescript
+presentation: {
+  displayName: "Blast Bolt",
+  flavorText: "Fire and fury, concentrated.",
+  artAssets: [...],
+  uiHints: [...]
+}
+```
+
+### 3. Modular Effects
+
+Effects are broken into discrete execution steps:
+
+```typescript
+{
+  id: "blast_bolt_damage",
+  type: "dealDamage",
+  timing: { when: "immediate" },
+  targeting: [/* targeting rules */],
+  execution: {
+    steps: [
+      { action: "calculate", /* hit chance */ },
+      { action: "apply", /* hit roll */ },
+      { action: "calculate", /* damage */ },
+      { action: "apply", /* damage application */ }
+    ]
+  }
+}
+```
+
+Each step can have:
+- **Requirements** that must be met
+- **Formulas** for calculations
+- **Conditional logic** for branching
+- **Rollback actions** for failures
+
+### 4. Rich Targeting System
+
+Targeting is now highly configurable:
+
+```typescript
+targeting: [
+  {
+    selector: {
+      type: "enemySummon",
+      filters: [
+        { type: "stat-range", params: { stat: "HP", min: 1 } },
+        { type: "controller", params: { not: "self" } }
+      ],
+      priority: { criteria: "lowest-hp" }
+    },
+    count: { min: 1, max: 1 },
+    restrictions: [
+      { type: "range", params: { maxDistance: 6 } }
+    ]
+  }
+]
+```
+
+### 5. Formula System
+
+Calculations are declarative and reusable:
+
+```typescript
+formula: {
+  expression: "caster.INT * (1 + basePower/100) * (caster.INT / target.MDF)",
+  variables: [
+    { name: "caster.INT", source: "caster", path: "INT" },
+    { name: "basePower", source: "constant" },
+    { name: "target.MDF", source: "target", path: "MDF" }
+  ],
+  modifiers: [
+    {
+      condition: { type: "hasStatus", params: { status: "blessed" } },
+      operation: "multiply",
+      value: 1.2
+    }
+  ]
+}
+```
+
+## Implementation Strategy
+
+### Phase 1: Core Engine
+1. Implement `GameContext` and state management
+2. Build the Stack system for trigger-response-resolution
+3. Create the formula evaluation engine
+4. Implement basic targeting system
+
+### Phase 2: Effect System  
+1. Build the modular effect execution engine
+2. Implement core effect types (damage, heal, move, etc.)
+3. Add requirement and condition evaluation
+4. Create the active effect tracking system
+
+### Phase 3: Card Integration
+1. Convert existing cards to new schema format
+2. Build card loading and validation systems
+3. Implement play restriction checking
+4. Add trigger registration and management
+
+### Phase 4: Advanced Features
+1. Add static abilities and continuous effects
+2. Implement complex card interactions
+3. Build debugging and inspection tools
+4. Optimize performance for real-time play
+
+## Example Card Implementations
+
+See `enhanced-card-examples.ts` for detailed examples of:
+- **Blast Bolt**: Simple damage spell with hit calculations
+- **Dark Altar**: Complex building with delayed effects and follow-ups
+- **Dramatic Return**: Counter card with trigger listening and optional activation
+
+## Benefits of This Approach
+
+### For Development
+- **Rapid iteration**: New cards and mechanics via data changes
+- **Easy testing**: Declarative rules are easier to unit test
+- **Debugging**: Full audit trail of triggers and resolutions
+- **Modularity**: Components can be mixed and matched
+
+### For Design
+- **Consistency**: All cards follow the same patterns
+- **Complexity management**: Complex cards built from simple pieces  
+- **Balance**: Easy to tweak numbers without code changes
+- **Extensibility**: New mechanics slot into existing framework
+
+### For Future Features
+- **Multiplayer ready**: All state changes are deterministic and serializable
+- **Replay system**: Full game history captured in trigger events
+- **Live updates**: Cards can be updated without client patches
+- **AI integration**: Declarative rules are perfect for AI reasoning
+
+## Migration Path from Legacy
+
+1. **Analyze existing cards** to identify common patterns
+2. **Map legacy effects** to new modular system
+3. **Create conversion tools** to transform old data format
+4. **Build validation suite** to ensure behavior parity
+5. **Gradual rollout** starting with simplest cards
+
+This schema provides a solid foundation for building a complex, extensible card game while maintaining the data-driven philosophy that enables rapid iteration and easy maintenance.

@@ -1,0 +1,94 @@
+{
+    "general_card_properties": {
+        "name": "The display name of the card.",
+        "id": "A unique identifier for the card.",
+        "description": "A brief explanation of the card's purpose or flavor.",
+        "species": "The type or category of the summon (e.g., gignen, fae, stoneheart).",
+        "card_type": "The type of card (e.g., summon_template, action, quest, counter, building).",
+        "attribute": "The elemental or thematic attribute of the card (e.g., neutral, fire, earth, light, dark, wind, water).",
+        "rarity_probability": "Defines the probability of the card's rarity levels: common, uncommon, rare, legend.",
+        "flavor_text": "Optional text providing thematic or narrative context for the card."
+    },
+    "base_stats": {
+        "STR": "Strength",
+        "END": "Endurance",
+        "DEF": "Defense",
+        "INT": "Intelligence",
+        "SPI": "Spirit",
+        "MDF": "Magic Defense",
+        "SPD": "Speed",
+        "LCK": "Luck",
+        "ACC": "Accuracy"
+    },
+    "growth_rate_probabilities": {
+        "Exceptional": "Exceptional growth rate.",
+        "Accelerated": "Accelerated growth rate.",
+        "Gradual": "Gradual growth rate.",
+        "Normal": "Normal growth rate.",
+        "Steady": "Steady growth rate.",
+        "Minimal": "Minimal growth rate."
+    },
+    "targeting": {
+        "type": "The type of target (e.g., summon).",
+        "zone": "The zone where the target resides (e.g., in_play, discard).",
+        "controller": "Specifies who controls the target (e.g., player, any).",
+        "amount": "The number of targets.",
+        "range_from_caster": "Distance from the caster (optional).",
+        "target_property": "The property of the target being evaluated (e.g., species, current_level).",
+        "target_property_evaluation": "The condition for targeting (e.g., == 'gignen', < 10)."
+    },
+    "play_requirements": {
+        "controlled_role": "Role required to play the card (e.g., magician, any).",
+        "target_valid": "Whether the target is valid.",
+        "in_play_available": "Whether there is space in play."
+    },
+    "resolve_requirements": {
+        "space_valid": "Whether the space is valid.",
+        "target_valid": "Whether the target is valid.",
+        "in_play": "Whether the target is in play."
+    },
+    "trigger_requirements": {
+        "space_valid": "Whether the space is valid.",
+        "target_valid": "Whether the target is valid.",
+        "in_play": "Whether the target is in play."
+    },
+    "effects": {
+        "type": "The type of effect (e.g., damage, level_up, summon_special).",
+        "value": "The numeric value of the effect (e.g., 2 for level up).",
+        "base_accuracy": "Base accuracy for damage effects.",
+        "hit_modifier": "Modifier for hit calculation (e.g., caster.ACC).",
+        "damage_formula": "Formula for calculating damage.",
+        "damage_type": "Type of damage (e.g., magical).",
+        "damage_attribute": "Attribute of the damage (e.g., fire).",
+        "base_power": "Base power of the damage.",
+        "can_crit": "Whether the effect can critically hit.",
+        "crit_multiplier": "Multiplier for critical hits.",
+        "crit_formula": "Formula for calculating critical hits.",
+        "effects_expiration": "Defines when temporary effects expire (e.g., end_of_turn, indefinite)."
+    },
+    "zones": {
+        "zone_after_resolve": "The zone where the card moves after resolving (e.g., discard, recharge, in_play).",
+        "zone_after_destroy": "The zone where the card moves after being destroyed."
+    },
+    "space": {
+        "occupied": "Whether the space is occupied.",
+        "controller": "Who controls the space.",
+        "x": "X-coordinate of the space.",
+        "y": "Y-coordinate of the space.",
+        "designated_at_set": "Whether the space is designated at set.",
+        "designated_at_play": "Whether the space is designated at play.",
+        "designated_at_resolve": "Whether the space is designated at resolve."
+    },
+    "additional_properties": {
+        "cost": "Defines the cost required to play the card (e.g., send_card_to_recharge).",
+        "role": "The role associated with the card (e.g., scout, magician, warrior).",
+        "equipment": "Defines inherited or equipped items (e.g., weapon, armor, accessory).",
+        "current_position": "The current position of the card (e.g. (x,y) , inherited)."
+    },
+    "notes": {
+        "or_pattern": "Denote OR by using a pipe | within a single value (e.g., deck|recharge|discard).",
+        "and_pattern": "Denote AND by adding separate values into an array (e.g., [\"on_play\", \"on_cost_paid\"]).",
+        "value_patterns": "Use consistent patterns for values such as zones, triggers, and effects to ensure clarity and reusability.",
+        "current_level_pattern": "Use comparison operators (e.g., >= 10, > 19) to define level-based conditions."
+    }
+}

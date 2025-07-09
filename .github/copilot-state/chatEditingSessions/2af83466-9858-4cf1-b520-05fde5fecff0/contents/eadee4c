@@ -32,7 +32,7 @@ Deliver a robust, extensible, and data-driven tactical RPG card game demo. The M
 This project is built on the principle that the rules, effects, and content of the game are not hardcoded, but interpreted from structured data. The engine is an interpreter, not a collection of bespoke scripts. This means:
 
 - **Every card, effect, and rule is defined as data.** The engine reads and interprets this data to drive gameplay, rather than relying on custom code for each new mechanic.
-- **Adding or changing content is a matter of editing data, not writing new logic.** This empowers designers (me) and future developers (still me) to expand the game without deep engine changes.
+- **Adding or changing content is a matter of editing data, not writing new logic.** This empowers designers and future developers to expand the game without deep engine changes.
 - **The system is future-proof and extensible.** New mechanics, card types, or even whole new game modes can be introduced by extending the data schema and interpreter, not by rewriting the core.
 - **Separation of concerns is absolute.** The UI is a client that submits actions and renders state; the engine is the sole authority on game rules and state transitions.
 - **This approach is chosen to enable rapid iteration, robust testing, and a clear path to multiplayer and live service features.**
@@ -70,40 +70,12 @@ The goal is to create a living, evolving game system that can grow and adapt as 
 
 ---
 
-## Key Design Clarifications & Discoveries
-
-### Summon Card System
-- **Digital Provenance:** Each Summon card generated from packs has a unique digital signature with timestamp and opener identity, creating immutable provenance chains for trading/collecting.
-- **Dynamic Equipment:** Equipment can be modified during gameplay on Summon Units, but Summon Slot configurations in decks serve as starting loadouts.
-- **Modular Roles:** Roles function like equipment - modifiable in deck building and changeable during gameplay via Advance cards.
-- **True Uniqueness:** No duplicate summons possible; even statistically identical summons are fundamentally different due to unique generation signatures.
-
-### Equipment & Role Card Economy
-- **Equipment as Collectibles:** Equipment cards are their own card type with rarities, pulled from packs independently of summons.
-- **Role Card Tiers:** Tier 1 roles (Warrior, Magician, Scout) are provided; Tier 2+ roles and their Advance cards must be collected.
-- **Role Advancement Paths:**
-  - Tier 1 → Tier 2: Linear progression (1-3 options per Tier 1)
-  - Tier 2 → Tier 3: Branching convergence with significant overlap
-  - Example: Paladin accessible via Warrior→Knight→Paladin OR Magician→Light Mage→Paladin
-  - Multi-path Tier 3 roles satisfy requirements from multiple source trees
-- **Tier Lock Requirements:** Advance cards typically require specific tier prerequisites (Tier 2 Advance needs Tier 1 role, etc.)
-
-### Game State Isolation
-- **No Persistence:** Battle outcomes don't permanently affect card properties or player collections.
-- **Future "Ranking Up":** Card progression mechanics planned but outside demo scope.
-- **Pure Game State:** All modifications during gameplay are temporary state changes, not permanent card alterations.
-
----
-
 ## Next: Top-Level Entity Map & Relationships
 - **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.
 - **Acceptance Criteria:**
   - All major game concepts from the play example are represented as entities or relationships.
   - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.
   - A diagram or table shows how everything fits together.
-  - Equipment and Role card economies are properly modeled as independent collectible systems.
-  - Role advancement trees with branching convergence at Tier 3 are represented.
-  - Digital provenance system for Summon cards is included in the data model.
 
 ## Next: Card & Effect Schema Design
 - **Goal:** Create TypeScript interfaces for all card types, effects, triggers, requirements, and actions, so that every mechanic in the play example can be described in data.

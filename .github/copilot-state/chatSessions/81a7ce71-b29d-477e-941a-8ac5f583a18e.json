@@ -1,0 +1,734 @@
+{
+  "version": 3,
+  "requesterUsername": "chase-skibeness",
+  "requesterAvatarIconUri": {
+    "$mid": 1,
+    "path": "/u/21205680",
+    "scheme": "https",
+    "authority": "avatars.githubusercontent.com",
+    "query": "v=4"
+  },
+  "responderUsername": "GitHub Copilot",
+  "responderAvatarIconUri": {
+    "id": "copilot"
+  },
+  "initialLocation": "panel",
+  "requests": [
+    {
+      "requestId": "request_824e9431-3491-4a8a-aaa5-2ca993ad5fb4",
+      "message": {
+        "text": "please review these two documents and summarize your understanding of the game mechanics involved, and the implementation that needs to occur next before beginning to create the GameEngine",
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 188
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 1,
+              "endColumn": 189
+            },
+            "text": "please review these two documents and summarize your understanding of the game mechanics involved, and the implementation that needs to occur next before beginning to create the GameEngine",
+            "kind": "text"
+          }
+        ]
+      },
+      "variableData": {
+        "variables": [
+          {
+            "kind": "file",
+            "id": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+            "value": {
+              "$mid": 1,
+              "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\copilot-instructions.md",
+              "_sep": 1,
+              "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+              "path": "/C:/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+              "scheme": "file"
+            },
+            "name": "copilot-instructions.md",
+            "omittedState": 0
+          },
+          {
+            "kind": "file",
+            "id": "vscode.implicit.viewport",
+            "name": "file:project.md",
+            "value": {
+              "uri": {
+                "$mid": 1,
+                "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md",
+                "_sep": 1,
+                "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/project.md",
+                "path": "/C:/Users/cskib/Projects/CardGameDemo/.github/project.md",
+                "scheme": "file"
+              },
+              "range": {
+                "startLineNumber": 64,
+                "startColumn": 1,
+                "endLineNumber": 98,
+                "endColumn": 27
+              }
+            },
+            "modelDescription": "User's current visible code"
+          }
+        ]
+      },
+      "response": [
+        {
+          "value": "After reviewing both documents, I have a comprehensive understanding of the game mechanics and implementation requirements. Let me summarize:\n\n## Game Mechanics Summary\n\n### Core Game Structure\n- **3v3 tactical grid-based RPG card game** on a 12x14 board\n- Players control 3 rows each (territory), with unclaimed rows between\n- Turn-based with phases: Draw → Level → Action → End\n- Win condition: First to 3 Victory Points\n\n### Deck Composition\n- **3 Summon Slots**: Each contains 1 summon + 1 role + equipment (weapon, offhand, armor, accessory)\n- **Main Deck**: Action, Building, Quest, Counter, Reaction cards\n- **Advance Deck**: Role upgrades and Named Summon promotions\n\n### Combat & Stats System\n- **9 core stats**: STR, END, DEF, INT, SPI, MDF, SPD, ACC, LCK\n- **Level progression**: Start at 5, max 20, with growth rates determining stat increases\n- **Complex damage formulas** involving weapon power, stat ratios, critical hits\n- **Movement and positioning** crucial for tactical play\n\n### Advanced Mechanics\n- **Stack-based resolution**: LIFO with Speed levels (Action < Reaction < Counter)\n- **Trigger/Response system**: Cards respond to game events with specific timing\n- **Priority system**: Determines who can respond when\n- **Data-driven effects**: All card behaviors defined in structured data, not hardcode\n\n## Implementation Requirements Before GameEngine\n\nBased on the project plan and game complexity, here's what needs to be established first:\n\n### 1. Top-Level Entity Map & Relationships\n**Status: Required Next**\n- Define core entities: `GameState`, `Player`, `Card`, `Board`, `SummonUnit`, `Zone`\n- Map relationships: Player owns Deck, Board contains Units, Cards have Effects\n- Establish the complete data model hierarchy\n\n### 2. Comprehensive Type System\n**Status: Critical Foundation**\n- **Card type interfaces** for all card types (Summon, Action, Building, etc.)\n- **Effect system types** for triggers, requirements, responses, resolutions\n- **Game state types** for all zones, phases, and game conditions\n- **Action types** for all possible user inputs\n\n### 3. Data Schema Design\n**Status: Required for Data-Driven Approach**\n- Complete card definition schema that can represent every card in the play example\n- Effect/trigger/requirement schemas that are extensible\n- Validation that the existing JSON data matches the new schemas\n\n### 4. Core Systems Architecture\n**Status: Engine Prerequisites**\n- **Action validation system**: How to check if an action is legal\n- **State transition system**: How game state changes in response to actions\n- **Stack management system**: How triggers/responses are queued and resolved\n- **Stat calculation system**: How to compute derived values from base stats + effects\n\n## Key Design Principles to Maintain\n\n1. **Data-Driven Everything**: Cards, effects, and rules defined in data, not code\n2. **Strict Separation**: Engine holds truth, UI is just a renderer/input collector\n3. **Server-Ready Architecture**: Actions are serializable, state is authoritative\n4. **Extensibility First**: New mechanics via data extension, not code changes\n\n## Recommended Implementation Order\n\n1. **Entity mapping and relationships** - Define the complete object model\n2. **TypeScript interface design** - Create the type system for all game concepts  \n3. **Data schema validation** - Ensure existing JSON data fits the new schemas\n4. **Action system design** - Define how user inputs become validated game actions\n5. **Then begin GameEngine implementation** with solid foundations\n\nThe complexity of the trigger/response system, stat calculations, and multi-phase turns means having rock-solid type definitions and data schemas is essential before writing any engine logic. The engine will be an interpreter of this structured data, so the data model must be complete and precise first.\n\nWould you like me to start with the entity mapping and relationships, or would you prefer to tackle the TypeScript interface design first?",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/c:/Users/cskib/Projects/CardGameDemo/",
+            "scheme": "file"
+          }
+        }
+      ],
+      "responseId": "response_76547573-27f3-4d09-9e1e-63cd663a7b30",
+      "result": {
+        "timings": {
+          "firstProgress": 4809,
+          "totalElapsed": 24084
+        },
+        "metadata": {
+          "codeBlocks": [],
+          "renderedUserMessage": [
+            {
+              "type": 1,
+              "text": "<attachments>\n<attachment id=\"copilot-instructions.md\" isSummarized=\"true\" filePath=\"c:\\\\Users\\\\cskib\\\\Projects\\\\CardGameDemo\\\\.github\\\\copilot-instructions.md\">\n```instructions\n# Github Copilot Instructions\r\n\r\nThis project is an indie game development project focused on creating a card game demo using Typescript based Phaser 3/React.\r\nCurrently, the project operates using stubbed data from the /data directory and user data defined directly in the application but the goal is to eventuall become a fully fledged\r\nfull-stack web application with a backend API and database including user authentication and authorization, multiplayer support, and a full card game engine.\r\n\r\nAll code is written in Typescript, React handles the website frontend, and Phaser 3 is used for the game itself.\r\nThe project is structured to separate the game logic from the UI logic, allowing for easier testing and maintenance.\r\n\r\nWhen writing code, please follow these guidelines:\r\n\r\n1. Use Typescript syntax and conventions.\r\n2. Use Phaser 3 best practices for game development.\r\n3. Use React best practices for UI development.\r\n4. Follow the existing project structure and naming conventions.\r\n5. Write clean, maintainable code with appropriate comments.\r\n6. Use functional components and hooks in React.\r\n7. Never use the `any` type; always specify or create a more precise type or interface.\r\n8. Use Phaser 3's API for game logic and rendering.\r\n9. For React components, ensure they are properly typed and use hooks where appropriate.\r\n10. When creating new features, consider how they will integrate with the existing game state and UI.\r\n11. Only implement and write code that is necessary for the current task or feature being worked on.\r\n12. If you are unsure about a specific implementation, ask for clarification or refer to the project documentation.\r\n13. Only implement and write code that has been approved by the prompter.\r\n14. Never make assumptions regarding the project structure, existing code, intended functionality, design patterns, or any other aspect of the project. Always ask for clarification if needed.\r\n\r\n# The Goal\r\n\r\nThe game being developed is a tactical grid based rpg card game with a fantasy theme. Players will be able to collect cards, build decks, and battle against each other or AI opponents at full realization.\r\nCurrently, we are focused on creating a demo that showcases the core gameplay mechanics with a user interface that allows me to test and interact with the game and eventually a small shippable product to gather feedback.\r\n\r\nThe demo will include:\r\n\r\n- A deck builder UI for creating and managing decks.\r\n- A card shop UI for purchasing and acquiring new cards. (fake currency for now)\r\n- A card collection UI for viewing and managing collected cards.\r\n- A game board UI for playing the game, including a grid-based layout for placing cards and interacting with them.\r\n- A game engine that handles the core gameplay mechanics, including card interactions, turn management, and win/loss conditions.\r\n\r\n# The Game Mechanics\r\n\r\nBefore players can battle, they must first collect cards, and build a deck.\r\nPlayers can collect cards through various means, such as purchasing card packs from the card shop, earning cards through gameplay, or trading with other players via the Auction House (final state).\r\n\r\nAfter collecting cards, players will create \"decks\", which are collections of cards for use in battles. There will be different decks for different formats later but right now we are focusing on 3v3 between two players.\r\nA deck for the 3v3 format contains:\r\n3 \"summon slots\"\r\na main deck\r\nan \"advance\" deck\r\n\r\nA \"summon slot\" is its own grouping of cards that consists of:\r\n\r\n- 1 \"summon\" card that is placed in the slot and represents the main card for that slot.\r\n- 1 \"role\" card that defines the tier 1 role or class of the summon (e.g., scout, magician, warrior, etc.).\r\n- multiple \"equipment\" card slots that can be placed on the summon card to enhance its abilities or provide additional effects.\r\n\r\n\"summon\" cards are cards that players pull from packs that are randomly generated from summon templates and completely unique.\r\nEach summon card generates base stats based on its species, and growth rates for each stat based on probability tables based on the rarity of the card.\r\n\r\nThe \"role\" card defines the initial class or role of the summon, which can affect its abilities and stats.\r\n\r\nThe \"equipment\" cards are additional cards that can be placed in the summon slot to enhance the summon's capability in battle.\r\nEach equipment card has its own type (weapon, offhand, armor, accessory) and provides different bonuses or effects.\r\nThe weapon slot is most important as it defines the primary attack type, damage output, and attack range of the summon.\r\n\r\nThe combination of all these cards in a summon slot synthesize a summon card that players start with in their hands at the beginning of the game. Each summon card is then played in the game to create a \"summon unit\", more on this later.\r\n\r\nThe main deck is a collection of cards that players draw from during the game. Card types as of this writing include: Action cards, Building cards, Quest cards, Counter cards, and Reaction cards.\r\n\r\n- Action cards are played during a player's main phase and have various effects, they usually have requirements to be played such as having a summon with a certain role and valid targets in play. Action cards usually are played, their effects resolve, and then move to either the Recharge or Discard piles, more on this later.\r\n- Building cards are played during a player's main phase and represent permenants that provide ongoing effects on specific spaces on the game board. They can be placed on the board and remain in play until destroyed or removed by an effect. Building cards also have requirements to be played such as having valid spaces to place them on, or a summon with a certain role.\r\n  - A special sub-type of Building card is the \"Building - Trap\" card, which is a building that is secretly placed facedown in the In Play Zone and can be activated when an opponent's summon moves into its space. When activated, it reveals its effect and resolves it, then is moved to the Recharge or Discard piles.\r\n- Quest cards are played during a player's main phase and can vary a bit, but generally represent objectives that players can complete for rewards, or ways for players to level their summons faster than the normal rate. Quest cards are either resolved immediately and moved to the Recharge or Discard piles, or remain in play until completed or failed.\r\n- Counter cards must be played face down in the In Play Zone before they can be activated and resolved. Once they've been set in this way, any time their trigger condition is met, their controlling player can activate them to resolve their effect. Counter cards are usually played in response to an opponent's action or effect, and can be used to disrupt their plans or gain an advantage. Counter cards are moved to the Recharge or Discard piles after being activated.\r\n- Reaction cards are played in response to an opponent's action or effect even from a player's hand, and can be used to disrupt their plans or gain an advantage.\r\n\r\nThe \"advance\" deck is a collection of cards that players can play during the game to \"advance\" or promote their summons to roles of higher tiers or to Named Summons.\r\nRegardless, cards in the advance deck have strict requirements for summons to meet before they can be played but are always available to the player when their summons meet them.\r\nPlayers being able to advance their summons is a key part of the game and allows players to change their gameplay strategy on the fly. Right now, the advance deck cards are very vanilla in that they pretty much only represent stat boosts but I'd like to see interesting interactions and effects later.\r\n\r\nI have designed a small card pool that directly reflects a play session example I wrote early on in the project, you can find it in the Concept.md file in the root of the project.\r\n\r\nFor more details on the various properties that make up the different card types, please refer to the entries in the /data/db.json file for each card type.\r\n\r\nPlayers will need to balance selecting cards for their decks based on the summons individual talents and the cards they have available to them.\r\n\r\nOnce players have their decks ready, they can start a game and play against an opponent.\r\n\r\nThe game is arranged into multiple zones and turns are taken in a phase-based system.\r\nEach player has a Hand, a Main Deck, an Advance Deck, a Discard Pile, a Recharge Pile, and 3 rows of the game board that represent territory they control.\r\nThe other zones are the In Play Zone, and the 12x14 Game Board square grid that represents the battlefield. As mentioned, the first 3 rows on both sides are the territory controlled by each player, and the rows between are referred to as \"unclaimed\" territory.\r\n\r\n1. The Hand is where players keep the cards they draw from their Main Deck, there is no maximum hand size but players must discard down to 6 cards at the end of their turn if they have more than that.\r\n2. The Main Deck is where players draw cards from at the start of their turn, and during the game when they perform a \"Turn Summon\".\r\n\r\n3. The Advance Deck is where players keep their cards that can be played to advance their summons.\r\n   However, when those requirements are met, players can play cards from their Advance Deck at any time during their Action Phase.\r\n4. The Discard Pile and Recharge Pile are where cards go when they are removed from play or resolved.\r\n\r\n- Which Pile they go to is usually indicated on the card itself or by the effect that removed them but if not, each card type has a default behavior:\r\n  - Summon cards and other unique cards are removed from play completely (not a zone) when they leave the In Play Zone.\r\n- As mentioned, the Recharge Pile is shuffled into the Main Deck when it is depleted and a draw is required.\r\n\r\n5. The In Play Zone is where cards that are currently active in the game reside. This includes Summons, Buildings, Counters, Quests and any other cards that have been played and are affecting the game state.\r\n6. The Game Board is where the Summons and Buildings are placed during the game. It is a 12x14 grid with each player controlling the first 3 rows on their side of the board.\r\n\r\nThe player's turn is decided by a coin flip at the start of the game, and each turn consists of the following phases:\r\n\r\n1. Draw Phase: For every turn after the first, a player draws 1 card from their Main Deck and adds it to their hand.\r\n2. Level Phase: All Summons the turn player controls currently in play gain 1 level.\r\n3. Action Phase: The only restrictions on this phase are that a player is only able to perform a normal turn summon once per turn, Summons In Play can only attack once per turn, and can move spaces up to their movement speed value per turn.\r\n\r\n- ex. A summon with a movement speed of 2 can choose to move 1 space, then attack, the player can perform other actions, and then that summon can finish their remaining movement at any point during the Action Phase.\r\n- Player can only play a single Summon per turn unless otherwise specified by a card effect, this single summon is refered to as a \"Turn Summon\" and triggers what is called \"Summon Draws\". When a \"Turn Summon\" resolves, the player draws 3 cards from their main deck into their hand.\r\n- Beyond these restrictions, players can perform any number of actions during this phase assuming they have the resources and meet the requirements or trigger conditions to do so.\r\n\r\n4. End Phase: Once a player has run out of actions to perform, they designate the end of their turn and the End Phase begins and resolves.\r\n\r\n- If the turn player has more than 6 cards in their hand, they'll need to send cards to the Recharge pile until they have 6 cards left in hand.\r\n- Once the End Phase resolves, the next player's turn begins.\r\n\r\nThe primary objective of the game is to accrue 3 Victory Points (VP) by defeating the opponent's Summons, completing certain Quest cards, or by making a direct attack on the opponent's territory while there are no opposing Summons inside it.\r\n\r\n- When a Tier 1 Summon drops to 0 HP, it is removed from the In Play Zone and from the game completely. At that time, the player opposing the player who controlled the defeated Summon gains 1 VP.\r\n- When a Tier 2 Summon drops to 0 HP, it is removed from the In Play Zone and from the game completely. At that time, the player opposing the player who controlled the defeated Summon gains 2 VP.\r\n- When a Summon you control is within your opponent's territory and there are no opposing Summons in that territory, you can make a direct attack on the opponent's territory to gain 1 VP.\r\n- Some card effects can grant or remove VP from players.\r\n\r\n- When a player reaches 3 VP, they win the game.\r\n- If both players reach 3 VP at the same time, the player with the most Summons in play wins the game.\r\n- If both players reach 3 VP at the same time and have the same number of Summons in play, then the game is a draw.\r\n\r\n## Play Mechanics\r\n\r\nAs the game progresses through each phase of a player's turn, there are many opportunities for players to respond to actions and effects.\r\nWhen a player plays a card or activates an effect, it goes into the In Play Zone and is revealed to the opponent. At this time, the opponent has the opportunity to respond with any Counter or Reaction cards they have in their hand or set in the In Play Zone.\r\nThis brings up the important concepts of \"Triggers\", \"Requirements\", \"Responses\", \"Resolutions\", and the \"Stack\". As well as other important concepts such as \"Priority\" and \"Speed\".\r\n\r\n### Triggers\r\n\r\nTriggers are signals that occur throughout the game that indicate a specific event has occurred that allows cards or effects that require that event to be played or activated in response.\r\nFor example, a Counter card may have a trigger condition of \"When an opponent plays a Summon card\", which means that when the opponent plays a Summon card, the player can respond by playing that Counter card.\r\nOr a Trigger may be as specific as \"During the End Phase of your opponent's third turn after this card was set\", which means that the player can respond by activating that Counter card during the End Phase of their opponent's third turn after the card was set.\r\nA very common Trigger is \"On Play\", which simply means \"When this card is played\" or technically \"When this card successfully enters the In Play Zone\".\r\nHowever, even this simple Trigger can be nuanced, take for example an \"On Play\" Trigger that listens for an opponent healing a Summon. This Trigger is not as simple and shouldn't be evaluated the same way despite having the same name.\r\nTriggers are many and varied, and are a key part of the game's strategy and depth. They must contain useful information for trigger evaluation, such as but not limited to: the player who caused the trigger, the card that caused the trigger, the target of the effect that caused the trigger, and any other potentially relevant information.\r\nThis piece of information is referred to as \"Trigger Context\", and will be one of the most important pieces of implementation for a robust, data driven, extendable card game.\r\n\r\n### Responses\r\n\r\nResponses are the actions that cards or effects take when their trigger conditions are met (called Requirements), usually in the form of a Player playing or activating a card or effect in response to a trigger.\r\nResponses enter the \"Stack\" to be resolved in a specific order, usually Last In First Out (LIFO) unless a card effect has changed the nature of that interaction.\r\nResponses are sort of just flag indicators that another effect needs to be resolved, and are not the actual resolution of the effect itself.\r\nAs with almost everything else in the game, responses also generate Trigger events that in turn can generate more responses, and so on. This is the continually building construct we refer to as the \"Stack\".\r\n\r\n### Resolutions\r\n\r\nResolutions are what follow Responses, and are the actual effects that cards or effects take when they are resolved from the Stack.\r\nWhen the Stack has reached a point where no more Responses are being added, the topmost Response on the Stack is resolved, and its effect is applied to the game state.\r\nThis may in turn generate more Trigger events that in turn can generate more Responses, however once the Stack has entered a Resolving state, Responses cannot be added until all Resolutions have been resolved and the Stack is empty again.\r\nOnce emptied, any pending Trigger events are evaluated and any Responses generated are added to the Stack, and the process continues until no more Responses are being added to the Stack.\r\n\r\n### Priority and Speed\r\n\r\nPriority and Speed are two concepts that determine when a player can create Responses to Trigger events.\r\nPriority is a concept that determines which player has the right to respond to a Trigger event first. Priority can be determined by which Player acted last, and which Player's turn it is.\r\nFor instance, if Player A plays a card during their turn, Player B has Priority to respond to that Trigger event first. Then, Player A can respond to any Trigger events generated by Player B's Response, and so on.\r\nOr in another example, if Player A plays a card during their turn, Player B is given Priority to respond but has no Responses to make, then Player A is free to make a Response to their own Trigger providing the Requirements are correct.\r\n\r\nSpeed is an example of one of these Requirements but exists on a global scale. It is both a property of cards and effects, as well as a property of the game state itself.\r\nThe three Speed levels are: Action, Reaction, and Counter named after the card types that typically represent them.\r\nAction is the slowest Speed, and can only be played during a player's Action Phase when they have Priority. It is the primary Speed of the game, and usually represents the first action taken in a chain of events.\r\nThe Action Speed is very relevant, in that almost every action taken in the game falls under this category. Moving a unit, attacking, playing a Summon, initiating the end of a phase, etc. are all examples of Actions. (unless otherwise specified by a card effect)\r\nReaction is a middle Speed, and can be played during either player's turn when they have Priority. It is usually played in response to an Action, and represents a quick reaction to an event.\r\nReactions will most likely take up the majority of Responses on the Stack, as they are the most versatile Speed and can be played in a variety of situations.\r\nFor example, a player could play a Reaction from their hand in response to an opponent moving a unit, or even in response to an opponent initiating the end of their turn.\r\nCounter is the fastest Speed, and can be played during either player's turn whenever its trigger condition is met. It is usually played in response to an Action or Reaction, and represents a quick and decisive counter to an event.\r\n\r\nThe levels of Speed are important because each Speed that is added to the Stack creates a \"Speed Lock\" that prevents any lower Speed Responses from being added to the Stack until all Responses of that Speed have been resolved.\r\nFor example, if an Action is added to the Stack, then a Reaction is added to the Stack, then no more Action Responses can be added to the Stack until the Reaction has been resolved.\r\nBut, in the same example, if a Counter is added to the Stack after the Reaction, then no more Action or Reaction Responses can be added to the Stack until the Counter and any additional Counter Speed Responses have been resolved.\r\n\r\nThe Speed Lock is a key part of the game turn phases as well, as Action Speed is only accessible during a player's Action Phase on their turn. Actions cannot be taken during Draw, Level, or End Phases.\r\n\r\n### Play Eligibility\r\n\r\nWith all these varying concepts at play, it is important to determine when a player is eligible to play a card or activate an effect.\r\nEach card or effect has its own set of Requirements that must be met in order for it to be played or activated and making sure these Requirements are met is crucial to the integrity of the game.\r\nAdditionally, making these Requirements data driven and easily extendable is important for the longevity of the game.\r\nPlayers being aware of when they can play cards or activate effects is also important for the flow of the game, and making sure that players are not confused or frustrated by being unable to play cards or activate effects when they think they should be able to.\r\n\r\n# Core Gameplay Formulas\r\n\r\nOnce a Summon is placed on the board, it becomes a \"Summon Unit\" and gains a set of stats and properties that are derived from the Summon card's base stats and growth rates.\r\nSummon Units always start at level 5 and can level up to a maximum of level 20.\r\nIn order to determine all the properties of a Summon Unit, we need to calculate its current stats based on its level, base stats, growth rates, and any equipment bonuses.\r\nTo calculate the stats of a Summon Unit, we need to consider the following:\r\n\r\nThere are 9 stats that a Summon has:\r\nSTR, END, DEF, INT, SPI, MDF, SPD, ACC, and LCK\r\nStrength (STR) - Affects the damage dealt by physical attacks.\r\nEndurance (END) - Affects the maximum HP of the Summon Unit.\r\nDefense (DEF) - Affects the damage taken from physical attacks.\r\nIntelligence (INT) - Affects the damage dealt by magical attacks.\r\nSpirit (SPI) - Affects the effectiveness of healing and support abilities.\r\nI have a lot of faith in this project and I believe it has the potential to be a great game but a lot hinges on the execution to create something that can be extended over time to create new and interesting mechanics and archetypes as the game evolves.\n```\n</attachment>\n<attachment id=\"file:project.md\">\nUser's current visible code, this should be the main focus:\nExcerpt from project.md, lines 64 to 98:\n```markdown\n- **Unit & Integration Tests:** Test game logic, state transitions, and effect resolution.\r\n- **Debug Tools:** UI for inspecting state, simulating actions, and visualizing the stack.\r\n\r\n### 5. Future-Proofing\r\n- **Server-Client Split:** Engine is designed to run headless (server-side) or in-browser (client-side) with the same API.\r\n- **Networking Ready:** All user actions are serializable and replayable for multiplayer or server validation.\r\n\r\n---\r\n\r\n## Next: Top-Level Entity Map & Relationships\r\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\r\n- **Acceptance Criteria:**\r\n  - All major game concepts from the play example are represented as entities or relationships.\r\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\r\n  - A diagram or table shows how everything fits together.\r\n\r\n## Next: Card & Effect Schema Design\r\n- **Goal:** Create TypeScript interfaces for all card types, effects, triggers, requirements, and actions, so that every mechanic in the play example can be described in data.\r\n- **Acceptance Criteria:**\r\n  - Every card in the play example can be represented as a data object.\r\n  - Effects, triggers, and requirements are data-driven and extensible.\r\n  - Adding a new card or mechanic is possible without engine code changes.\r\n  - Example card data objects are included for reference.\r\n\r\n## Next: Game Engine Core Loop\r\n- **Goal:** Outline and implement the main phases and state transitions (Draw, Level, Action, End, etc.), and define how user actions are submitted, validated, and resolved by the engine.\r\n- **Acceptance Criteria:**\r\n  - The full turn cycle is implemented and matches the play example.\r\n  - Actions (play card, move, attack, etc.) are submitted as data and processed by the engine.\r\n  - The stack, triggers, and resolutions are handled according to the rules.\r\n  - The engine can be run headless for testing.\r\n\r\n## Next: UI & Client Integration\r\n- **Goal:** Connect React and Phaser 3 to the engine, so that the UI reflects game state and user actions are sent to the engine, not handled directly in the UI.\r\n- **Acceptance Criteria:**\n```\n</attachment>\n<attachment filePath=\"c:\\\\Users\\\\cskib\\\\Projects\\\\CardGameDemo\\\\.github\\\\project.md\">\nUser's active file for additional context:\n```markdown\n# Project Master Plan: Tactical Card Game Demo\r\n\r\n## Vision\r\n\r\nDeliver a robust, extensible, and data-driven tactical RPG card game demo. The MVP is a self-contained, local snapshot of the larger product, focused on the core gameplay loop, data models, and extensibility. This demo will serve as the foundation for future expansion into a full-stack, multiplayer, authoritative-server product.\r\n\r\n## MVP Goals\r\n\r\n- All game data (cards, decks, board, etc.) is defined in TypeScript interfaces and/or static JSON, not hardcoded logic.\r\n- The game engine is modular, with strict separation between game logic (engine/state) and UI (Phaser/React).\r\n- The core gameplay loop (turns, phases, actions, triggers, stack, win/loss) is fully implemented and testable.\r\n- The system is designed for easy extension: new cards, mechanics, or rules can be added by editing data, not code.\r\n- UI is functional and clear, using React for menus/collection/deckbuilder and Phaser 3 for the board/gameplay.\r\n- No backend, authentication, or real-time multiplayer—just local, stubbed data and single-session play.\r\n\r\n## Core Design Pillars\r\n\r\n1. **Data-Driven Game Logic**\r\n   - All card effects, requirements, triggers, and rules are defined in structured data (JSON/TypeScript), not as bespoke scripts per card.\r\n   - The engine interprets this data to drive all gameplay mechanics.\r\n\r\n2. **Separation of Concerns**\r\n   - Game logic (engine/state) is completely decoupled from UI (Phaser/React).\r\n   - The UI is a “dumb” renderer and input collector, never the source of truth.\r\n\r\n3. **Authoritative Server Mindset**\r\n   - The architecture treats the game engine as the “server” and the UI as “clients” that submit actions and receive state updates.\r\n   - This enables a future transition to a true backend authoritative server with minimal refactor.\r\n\r\n## Design Ethos: Interpretation Over Hardcoding\r\n\r\nThis project is built on the principle that the rules, effects, and content of the game are not hardcoded, but interpreted from structured data. The engine is an interpreter, not a collection of bespoke scripts. This means:\r\n\r\n- **Every card, effect, and rule is defined as data.** The engine reads and interprets this data to drive gameplay, rather than relying on custom code for each new mechanic.\r\n- **Adding or changing content is a matter of editing data, not writing new logic.** This empowers designers (me) and future developers (still me) to expand the game without deep engine changes.\r\n- **The system is future-proof and extensible.** New mechanics, card types, or even whole new game modes can be introduced by extending the data schema and interpreter, not by rewriting the core.\r\n- **Separation of concerns is absolute.** The UI is a client that submits actions and renders state; the engine is the sole authority on game rules and state transitions.\r\n- **This approach is chosen to enable rapid iteration, robust testing, and a clear path to multiplayer and live service features.**\r\n\r\nThe goal is to create a living, evolving game system that can grow and adapt as new ideas emerge, without ever becoming brittle or unmaintainable.\r\n\r\n## System Breakdown & Architecture Overview\r\n\r\n### 1. Data Layer\r\n- **Card Definitions:** All card types, effects, triggers, requirements, and stats defined in JSON or TypeScript interfaces.\r\n- **Decks & Collections:** Player decks, collections, and stubbed user data.\r\n- **Board & Zones:** Board layout, zones, and initial state.\r\n\r\n### 2. Game Engine (Authoritative Logic)\r\n- **State Management:** Holds the canonical game state (board, hands, decks, discard, etc.).\r\n- **Action Interpreter:** Receives user actions (play card, move unit, attack, etc.), validates them, and applies state changes.\r\n- **Effect/Trigger System:** Evaluates triggers, requirements, and resolves effects using data definitions.\r\n- **Stack & Priority:** Manages the stack, responses, and resolution order.\r\n- **Stat Calculation:** Computes unit stats, damage, healing, and other derived values from data.\r\n- **Victory/End Conditions:** Checks for win/loss/draw and game over.\r\n\r\n### 3. UI Layer\r\n- **React UI:** Deck builder, card collection, menus, and game setup.\r\n- **Phaser 3 Board:** Visualizes the board, units, and in-play actions.\r\n- **UI-State Sync:** Subscribes to game state updates and renders accordingly. Sends user actions to the engine.\r\n\r\n### 4. Extensibility & Testing\r\n- **Data-Driven Expansion:** New cards, effects, and mechanics added via data, not code changes.\r\n- **Unit & Integration Tests:** Test game logic, state transitions, and effect resolution.\r\n- **Debug Tools:** UI for inspecting state, simulating actions, and visualizing the stack.\r\n\r\n### 5. Future-Proofing\r\n- **Server-Client Split:** Engine is designed to run headless (server-side) or in-browser (client-side) with the same API.\r\n- **Networking Ready:** All user actions are serializable and replayable for multiplayer or server validation.\r\n\r\n---\r\n\r\n## Next: Top-Level Entity Map & Relationships\r\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\r\n- **Acceptance Criteria:**\r\n  - All major game concepts from the play example are represented as entities or relationships.\r\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\r\n  - A diagram or table shows how everything fits together.\r\n\r\n## Next: Card & Effect Schema Design\r\n- **Goal:** Create TypeScript interfaces for all card types, effects, triggers, requirements, and actions, so that every mechanic in the play example can be described in data.\r\n- **Acceptance Criteria:**\r\n  - Every card in the play example can be represented as a data object.\r\n  - Effects, triggers, and requirements are data-driven and extensible.\r\n  - Adding a new card or mechanic is possible without engine code changes.\r\n  - Example card data objects are included for reference.\r\n\r\n## Next: Game Engine Core Loop\r\n- **Goal:** Outline and implement the main phases and state transitions (Draw, Level, Action, End, etc.), and define how user actions are submitted, validated, and resolved by the engine.\r\n- **Acceptance Criteria:**\r\n  - The full turn cycle is implemented and matches the play example.\r\n  - Actions (play card, move, attack, etc.) are submitted as data and processed by the engine.\r\n  - The stack, triggers, and resolutions are handled according to the rules.\r\n  - The engine can be run headless for testing.\r\n\r\n## Next: UI & Client Integration\r\n- **Goal:** Connect React and Phaser 3 to the engine, so that the UI reflects game state and user actions are sent to the engine, not handled directly in the UI.\r\n- **Acceptance Criteria:**\r\n  - UI updates in response to state changes from the engine.\r\n  - All user actions (clicks, drags, selections) are sent as data to the engine.\r\n  - No game logic is duplicated in the UI layer.\r\n  - The UI can be swapped or updated without breaking the engine.\r\n\r\n## Next: Testing & Debugging Tools\r\n- **Goal:** Provide tools for testing and debugging the game logic, including unit/integration tests and a debug UI for inspecting state and simulating actions.\r\n- **Acceptance Criteria:**\r\n  - Core engine logic is covered by automated tests.\r\n  - Developers can inspect the stack, triggers, and state transitions in real time.\r\n  - Simulated actions and test scenarios can be run without the full UI.\r\n\r\n## Next: Roadmap to Full Product\r\n- **Goal:** Identify the steps needed to evolve the MVP into a full-stack, multiplayer, live product, including backend, networking, and live ops features.\r\n- **Acceptance Criteria:**\r\n  - A clear migration path from local MVP to server-authoritative multiplayer is documented.\r\n  - Key backend features (auth, persistence, matchmaking, etc.) are listed.\r\n  - The architecture supports future live updates and content drops.\r\n\r\n---\r\n\r\n*This document is a living master plan. Each section will be expanded and refined as the project evolves.*\n```\n</attachment>\n\n</attachments>\n<context>\nThe current date is July 8, 2025.\n</context>\n<editorContext>\nThe user's current file is c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md. \n</editorContext>\n<reminder>\nWhen using the insert_edit_into_file tool, avoid repeating existing code, instead use a line comment with \\`...existing code...\\` to represent regions of unchanged code.\nWhen using the replace_string_in_file tool, include 3-5 lines of unchanged code before and after the string you want to replace, to make it unambiguous which part of the file should be edited.\n</reminder>\n<userRequest>\nplease review these two documents and summarize your understanding of the game mechanics involved, and the implementation that needs to occur next before beginning to create the GameEngine\n</userRequest>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "renderedGlobalContext": [
+            {
+              "type": 1,
+              "text": "<environment_info>\nThe user's current OS is: Windows\nThe user's default shell is: \"powershell.exe\". When you generate terminal commands, please generate them correctly for this shell.\n</environment_info>\n<workspace_info>\nI am working in a workspace with the following folders:\n- c:\\Users\\cskib\\Projects\\CardGameDemo \nI am working in a workspace that has the following structure:\n```\nindex.html\nLICENSE\nlog.js\npackage.json\nREADME.md\nscreenshot.png\ntsconfig.json\ntsconfig.node.json\npublic/\n\tfavicon.png\n\tstyle.css\n\tassets/\n\t\tbg.png\n\t\tlogo.png\n\t\tstar.png\nsrc/\n\tApp.tsx\n\tmain.tsx\n\tPhaserGame.tsx\n\tvite-env.d.ts\n\tdata/\n\t\tgrowth_rate_probabilities.json\n\t\tlegacy-data/\n\t\t\tdb.json\n\t\t\tdb.ts\n\t\t\tcards/\n\t\t\t\tglossary.json\n\t\t\t\tgrowth_rate_probabilities.json\n\t\t\t\tsets/\n\t\t\t\t\talpha/\n\t\t\t\t\t\taction_cards/\n\t\t\t\t\t\t\tadventurous_spirit.json\n\t\t\t\t\t\t\tblast_bolt.json\n\t\t\t\t\t\t\tdrain_touch.json\n\t\t\t\t\t\t\tdual_shot.json\n\t\t\t\t\t\t\tensnare.json\n\t\t\t\t\t\t\thealing_hands.json\n\t\t\t\t\t\t\tlife_alchemy.json\n\t\t\t\t\t\t\trush.json\n\t\t\t\t\t\t\tsharpen_blade.json\n\t\t\t\t\t\t\tspell_recall.json\n\t\t\t\t\t\tadvance_cards/\n\t\t\t\t\t\t\talrecht_barkstep.json\n\t\t\t\t\t\t\tberserker_rage.json\n\t\t\t\t\t\t\tknighthood_ceremony.json\n\t\t\t\t\t\t\toath_of_light.json\n\t\t\t\t\t\t\tshadow_pact.json\n\t\t\t\t\t\tbuilding_cards/\n\t\t\t\t\t\t\tdark_altar.json\n\t\t\t\t\t\t\tgignen_country.json\n\t\t\t\t\t\tcounter_cards/\n\t\t\t\t\t\t\tdramatic_return!.json\n\t\t\t\t\t\t\tgraverobbing.json\n\t\t\t\t\t\tequipment/\n\t\t\t\t\t\t\tweapons/\n\t\t\t\t\t\tquest_cards/\n\t\t\t\t\t\t\ttaste_of_battle.json\n\t\t\t\t\t\trole_cards/\n\t\t\t\t\t\t\tberserker.json\n\t\t\t\t\t\t\tdark_mage.json\n\t\t\t\t\t\t\telement_mage.json\n\t\t\t\t\t\t\texplorer.json\n\t\t\t\t\t\t\tknight.json\n\t\t\t\t\t\t\tlight_mage.json\n\t\t\t\t\t\t\tmagician.json\n\t\t\t\t\t\t\tpaladin.json\n\t\t\t\t\t\t\t...\n\t\t\t\t\t\tsummon_templates/\n\t\t\t\t\t\t\t...\n\t\t\t\t\t\tunique_action_cards/\n\t\t\t\t\tplayer_cards/\n\t\t\t\t\t\t091c3864-a542-4493-877f-8acd5dc311bd.json\n\t\t\t\t\t\t2e335969-dbaa-4e90-a367-98c90bcfad51.json\n\t\t\t\t\t\t7a02f02c-0bb2-4b7b-b3b8-f3121e5891bd.json\n\t\t\t\t\t\t9344a30a-0814-4a5f-98e0-3290c9592563.json\n\t\t\t\t\t\tb078b552-6dea-4b43-b375-87f9acf00501.json\n\t\t\t\t\t\tc28e4f34-f8aa-4c82-9c94-17bcda45d49b.json\n\t\t\tdecks/\n\t\t\t\tplayerA_deck1.json\n\t\t\t\tplayerB_deck1.json\n\t\t\tplayers/\n\t\t\t\tplayerA.json\n\t\t\t\tplayerB.json\n\t\tspecies/\n\t\t\tangar.json\n\t\t\tcreptilis.json\n\t\t\tdemar.json\n\t\t\tfae.json\n\t\t\tgignen.json\n\t\t\tstoneheart.json\n\t\t\twilderling.json\n\tengine/\n\tgame/\n\t\tEventBus.ts\n\t\tmain.ts\n\t\tscenes/\n\t\t\tBoot.ts\n\t\t\tGame.ts\n\t\t\tGameOver.ts\n\t\t\tMainMenu.ts\n\t\t\tPreloader.ts\n\ttypes/\n\t\tindex.ts\nvite/\n\tconfig.dev.mjs\n\tconfig.prod.mjs\n```\nThis is the state of the context at this point in the conversation. The view of the workspace structure may be truncated. You can use tools to collect more context if needed.\n</workspace_info>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "modelMessageId": "22c3fd61-7aa6-4b2a-9e87-1c6a6c7f0b37",
+          "responseId": "b780ab2d-dfda-4d99-a6f0-6df117ed66a7",
+          "sessionId": "b1c3ef98-deeb-436d-93ba-dae65d84b6c5",
+          "agentId": "github.copilot.editsAgent"
+        }
+      },
+      "followups": [],
+      "isCanceled": false,
+      "agent": {
+        "extensionId": {
+          "value": "GitHub.copilot-chat",
+          "_lower": "github.copilot-chat"
+        },
+        "publisherDisplayName": "GitHub",
+        "extensionPublisherId": "GitHub",
+        "extensionDisplayName": "GitHub Copilot Chat",
+        "id": "github.copilot.editsAgent",
+        "description": "Edit files in your workspace in agent mode",
+        "when": "config.chat.agent.enabled && !chatAgentModeDisallowed",
+        "metadata": {
+          "themeIcon": {
+            "id": "tools"
+          },
+          "hasFollowups": false,
+          "supportIssueReporting": false
+        },
+        "name": "agent",
+        "fullName": "GitHub Copilot",
+        "isDefault": true,
+        "locations": [
+          "panel"
+        ],
+        "modes": [
+          "agent"
+        ],
+        "slashCommands": [
+          {
+            "name": "list"
+          }
+        ],
+        "disambiguation": []
+      },
+      "contentReferences": [
+        {
+          "kind": "reference",
+          "reference": {
+            "$mid": 1,
+            "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\copilot-instructions.md",
+            "_sep": 1,
+            "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+            "path": "/c:/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+            "scheme": "file"
+          }
+        }
+      ],
+      "codeCitations": [],
+      "timestamp": 1752043533886
+    },
+    {
+      "requestId": "request_94cf333b-8d0b-4c7e-9b7d-894678038b40",
+      "message": {
+        "text": "I'd like to talk to you directly about your understanding of the game before jumping into things. Tell me about the Summon card that is the cornerstone within the \"Summon Slot\" section of a deck?",
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 195
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 1,
+              "endColumn": 196
+            },
+            "text": "I'd like to talk to you directly about your understanding of the game before jumping into things. Tell me about the Summon card that is the cornerstone within the \"Summon Slot\" section of a deck?",
+            "kind": "text"
+          }
+        ]
+      },
+      "variableData": {
+        "variables": [
+          {
+            "kind": "file",
+            "id": "vscode.implicit.viewport",
+            "name": "file:project.md",
+            "value": {
+              "uri": {
+                "$mid": 1,
+                "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md",
+                "_sep": 1,
+                "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/project.md",
+                "path": "/C:/Users/cskib/Projects/CardGameDemo/.github/project.md",
+                "scheme": "file"
+              },
+              "range": {
+                "startLineNumber": 64,
+                "startColumn": 1,
+                "endLineNumber": 98,
+                "endColumn": 27
+              }
+            },
+            "modelDescription": "User's current visible code"
+          }
+        ]
+      },
+      "response": [
+        {
+          "value": "Based on my understanding from the documents, the Summon card is the foundational piece of each \"Summon Slot\" in a deck, and it's quite unique compared to typical card games:\n\n## Summon Card as Generated Unique Entity\n\nUnlike static cards, **Summon cards are dynamically generated when players open card packs**. Each one is completely unique with its own ID and gets stored as a new database entry. They're created from \"summon templates\" but become individualized through:\n\n1. **Species-based base stats** - Each summon belongs to a species (Gignen, Fae, Stoneheart, etc.) which determines starting stat ranges\n2. **Rarity-influenced growth rates** - The card's rarity affects the probability distribution for getting better growth rates across the 9 stats (STR, END, DEF, INT, SPI, MDF, SPD, ACC, LCK)\n3. **Random growth rate assignment** - Each stat gets assigned a growth rate (Minimal, Steady, Normal, Gradual, Accelerated, Exceptional) based on bell curve probability\n\n## The Summon Slot Synthesis\n\nWhat's fascinating is that the Summon card doesn't work alone. Within a \"Summon Slot,\" it combines with:\n- 1 Role card (Scout, Magician, Warrior, etc.)\n- Equipment cards (weapon, offhand, armor, accessory)\n\nThese components **synthesize together** to create the actual \"Summon card\" that goes into your hand at game start. So the deck-building phase is really about crafting these composite entities.\n\n## Transformation to Summon Unit\n\nWhen played, the Summon card becomes a \"Summon Unit\" on the board with:\n- Calculated stats based on: base stats + (level × growth rates) × role modifiers + equipment bonuses\n- Derived properties like HP (50 + END^1.5), movement speed, attack ranges, etc.\n- Starting level 5, can advance to level 20\n\n## Questions for Clarification\n\nI want to make sure I understand correctly:\n\n1. **Generation timing**: Are Summon cards generated when opening packs, or are they pre-generated and distributed in packs?\n\n2. **Equipment inheritance**: When a Summon card is synthesized in a deck slot, does it permanently inherit the equipment stats, or are they applied dynamically when the Summon Unit is created on the board?\n\n3. **Role permanence**: Can the Role component of a Summon Slot be changed during deck building, or is it locked once set? I know roles can change during gameplay via Advance cards.\n\n4. **Uniqueness scope**: Since each Summon card gets a unique ID, how does this affect deck building - can you have multiple copies of the \"same\" summon if you pulled multiple from packs?\n\nThe concept of procedurally generated, unique cards that then get customized through equipment and roles is really compelling - it creates both collectibility and customization depth that typical card games don't have.",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/c:/Users/cskib/Projects/CardGameDemo/",
+            "scheme": "file"
+          }
+        }
+      ],
+      "responseId": "response_64bfe5cf-f5f0-483e-af69-4a622303f2e3",
+      "result": {
+        "timings": {
+          "firstProgress": 4241,
+          "totalElapsed": 19040
+        },
+        "metadata": {
+          "codeBlocks": [],
+          "renderedUserMessage": [
+            {
+              "type": 1,
+              "text": "<attachments>\n<attachment id=\"file:project.md\">\nUser's current visible code, this should be the main focus:\nExcerpt from project.md, lines 64 to 98:\n```markdown\n- **Unit & Integration Tests:** Test game logic, state transitions, and effect resolution.\r\n- **Debug Tools:** UI for inspecting state, simulating actions, and visualizing the stack.\r\n\r\n### 5. Future-Proofing\r\n- **Server-Client Split:** Engine is designed to run headless (server-side) or in-browser (client-side) with the same API.\r\n- **Networking Ready:** All user actions are serializable and replayable for multiplayer or server validation.\r\n\r\n---\r\n\r\n## Next: Top-Level Entity Map & Relationships\r\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\r\n- **Acceptance Criteria:**\r\n  - All major game concepts from the play example are represented as entities or relationships.\r\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\r\n  - A diagram or table shows how everything fits together.\r\n\r\n## Next: Card & Effect Schema Design\r\n- **Goal:** Create TypeScript interfaces for all card types, effects, triggers, requirements, and actions, so that every mechanic in the play example can be described in data.\r\n- **Acceptance Criteria:**\r\n  - Every card in the play example can be represented as a data object.\r\n  - Effects, triggers, and requirements are data-driven and extensible.\r\n  - Adding a new card or mechanic is possible without engine code changes.\r\n  - Example card data objects are included for reference.\r\n\r\n## Next: Game Engine Core Loop\r\n- **Goal:** Outline and implement the main phases and state transitions (Draw, Level, Action, End, etc.), and define how user actions are submitted, validated, and resolved by the engine.\r\n- **Acceptance Criteria:**\r\n  - The full turn cycle is implemented and matches the play example.\r\n  - Actions (play card, move, attack, etc.) are submitted as data and processed by the engine.\r\n  - The stack, triggers, and resolutions are handled according to the rules.\r\n  - The engine can be run headless for testing.\r\n\r\n## Next: UI & Client Integration\r\n- **Goal:** Connect React and Phaser 3 to the engine, so that the UI reflects game state and user actions are sent to the engine, not handled directly in the UI.\r\n- **Acceptance Criteria:**\n```\n</attachment>\n<attachment filePath=\"c:\\\\Users\\\\cskib\\\\Projects\\\\CardGameDemo\\\\.github\\\\project.md\">\nUser's active file for additional context:\n```markdown\n# Project Master Plan: Tactical Card Game Demo\r\n\r\n## Vision\r\n\r\nDeliver a robust, extensible, and data-driven tactical RPG card game demo. The MVP is a self-contained, local snapshot of the larger product, focused on the core gameplay loop, data models, and extensibility. This demo will serve as the foundation for future expansion into a full-stack, multiplayer, authoritative-server product.\r\n\r\n## MVP Goals\r\n\r\n- All game data (cards, decks, board, etc.) is defined in TypeScript interfaces and/or static JSON, not hardcoded logic.\r\n- The game engine is modular, with strict separation between game logic (engine/state) and UI (Phaser/React).\r\n- The core gameplay loop (turns, phases, actions, triggers, stack, win/loss) is fully implemented and testable.\r\n- The system is designed for easy extension: new cards, mechanics, or rules can be added by editing data, not code.\r\n- UI is functional and clear, using React for menus/collection/deckbuilder and Phaser 3 for the board/gameplay.\r\n- No backend, authentication, or real-time multiplayer—just local, stubbed data and single-session play.\r\n\r\n## Core Design Pillars\r\n\r\n1. **Data-Driven Game Logic**\r\n   - All card effects, requirements, triggers, and rules are defined in structured data (JSON/TypeScript), not as bespoke scripts per card.\r\n   - The engine interprets this data to drive all gameplay mechanics.\r\n\r\n2. **Separation of Concerns**\r\n   - Game logic (engine/state) is completely decoupled from UI (Phaser/React).\r\n   - The UI is a “dumb” renderer and input collector, never the source of truth.\r\n\r\n3. **Authoritative Server Mindset**\r\n   - The architecture treats the game engine as the “server” and the UI as “clients” that submit actions and receive state updates.\r\n   - This enables a future transition to a true backend authoritative server with minimal refactor.\r\n\r\n## Design Ethos: Interpretation Over Hardcoding\r\n\r\nThis project is built on the principle that the rules, effects, and content of the game are not hardcoded, but interpreted from structured data. The engine is an interpreter, not a collection of bespoke scripts. This means:\r\n\r\n- **Every card, effect, and rule is defined as data.** The engine reads and interprets this data to drive gameplay, rather than relying on custom code for each new mechanic.\r\n- **Adding or changing content is a matter of editing data, not writing new logic.** This empowers designers (me) and future developers (still me) to expand the game without deep engine changes.\r\n- **The system is future-proof and extensible.** New mechanics, card types, or even whole new game modes can be introduced by extending the data schema and interpreter, not by rewriting the core.\r\n- **Separation of concerns is absolute.** The UI is a client that submits actions and renders state; the engine is the sole authority on game rules and state transitions.\r\n- **This approach is chosen to enable rapid iteration, robust testing, and a clear path to multiplayer and live service features.**\r\n\r\nThe goal is to create a living, evolving game system that can grow and adapt as new ideas emerge, without ever becoming brittle or unmaintainable.\r\n\r\n## System Breakdown & Architecture Overview\r\n\r\n### 1. Data Layer\r\n- **Card Definitions:** All card types, effects, triggers, requirements, and stats defined in JSON or TypeScript interfaces.\r\n- **Decks & Collections:** Player decks, collections, and stubbed user data.\r\n- **Board & Zones:** Board layout, zones, and initial state.\r\n\r\n### 2. Game Engine (Authoritative Logic)\r\n- **State Management:** Holds the canonical game state (board, hands, decks, discard, etc.).\r\n- **Action Interpreter:** Receives user actions (play card, move unit, attack, etc.), validates them, and applies state changes.\r\n- **Effect/Trigger System:** Evaluates triggers, requirements, and resolves effects using data definitions.\r\n- **Stack & Priority:** Manages the stack, responses, and resolution order.\r\n- **Stat Calculation:** Computes unit stats, damage, healing, and other derived values from data.\r\n- **Victory/End Conditions:** Checks for win/loss/draw and game over.\r\n\r\n### 3. UI Layer\r\n- **React UI:** Deck builder, card collection, menus, and game setup.\r\n- **Phaser 3 Board:** Visualizes the board, units, and in-play actions.\r\n- **UI-State Sync:** Subscribes to game state updates and renders accordingly. Sends user actions to the engine.\r\n\r\n### 4. Extensibility & Testing\r\n- **Data-Driven Expansion:** New cards, effects, and mechanics added via data, not code changes.\r\n- **Unit & Integration Tests:** Test game logic, state transitions, and effect resolution.\r\n- **Debug Tools:** UI for inspecting state, simulating actions, and visualizing the stack.\r\n\r\n### 5. Future-Proofing\r\n- **Server-Client Split:** Engine is designed to run headless (server-side) or in-browser (client-side) with the same API.\r\n- **Networking Ready:** All user actions are serializable and replayable for multiplayer or server validation.\r\n\r\n---\r\n\r\n## Next: Top-Level Entity Map & Relationships\r\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\r\n- **Acceptance Criteria:**\r\n  - All major game concepts from the play example are represented as entities or relationships.\r\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\r\n  - A diagram or table shows how everything fits together.\r\n\r\n## Next: Card & Effect Schema Design\r\n- **Goal:** Create TypeScript interfaces for all card types, effects, triggers, requirements, and actions, so that every mechanic in the play example can be described in data.\r\n- **Acceptance Criteria:**\r\n  - Every card in the play example can be represented as a data object.\r\n  - Effects, triggers, and requirements are data-driven and extensible.\r\n  - Adding a new card or mechanic is possible without engine code changes.\r\n  - Example card data objects are included for reference.\r\n\r\n## Next: Game Engine Core Loop\r\n- **Goal:** Outline and implement the main phases and state transitions (Draw, Level, Action, End, etc.), and define how user actions are submitted, validated, and resolved by the engine.\r\n- **Acceptance Criteria:**\r\n  - The full turn cycle is implemented and matches the play example.\r\n  - Actions (play card, move, attack, etc.) are submitted as data and processed by the engine.\r\n  - The stack, triggers, and resolutions are handled according to the rules.\r\n  - The engine can be run headless for testing.\r\n\r\n## Next: UI & Client Integration\r\n- **Goal:** Connect React and Phaser 3 to the engine, so that the UI reflects game state and user actions are sent to the engine, not handled directly in the UI.\r\n- **Acceptance Criteria:**\r\n  - UI updates in response to state changes from the engine.\r\n  - All user actions (clicks, drags, selections) are sent as data to the engine.\r\n  - No game logic is duplicated in the UI layer.\r\n  - The UI can be swapped or updated without breaking the engine.\r\n\r\n## Next: Testing & Debugging Tools\r\n- **Goal:** Provide tools for testing and debugging the game logic, including unit/integration tests and a debug UI for inspecting state and simulating actions.\r\n- **Acceptance Criteria:**\r\n  - Core engine logic is covered by automated tests.\r\n  - Developers can inspect the stack, triggers, and state transitions in real time.\r\n  - Simulated actions and test scenarios can be run without the full UI.\r\n\r\n## Next: Roadmap to Full Product\r\n- **Goal:** Identify the steps needed to evolve the MVP into a full-stack, multiplayer, live product, including backend, networking, and live ops features.\r\n- **Acceptance Criteria:**\r\n  - A clear migration path from local MVP to server-authoritative multiplayer is documented.\r\n  - Key backend features (auth, persistence, matchmaking, etc.) are listed.\r\n  - The architecture supports future live updates and content drops.\r\n\r\n---\r\n\r\n*This document is a living master plan. Each section will be expanded and refined as the project evolves.*\n```\n</attachment>\n\n</attachments>\n<context>\nThe current date is July 8, 2025.\n</context>\n<editorContext>\nThe user's current file is c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md. \n</editorContext>\n<reminder>\nWhen using the insert_edit_into_file tool, avoid repeating existing code, instead use a line comment with \\`...existing code...\\` to represent regions of unchanged code.\nWhen using the replace_string_in_file tool, include 3-5 lines of unchanged code before and after the string you want to replace, to make it unambiguous which part of the file should be edited.\n</reminder>\n<userRequest>\nI'd like to talk to you directly about your understanding of the game before jumping into things. Tell me about the Summon card that is the cornerstone within the \"Summon Slot\" section of a deck?\n</userRequest>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "modelMessageId": "b08f1821-b671-4aff-867f-c21930f0e63f",
+          "responseId": "c88a5d6f-4d68-46af-adbf-dc950545e7db",
+          "sessionId": "b1c3ef98-deeb-436d-93ba-dae65d84b6c5",
+          "agentId": "github.copilot.editsAgent"
+        }
+      },
+      "followups": [],
+      "isCanceled": false,
+      "agent": {
+        "extensionId": {
+          "value": "GitHub.copilot-chat",
+          "_lower": "github.copilot-chat"
+        },
+        "publisherDisplayName": "GitHub",
+        "extensionPublisherId": "GitHub",
+        "extensionDisplayName": "GitHub Copilot Chat",
+        "id": "github.copilot.editsAgent",
+        "description": "Edit files in your workspace in agent mode",
+        "when": "config.chat.agent.enabled && !chatAgentModeDisallowed",
+        "metadata": {
+          "themeIcon": {
+            "id": "tools"
+          },
+          "hasFollowups": false,
+          "supportIssueReporting": false
+        },
+        "name": "agent",
+        "fullName": "GitHub Copilot",
+        "isDefault": true,
+        "locations": [
+          "panel"
+        ],
+        "modes": [
+          "agent"
+        ],
+        "slashCommands": [
+          {
+            "name": "list"
+          }
+        ],
+        "disambiguation": []
+      },
+      "contentReferences": [
+        {
+          "kind": "reference",
+          "reference": {
+            "$mid": 1,
+            "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\copilot-instructions.md",
+            "_sep": 1,
+            "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+            "path": "/c:/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+            "scheme": "file"
+          }
+        }
+      ],
+      "codeCitations": [],
+      "timestamp": 1752043687452
+    },
+    {
+      "requestId": "request_55b3e3ff-5866-46fa-b7ab-2944330b0b45",
+      "message": {
+        "text": "1. They are generated when opening packs and digitally signed by the player who opened them. Trading them will be possible by whoever owns that card at that moment, but it will always have a signiture from who opened it and caused it to generate. \r\n2. The relationship of equipment is an intersesting question I haven't put much thought into. I would say they're applied dynamically, as the concept of being able to dynamically change equipment on a given summon unit (but not the summon slot itself), as well as properties of that weapon is cool.\r\n3. Think of the role slot just like the equipment slot, outside of requirements that may be introduced to the game like species requirements or archetype requirements, roles are just another modifiable property of the whole Summon Unit itself (think of a class or job in an rpg)\r\n4. There is no such thing as the \"same\" summon, it is technically possible that two summons could be pulled with identical species, base stats and growth rates, although highly improbable, but the digital signature I mentioned is also timestamped. No one player could pull the same summon multiple times, that's the point.",
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 1151
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 4,
+              "endColumn": 323
+            },
+            "text": "1. They are generated when opening packs and digitally signed by the player who opened them. Trading them will be possible by whoever owns that card at that moment, but it will always have a signiture from who opened it and caused it to generate. \r\n2. The relationship of equipment is an intersesting question I haven't put much thought into. I would say they're applied dynamically, as the concept of being able to dynamically change equipment on a given summon unit (but not the summon slot itself), as well as properties of that weapon is cool.\r\n3. Think of the role slot just like the equipment slot, outside of requirements that may be introduced to the game like species requirements or archetype requirements, roles are just another modifiable property of the whole Summon Unit itself (think of a class or job in an rpg)\r\n4. There is no such thing as the \"same\" summon, it is technically possible that two summons could be pulled with identical species, base stats and growth rates, although highly improbable, but the digital signature I mentioned is also timestamped. No one player could pull the same summon multiple times, that's the point.",
+            "kind": "text"
+          }
+        ]
+      },
+      "variableData": {
+        "variables": [
+          {
+            "kind": "file",
+            "id": "vscode.implicit.viewport",
+            "name": "file:project.md",
+            "value": {
+              "uri": {
+                "$mid": 1,
+                "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md",
+                "_sep": 1,
+                "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/project.md",
+                "path": "/C:/Users/cskib/Projects/CardGameDemo/.github/project.md",
+                "scheme": "file"
+              },
+              "range": {
+                "startLineNumber": 64,
+                "startColumn": 1,
+                "endLineNumber": 98,
+                "endColumn": 27
+              }
+            },
+            "modelDescription": "User's current visible code"
+          }
+        ]
+      },
+      "response": [
+        {
+          "value": "Perfect! That clarifies a lot and reveals some really innovative design elements I hadn't fully grasped. Let me reflect back what I understand now:\n\n## Digital Signature & Provenance System\n\nThe **digital signature with timestamp** is brilliant - it creates an immutable provenance chain for each summon. Even if two summons are statistically identical, they're fundamentally different entities due to their unique generation moment and opener. This solves the \"multiple copies\" problem elegantly and adds a layer of authenticity that could be fascinating for trading/collecting.\n\n## Dynamic Equipment vs Static Slots\n\nSo the **Summon Slot** in deck building is more like a \"loadout template\" - you're defining the baseline configuration (summon + role + equipment), but once that becomes a **Summon Unit** on the board, the equipment can be dynamically swapped/modified through gameplay effects. That opens up tactical depth where players might:\n- Start with basic equipment but upgrade mid-battle\n- Have equipment-swapping mechanics as card effects\n- Create builds around equipment synergies that change during play\n\n## Role as Modular Class System\n\nTreating roles like equipment slots makes perfect sense - they're modular components that can be changed both in deck building (within constraints) and during gameplay via Advance cards. This reinforces the RPG-like progression where your \"Scout\" can become a \"Rogue\" or \"Explorer\" based on battlefield conditions.\n\n## Implications for Data Model\n\nThis understanding significantly impacts how I'd structure the data relationships:\n\n1. **SummonCard** needs: `uniqueId`, `digitalSignature`, `timestamp`, `openedBy`, plus the stats/growth rates\n2. **SummonSlot** needs: references to `SummonCard`, `RoleCard`, and equipment cards - but these are \"starting configuration\"\n3. **SummonUnit** (in-play entity) needs: current stats, current equipment, current role, level, position, status effects, etc.\n4. **Equipment/Role changes** need to be tracked as state mutations on the SummonUnit, not permanent modifications to the underlying cards\n\n## Questions That Come to Mind\n\n1. **Equipment ownership**: If equipment can be dynamically changed, does equipment exist as separate collectible cards that players own independently of summons?\n\n2. **Role advancement constraints**: When advancing roles (Scout → Rogue), are there branching paths, or linear progressions, or completely free-form based on available Advance cards?\n\n3. **Equipment destruction/loss**: If a piece of equipment is destroyed or removed during battle, does it return to the player's collection, or is it gone for that battle only?\n\nThis design creates a really rich ecosystem where collecting isn't just about getting powerful summons, but also about building libraries of roles and equipment that can create different strategic combinations. The uniqueness of each summon makes every collection genuinely personal.\n\nReady to dive into mapping out these entity relationships now that I understand the core mechanics better?",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/c:/Users/cskib/Projects/CardGameDemo/",
+            "scheme": "file"
+          }
+        }
+      ],
+      "responseId": "response_04080a4a-07d1-4ff8-a114-f9ed01aab20f",
+      "result": {
+        "timings": {
+          "firstProgress": 4524,
+          "totalElapsed": 18170
+        },
+        "metadata": {
+          "codeBlocks": [],
+          "renderedUserMessage": [
+            {
+              "type": 1,
+              "text": "<attachments>\n<attachment id=\"file:project.md\">\nUser's current visible code, this should be the main focus:\nExcerpt from project.md, lines 64 to 98:\n```markdown\n- **Unit & Integration Tests:** Test game logic, state transitions, and effect resolution.\r\n- **Debug Tools:** UI for inspecting state, simulating actions, and visualizing the stack.\r\n\r\n### 5. Future-Proofing\r\n- **Server-Client Split:** Engine is designed to run headless (server-side) or in-browser (client-side) with the same API.\r\n- **Networking Ready:** All user actions are serializable and replayable for multiplayer or server validation.\r\n\r\n---\r\n\r\n## Next: Top-Level Entity Map & Relationships\r\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\r\n- **Acceptance Criteria:**\r\n  - All major game concepts from the play example are represented as entities or relationships.\r\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\r\n  - A diagram or table shows how everything fits together.\r\n\r\n## Next: Card & Effect Schema Design\r\n- **Goal:** Create TypeScript interfaces for all card types, effects, triggers, requirements, and actions, so that every mechanic in the play example can be described in data.\r\n- **Acceptance Criteria:**\r\n  - Every card in the play example can be represented as a data object.\r\n  - Effects, triggers, and requirements are data-driven and extensible.\r\n  - Adding a new card or mechanic is possible without engine code changes.\r\n  - Example card data objects are included for reference.\r\n\r\n## Next: Game Engine Core Loop\r\n- **Goal:** Outline and implement the main phases and state transitions (Draw, Level, Action, End, etc.), and define how user actions are submitted, validated, and resolved by the engine.\r\n- **Acceptance Criteria:**\r\n  - The full turn cycle is implemented and matches the play example.\r\n  - Actions (play card, move, attack, etc.) are submitted as data and processed by the engine.\r\n  - The stack, triggers, and resolutions are handled according to the rules.\r\n  - The engine can be run headless for testing.\r\n\r\n## Next: UI & Client Integration\r\n- **Goal:** Connect React and Phaser 3 to the engine, so that the UI reflects game state and user actions are sent to the engine, not handled directly in the UI.\r\n- **Acceptance Criteria:**\n```\n</attachment>\n<attachment filePath=\"c:\\\\Users\\\\cskib\\\\Projects\\\\CardGameDemo\\\\.github\\\\project.md\">\nUser's active file for additional context:\n```markdown\n# Project Master Plan: Tactical Card Game Demo\r\n\r\n## Vision\r\n\r\nDeliver a robust, extensible, and data-driven tactical RPG card game demo. The MVP is a self-contained, local snapshot of the larger product, focused on the core gameplay loop, data models, and extensibility. This demo will serve as the foundation for future expansion into a full-stack, multiplayer, authoritative-server product.\r\n\r\n## MVP Goals\r\n\r\n- All game data (cards, decks, board, etc.) is defined in TypeScript interfaces and/or static JSON, not hardcoded logic.\r\n- The game engine is modular, with strict separation between game logic (engine/state) and UI (Phaser/React).\r\n- The core gameplay loop (turns, phases, actions, triggers, stack, win/loss) is fully implemented and testable.\r\n- The system is designed for easy extension: new cards, mechanics, or rules can be added by editing data, not code.\r\n- UI is functional and clear, using React for menus/collection/deckbuilder and Phaser 3 for the board/gameplay.\r\n- No backend, authentication, or real-time multiplayer—just local, stubbed data and single-session play.\r\n\r\n## Core Design Pillars\r\n\r\n1. **Data-Driven Game Logic**\r\n   - All card effects, requirements, triggers, and rules are defined in structured data (JSON/TypeScript), not as bespoke scripts per card.\r\n   - The engine interprets this data to drive all gameplay mechanics.\r\n\r\n2. **Separation of Concerns**\r\n   - Game logic (engine/state) is completely decoupled from UI (Phaser/React).\r\n   - The UI is a “dumb” renderer and input collector, never the source of truth.\r\n\r\n3. **Authoritative Server Mindset**\r\n   - The architecture treats the game engine as the “server” and the UI as “clients” that submit actions and receive state updates.\r\n   - This enables a future transition to a true backend authoritative server with minimal refactor.\r\n\r\n## Design Ethos: Interpretation Over Hardcoding\r\n\r\nThis project is built on the principle that the rules, effects, and content of the game are not hardcoded, but interpreted from structured data. The engine is an interpreter, not a collection of bespoke scripts. This means:\r\n\r\n- **Every card, effect, and rule is defined as data.** The engine reads and interprets this data to drive gameplay, rather than relying on custom code for each new mechanic.\r\n- **Adding or changing content is a matter of editing data, not writing new logic.** This empowers designers (me) and future developers (still me) to expand the game without deep engine changes.\r\n- **The system is future-proof and extensible.** New mechanics, card types, or even whole new game modes can be introduced by extending the data schema and interpreter, not by rewriting the core.\r\n- **Separation of concerns is absolute.** The UI is a client that submits actions and renders state; the engine is the sole authority on game rules and state transitions.\r\n- **This approach is chosen to enable rapid iteration, robust testing, and a clear path to multiplayer and live service features.**\r\n\r\nThe goal is to create a living, evolving game system that can grow and adapt as new ideas emerge, without ever becoming brittle or unmaintainable.\r\n\r\n## System Breakdown & Architecture Overview\r\n\r\n### 1. Data Layer\r\n- **Card Definitions:** All card types, effects, triggers, requirements, and stats defined in JSON or TypeScript interfaces.\r\n- **Decks & Collections:** Player decks, collections, and stubbed user data.\r\n- **Board & Zones:** Board layout, zones, and initial state.\r\n\r\n### 2. Game Engine (Authoritative Logic)\r\n- **State Management:** Holds the canonical game state (board, hands, decks, discard, etc.).\r\n- **Action Interpreter:** Receives user actions (play card, move unit, attack, etc.), validates them, and applies state changes.\r\n- **Effect/Trigger System:** Evaluates triggers, requirements, and resolves effects using data definitions.\r\n- **Stack & Priority:** Manages the stack, responses, and resolution order.\r\n- **Stat Calculation:** Computes unit stats, damage, healing, and other derived values from data.\r\n- **Victory/End Conditions:** Checks for win/loss/draw and game over.\r\n\r\n### 3. UI Layer\r\n- **React UI:** Deck builder, card collection, menus, and game setup.\r\n- **Phaser 3 Board:** Visualizes the board, units, and in-play actions.\r\n- **UI-State Sync:** Subscribes to game state updates and renders accordingly. Sends user actions to the engine.\r\n\r\n### 4. Extensibility & Testing\r\n- **Data-Driven Expansion:** New cards, effects, and mechanics added via data, not code changes.\r\n- **Unit & Integration Tests:** Test game logic, state transitions, and effect resolution.\r\n- **Debug Tools:** UI for inspecting state, simulating actions, and visualizing the stack.\r\n\r\n### 5. Future-Proofing\r\n- **Server-Client Split:** Engine is designed to run headless (server-side) or in-browser (client-side) with the same API.\r\n- **Networking Ready:** All user actions are serializable and replayable for multiplayer or server validation.\r\n\r\n---\r\n\r\n## Next: Top-Level Entity Map & Relationships\r\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\r\n- **Acceptance Criteria:**\r\n  - All major game concepts from the play example are represented as entities or relationships.\r\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\r\n  - A diagram or table shows how everything fits together.\r\n\r\n## Next: Card & Effect Schema Design\r\n- **Goal:** Create TypeScript interfaces for all card types, effects, triggers, requirements, and actions, so that every mechanic in the play example can be described in data.\r\n- **Acceptance Criteria:**\r\n  - Every card in the play example can be represented as a data object.\r\n  - Effects, triggers, and requirements are data-driven and extensible.\r\n  - Adding a new card or mechanic is possible without engine code changes.\r\n  - Example card data objects are included for reference.\r\n\r\n## Next: Game Engine Core Loop\r\n- **Goal:** Outline and implement the main phases and state transitions (Draw, Level, Action, End, etc.), and define how user actions are submitted, validated, and resolved by the engine.\r\n- **Acceptance Criteria:**\r\n  - The full turn cycle is implemented and matches the play example.\r\n  - Actions (play card, move, attack, etc.) are submitted as data and processed by the engine.\r\n  - The stack, triggers, and resolutions are handled according to the rules.\r\n  - The engine can be run headless for testing.\r\n\r\n## Next: UI & Client Integration\r\n- **Goal:** Connect React and Phaser 3 to the engine, so that the UI reflects game state and user actions are sent to the engine, not handled directly in the UI.\r\n- **Acceptance Criteria:**\r\n  - UI updates in response to state changes from the engine.\r\n  - All user actions (clicks, drags, selections) are sent as data to the engine.\r\n  - No game logic is duplicated in the UI layer.\r\n  - The UI can be swapped or updated without breaking the engine.\r\n\r\n## Next: Testing & Debugging Tools\r\n- **Goal:** Provide tools for testing and debugging the game logic, including unit/integration tests and a debug UI for inspecting state and simulating actions.\r\n- **Acceptance Criteria:**\r\n  - Core engine logic is covered by automated tests.\r\n  - Developers can inspect the stack, triggers, and state transitions in real time.\r\n  - Simulated actions and test scenarios can be run without the full UI.\r\n\r\n## Next: Roadmap to Full Product\r\n- **Goal:** Identify the steps needed to evolve the MVP into a full-stack, multiplayer, live product, including backend, networking, and live ops features.\r\n- **Acceptance Criteria:**\r\n  - A clear migration path from local MVP to server-authoritative multiplayer is documented.\r\n  - Key backend features (auth, persistence, matchmaking, etc.) are listed.\r\n  - The architecture supports future live updates and content drops.\r\n\r\n---\r\n\r\n*This document is a living master plan. Each section will be expanded and refined as the project evolves.*\n```\n</attachment>\n\n</attachments>\n<context>\nThe current date is July 8, 2025.\n</context>\n<editorContext>\nThe user's current file is c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md. \n</editorContext>\n<reminder>\nWhen using the insert_edit_into_file tool, avoid repeating existing code, instead use a line comment with \\`...existing code...\\` to represent regions of unchanged code.\nWhen using the replace_string_in_file tool, include 3-5 lines of unchanged code before and after the string you want to replace, to make it unambiguous which part of the file should be edited.\n</reminder>\n<userRequest>\n1. They are generated when opening packs and digitally signed by the player who opened them. Trading them will be possible by whoever owns that card at that moment, but it will always have a signiture from who opened it and caused it to generate. \r\n2. The relationship of equipment is an intersesting question I haven't put much thought into. I would say they're applied dynamically, as the concept of being able to dynamically change equipment on a given summon unit (but not the summon slot itself), as well as properties of that weapon is cool.\r\n3. Think of the role slot just like the equipment slot, outside of requirements that may be introduced to the game like species requirements or archetype requirements, roles are just another modifiable property of the whole Summon Unit itself (think of a class or job in an rpg)\r\n4. There is no such thing as the \"same\" summon, it is technically possible that two summons could be pulled with identical species, base stats and growth rates, although highly improbable, but the digital signature I mentioned is also timestamped. No one player could pull the same summon multiple times, that's the point.\n</userRequest>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "modelMessageId": "6d898cec-249a-470d-98de-9458c19ba1f9",
+          "responseId": "20fd81a6-019b-42a5-97d6-7e27b93b6894",
+          "sessionId": "b1c3ef98-deeb-436d-93ba-dae65d84b6c5",
+          "agentId": "github.copilot.editsAgent"
+        }
+      },
+      "followups": [],
+      "isCanceled": false,
+      "agent": {
+        "extensionId": {
+          "value": "GitHub.copilot-chat",
+          "_lower": "github.copilot-chat"
+        },
+        "publisherDisplayName": "GitHub",
+        "extensionPublisherId": "GitHub",
+        "extensionDisplayName": "GitHub Copilot Chat",
+        "id": "github.copilot.editsAgent",
+        "description": "Edit files in your workspace in agent mode",
+        "when": "config.chat.agent.enabled && !chatAgentModeDisallowed",
+        "metadata": {
+          "themeIcon": {
+            "id": "tools"
+          },
+          "hasFollowups": false,
+          "supportIssueReporting": false
+        },
+        "name": "agent",
+        "fullName": "GitHub Copilot",
+        "isDefault": true,
+        "locations": [
+          "panel"
+        ],
+        "modes": [
+          "agent"
+        ],
+        "slashCommands": [
+          {
+            "name": "list"
+          }
+        ],
+        "disambiguation": []
+      },
+      "contentReferences": [
+        {
+          "kind": "reference",
+          "reference": {
+            "$mid": 1,
+            "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\copilot-instructions.md",
+            "_sep": 1,
+            "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+            "path": "/c:/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+            "scheme": "file"
+          }
+        }
+      ],
+      "codeCitations": [],
+      "timestamp": 1752044081732
+    },
+    {
+      "requestId": "request_8b2bcee1-bb4e-46c3-84b1-bceeae54f5f4",
+      "message": {
+        "text": "See and this is exactly why I'm glad we're having these discussions before diving into implementation. Please feel free to update project.md or another document with notes on these findings that may not be in any existing documentation because I want to close as many of these holes as possible for future iterations as well.\r\n\r\n1. Equipment are absolutely cards in their own right, they will be pulled from packs, have their own rarities and just overall are their own card type. Roles are very similar, the tier 1 roles of Warrior, Magician, and Scout are provided to the players but Tier 2 and higher roles (and the advance cards needed for them) are cards that must be pulled.\r\n\r\n2. Again, so glad to be having this conversation. Yes there are branching paths but only at tier 3. Basically, you have your tier 1 role which has 1-3 options to Advance to tier 2 (or into a Named Summon which is a dead end Advance). At the tier 3 level, there is significant overlap of what tier 2 roles feed into what tier 3 roles. For example:\r\nThe Paladin is a tier 3 class, but it is accessible both through the Warrior tree (Warrior -> Knight -> Paladin) and the Magician tree (Magician -> Light Mage -> Paladin) making a summon with the Paladin role eligible for requirements that require either Magician OR Warrior! Each tier locks you into itself though (exceptions apply), a tier 2 Advance card will require a Summon with a tier 1 role to activate, and a tier 3 may require a Summon with a tier 2 role to activate (usually).\r\n\r\n3. There is no perma-anything as of right now. Anything that occurs in the game state has zero effect on cards outside of the game state. There are some mechanics around \"Ranking Up\" cards as you use them in battles but that is outside the scope of this demo.",
+        "parts": [
+          {
+            "range": {
+              "start": 0,
+              "endExclusive": 1781
+            },
+            "editorRange": {
+              "startLineNumber": 1,
+              "startColumn": 1,
+              "endLineNumber": 8,
+              "endColumn": 260
+            },
+            "text": "See and this is exactly why I'm glad we're having these discussions before diving into implementation. Please feel free to update project.md or another document with notes on these findings that may not be in any existing documentation because I want to close as many of these holes as possible for future iterations as well.\r\n\r\n1. Equipment are absolutely cards in their own right, they will be pulled from packs, have their own rarities and just overall are their own card type. Roles are very similar, the tier 1 roles of Warrior, Magician, and Scout are provided to the players but Tier 2 and higher roles (and the advance cards needed for them) are cards that must be pulled.\r\n\r\n2. Again, so glad to be having this conversation. Yes there are branching paths but only at tier 3. Basically, you have your tier 1 role which has 1-3 options to Advance to tier 2 (or into a Named Summon which is a dead end Advance). At the tier 3 level, there is significant overlap of what tier 2 roles feed into what tier 3 roles. For example:\r\nThe Paladin is a tier 3 class, but it is accessible both through the Warrior tree (Warrior -> Knight -> Paladin) and the Magician tree (Magician -> Light Mage -> Paladin) making a summon with the Paladin role eligible for requirements that require either Magician OR Warrior! Each tier locks you into itself though (exceptions apply), a tier 2 Advance card will require a Summon with a tier 1 role to activate, and a tier 3 may require a Summon with a tier 2 role to activate (usually).\r\n\r\n3. There is no perma-anything as of right now. Anything that occurs in the game state has zero effect on cards outside of the game state. There are some mechanics around \"Ranking Up\" cards as you use them in battles but that is outside the scope of this demo.",
+            "kind": "text"
+          }
+        ]
+      },
+      "variableData": {
+        "variables": [
+          {
+            "kind": "file",
+            "id": "vscode.implicit.viewport",
+            "name": "file:project.md",
+            "value": {
+              "uri": {
+                "$mid": 1,
+                "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md",
+                "_sep": 1,
+                "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/project.md",
+                "path": "/C:/Users/cskib/Projects/CardGameDemo/.github/project.md",
+                "scheme": "file"
+              },
+              "range": {
+                "startLineNumber": 64,
+                "startColumn": 1,
+                "endLineNumber": 98,
+                "endColumn": 27
+              }
+            },
+            "modelDescription": "User's current visible code"
+          }
+        ]
+      },
+      "response": [
+        {
+          "value": "Excellent clarifications! These are crucial design details that significantly impact the data model and game systems. Let me document these findings in the project plan to ensure they're captured for future reference. ",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/c:/Users/cskib/Projects/CardGameDemo/",
+            "scheme": "file"
+          }
+        },
+        {
+          "kind": "prepareToolInvocation",
+          "toolName": "copilot_replaceString"
+        },
+        {
+          "kind": "toolInvocationSerialized",
+          "presentation": "hidden",
+          "invocationMessage": "Using \"Replace String in File\"",
+          "isConfirmed": true,
+          "isComplete": true,
+          "toolCallId": "35850b07-bbc7-467d-96b2-7dd366ad668a",
+          "toolId": "copilot_replaceString"
+        },
+        {
+          "value": "\n```\n",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "uris": {}
+        },
+        {
+          "id": "fbc3b6a6-b9b0-437f-a791-f21cc184911f",
+          "kind": "undoStop"
+        },
+        {
+          "kind": "codeblockUri",
+          "uri": {
+            "$mid": 1,
+            "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md",
+            "_sep": 1,
+            "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/project.md",
+            "path": "/C:/Users/cskib/Projects/CardGameDemo/.github/project.md",
+            "scheme": "file"
+          },
+          "isEdit": true
+        },
+        {
+          "kind": "textEditGroup",
+          "uri": {
+            "$mid": 1,
+            "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md",
+            "_sep": 1,
+            "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/project.md",
+            "path": "/C:/Users/cskib/Projects/CardGameDemo/.github/project.md",
+            "scheme": "file"
+          },
+          "edits": [
+            [
+              {
+                "text": "---\r\n\r\n## Key Design Clarifications & Discoveries\r\n\r\n### Summon Card System\r\n- **Digital Provenance:** Each Summon card generated from packs has a unique digital signature with timestamp and opener identity, creating immutable provenance chains for trading/collecting.\r\n- **Dynamic Equipment:** Equipment can be modified during gameplay on Summon Units, but Summon Slot configurations in decks serve as starting loadouts.\r\n- **Modular Roles:** Roles function like equipment - modifiable in deck building and changeable during gameplay via Advance cards.\r\n- **True Uniqueness:** No duplicate summons possible; even statistically identical summons are fundamentally different due to unique generation signatures.\r\n\r\n### Equipment & Role Card Economy\r\n- **Equipment as Collectibles:** Equipment cards are their own card type with rarities, pulled from packs independently of summons.\r\n- **Role Card Tiers:** Tier 1 roles (Warrior, Magician, Scout) are provided; Tier 2+ roles and their Advance cards must be collected.\r\n- **Role Advancement Paths:**\r\n  - Tier 1 → Tier 2: Linear progression (1-3 options per Tier 1)\r\n  - Tier 2 → Tier 3: Branching convergence with significant overlap\r\n  - Example: Paladin accessible via Warrior→Knight→Paladin OR Magician→Light Mage→Paladin\r\n  - Multi-path Tier 3 roles satisfy requirements from multiple source trees\r\n- **Tier Lock Requirements:** Advance cards typically require specific tier prerequisites (Tier 2 Advance needs Tier 1 role, etc.)\r\n\r\n### Game State Isolation\r\n- **No Persistence:** Battle outcomes don't permanently affect card properties or player collections.\r\n- **Future \"Ranking Up\":** Card progression mechanics planned but outside demo scope.\r\n- **Pure Game State:** All modifications during gameplay are temporary state changes, not permanent card alterations.\r\n\r\n---\r\n\r\n## Next: Top-Level Entity Map & Relationships\r\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\r\n- **Acceptance Criteria:**\r\n  - All major game concepts from the play example are represented as entities or relationships.\r\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\r\n  - A diagram or table shows how everything fits together.\r\n  - Equipment and Role card economies are properly modeled as independent collectible systems.\r\n  - Role advancement trees with branching convergence at Tier 3 are represented.\r\n  - Digital provenance system for Summon cards is included in the data model.",
+                "range": {
+                  "startLineNumber": 71,
+                  "startColumn": 1,
+                  "endLineNumber": 78,
+                  "endColumn": 59
+                }
+              }
+            ],
+            []
+          ],
+          "done": true
+        },
+        {
+          "value": "\n```\n",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "uris": {}
+        },
+        {
+          "value": "Perfect! These clarifications reveal some really sophisticated design elements:\n\n## The Role Advancement Tree is Brilliant\n\nThe **branching convergence at Tier 3** is a fantastic design choice. It means:\n- Players have multiple pathways to reach the same powerful role\n- Strategic deck building around multi-requirement cards becomes possible\n- The system rewards diverse collecting (you need both Warrior AND Magician advancement paths)\n- Late-game roles become true hybrid classes with multiple identity sources\n\n## Equipment Economy Implications\n\nHaving equipment as independent collectibles creates a rich secondary market and strategic depth:\n- Players can specialize in collecting powerful weapons vs. roles vs. summons\n- Equipment rarity curves become another balancing lever\n- Trading dynamics become more complex (do you trade that rare weapon or rare role?)\n- Deck building becomes about optimizing 4 different card type collections\n\n## Data Model Impact\n\nThis completely changes how I'd structure the relationships:\n\n```\nPlayer Collection:\n├── Summon Cards (unique, with provenance)\n├── Equipment Cards (collectible, rarity-based)\n├── Role Cards (Tier 1 provided, Tier 2+ collectible)\n└── Main Deck Cards (Action, Building, Quest, etc.)\n\nDeck Structure:\n├── 3 Summon Slots\n│   ├── Summon Card Reference\n│   ├── Role Card Reference (starting configuration)\n│   └── Equipment References (4 slots: weapon, offhand, armor, accessory)\n├── Main Deck (Action/Building/Quest/Counter/Reaction cards)\n└── Advance Deck (Role advancement and Named Summon cards)\n\nGame State (temporary):\n└── Summon Units (with current role, equipment, stats, position, effects)\n```\n\nShould we dive into creating this entity map now? I think we have enough clarity on the core relationships to start modeling the complete system.",
+          "supportThemeIcons": false,
+          "supportHtml": false,
+          "baseUri": {
+            "$mid": 1,
+            "path": "/c:/Users/cskib/Projects/CardGameDemo/",
+            "scheme": "file"
+          }
+        }
+      ],
+      "responseId": "response_71fe569f-448d-4660-a90d-8c5e3fb30e7d",
+      "result": {
+        "timings": {
+          "firstProgress": 13866,
+          "totalElapsed": 45024
+        },
+        "metadata": {
+          "codeBlocks": [
+            {
+              "code": "Player Collection:\n├── Summon Cards (unique, with provenance)\n├── Equipment Cards (collectible, rarity-based)\n├── Role Cards (Tier 1 provided, Tier 2+ collectible)\n└── Main Deck Cards (Action, Building, Quest, etc.)\n\nDeck Structure:\n├── 3 Summon Slots\n│   ├── Summon Card Reference\n│   ├── Role Card Reference (starting configuration)\n│   └── Equipment References (4 slots: weapon, offhand, armor, accessory)\n├── Main Deck (Action/Building/Quest/Counter/Reaction cards)\n└── Advance Deck (Role advancement and Named Summon cards)\n\nGame State (temporary):\n└── Summon Units (with current role, equipment, stats, position, effects)\n",
+              "language": "",
+              "markdownBeforeBlock": "Perfect! These clarifications reveal some really sophisticated design elements:\n\n## The Role Advancement Tree is Brilliant\n\nThe **branching convergence at Tier 3** is a fantastic design choice. It means:\n- Players have multiple pathways to reach the same powerful role\n- Strategic deck building around multi-requirement cards becomes possible\n- The system rewards diverse collecting (you need both Warrior AND Magician advancement paths)\n- Late-game roles become true hybrid classes with multiple identity sources\n\n## Equipment Economy Implications\n\nHaving equipment as independent collectibles creates a rich secondary market and strategic depth:\n- Players can specialize in collecting powerful weapons vs. roles vs. summons\n- Equipment rarity curves become another balancing lever\n- Trading dynamics become more complex (do you trade that rare weapon or rare role?)\n- Deck building becomes about optimizing 4 different card type collections\n\n## Data Model Impact\n\nThis completely changes how I'd structure the relationships:\n\n"
+            }
+          ],
+          "renderedUserMessage": [
+            {
+              "type": 1,
+              "text": "<attachments>\n<attachment id=\"file:project.md\">\nUser's current visible code, this should be the main focus:\nExcerpt from project.md, lines 64 to 98:\n```markdown\n- **Unit & Integration Tests:** Test game logic, state transitions, and effect resolution.\r\n- **Debug Tools:** UI for inspecting state, simulating actions, and visualizing the stack.\r\n\r\n### 5. Future-Proofing\r\n- **Server-Client Split:** Engine is designed to run headless (server-side) or in-browser (client-side) with the same API.\r\n- **Networking Ready:** All user actions are serializable and replayable for multiplayer or server validation.\r\n\r\n---\r\n\r\n## Next: Top-Level Entity Map & Relationships\r\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\r\n- **Acceptance Criteria:**\r\n  - All major game concepts from the play example are represented as entities or relationships.\r\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\r\n  - A diagram or table shows how everything fits together.\r\n\r\n## Next: Card & Effect Schema Design\r\n- **Goal:** Create TypeScript interfaces for all card types, effects, triggers, requirements, and actions, so that every mechanic in the play example can be described in data.\r\n- **Acceptance Criteria:**\r\n  - Every card in the play example can be represented as a data object.\r\n  - Effects, triggers, and requirements are data-driven and extensible.\r\n  - Adding a new card or mechanic is possible without engine code changes.\r\n  - Example card data objects are included for reference.\r\n\r\n## Next: Game Engine Core Loop\r\n- **Goal:** Outline and implement the main phases and state transitions (Draw, Level, Action, End, etc.), and define how user actions are submitted, validated, and resolved by the engine.\r\n- **Acceptance Criteria:**\r\n  - The full turn cycle is implemented and matches the play example.\r\n  - Actions (play card, move, attack, etc.) are submitted as data and processed by the engine.\r\n  - The stack, triggers, and resolutions are handled according to the rules.\r\n  - The engine can be run headless for testing.\r\n\r\n## Next: UI & Client Integration\r\n- **Goal:** Connect React and Phaser 3 to the engine, so that the UI reflects game state and user actions are sent to the engine, not handled directly in the UI.\r\n- **Acceptance Criteria:**\n```\n</attachment>\n<attachment filePath=\"c:\\\\Users\\\\cskib\\\\Projects\\\\CardGameDemo\\\\.github\\\\project.md\">\nUser's active file for additional context:\n```markdown\n# Project Master Plan: Tactical Card Game Demo\r\n\r\n## Vision\r\n\r\nDeliver a robust, extensible, and data-driven tactical RPG card game demo. The MVP is a self-contained, local snapshot of the larger product, focused on the core gameplay loop, data models, and extensibility. This demo will serve as the foundation for future expansion into a full-stack, multiplayer, authoritative-server product.\r\n\r\n## MVP Goals\r\n\r\n- All game data (cards, decks, board, etc.) is defined in TypeScript interfaces and/or static JSON, not hardcoded logic.\r\n- The game engine is modular, with strict separation between game logic (engine/state) and UI (Phaser/React).\r\n- The core gameplay loop (turns, phases, actions, triggers, stack, win/loss) is fully implemented and testable.\r\n- The system is designed for easy extension: new cards, mechanics, or rules can be added by editing data, not code.\r\n- UI is functional and clear, using React for menus/collection/deckbuilder and Phaser 3 for the board/gameplay.\r\n- No backend, authentication, or real-time multiplayer—just local, stubbed data and single-session play.\r\n\r\n## Core Design Pillars\r\n\r\n1. **Data-Driven Game Logic**\r\n   - All card effects, requirements, triggers, and rules are defined in structured data (JSON/TypeScript), not as bespoke scripts per card.\r\n   - The engine interprets this data to drive all gameplay mechanics.\r\n\r\n2. **Separation of Concerns**\r\n   - Game logic (engine/state) is completely decoupled from UI (Phaser/React).\r\n   - The UI is a “dumb” renderer and input collector, never the source of truth.\r\n\r\n3. **Authoritative Server Mindset**\r\n   - The architecture treats the game engine as the “server” and the UI as “clients” that submit actions and receive state updates.\r\n   - This enables a future transition to a true backend authoritative server with minimal refactor.\r\n\r\n## Design Ethos: Interpretation Over Hardcoding\r\n\r\nThis project is built on the principle that the rules, effects, and content of the game are not hardcoded, but interpreted from structured data. The engine is an interpreter, not a collection of bespoke scripts. This means:\r\n\r\n- **Every card, effect, and rule is defined as data.** The engine reads and interprets this data to drive gameplay, rather than relying on custom code for each new mechanic.\r\n- **Adding or changing content is a matter of editing data, not writing new logic.** This empowers designers (me) and future developers (still me) to expand the game without deep engine changes.\r\n- **The system is future-proof and extensible.** New mechanics, card types, or even whole new game modes can be introduced by extending the data schema and interpreter, not by rewriting the core.\r\n- **Separation of concerns is absolute.** The UI is a client that submits actions and renders state; the engine is the sole authority on game rules and state transitions.\r\n- **This approach is chosen to enable rapid iteration, robust testing, and a clear path to multiplayer and live service features.**\r\n\r\nThe goal is to create a living, evolving game system that can grow and adapt as new ideas emerge, without ever becoming brittle or unmaintainable.\r\n\r\n## System Breakdown & Architecture Overview\r\n\r\n### 1. Data Layer\r\n- **Card Definitions:** All card types, effects, triggers, requirements, and stats defined in JSON or TypeScript interfaces.\r\n- **Decks & Collections:** Player decks, collections, and stubbed user data.\r\n- **Board & Zones:** Board layout, zones, and initial state.\r\n\r\n### 2. Game Engine (Authoritative Logic)\r\n- **State Management:** Holds the canonical game state (board, hands, decks, discard, etc.).\r\n- **Action Interpreter:** Receives user actions (play card, move unit, attack, etc.), validates them, and applies state changes.\r\n- **Effect/Trigger System:** Evaluates triggers, requirements, and resolves effects using data definitions.\r\n- **Stack & Priority:** Manages the stack, responses, and resolution order.\r\n- **Stat Calculation:** Computes unit stats, damage, healing, and other derived values from data.\r\n- **Victory/End Conditions:** Checks for win/loss/draw and game over.\r\n\r\n### 3. UI Layer\r\n- **React UI:** Deck builder, card collection, menus, and game setup.\r\n- **Phaser 3 Board:** Visualizes the board, units, and in-play actions.\r\n- **UI-State Sync:** Subscribes to game state updates and renders accordingly. Sends user actions to the engine.\r\n\r\n### 4. Extensibility & Testing\r\n- **Data-Driven Expansion:** New cards, effects, and mechanics added via data, not code changes.\r\n- **Unit & Integration Tests:** Test game logic, state transitions, and effect resolution.\r\n- **Debug Tools:** UI for inspecting state, simulating actions, and visualizing the stack.\r\n\r\n### 5. Future-Proofing\r\n- **Server-Client Split:** Engine is designed to run headless (server-side) or in-browser (client-side) with the same API.\r\n- **Networking Ready:** All user actions are serializable and replayable for multiplayer or server validation.\r\n\r\n---\r\n\r\n## Next: Top-Level Entity Map & Relationships\r\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\r\n- **Acceptance Criteria:**\r\n  - All major game concepts from the play example are represented as entities or relationships.\r\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\r\n  - A diagram or table shows how everything fits together.\r\n\r\n## Next: Card & Effect Schema Design\r\n- **Goal:** Create TypeScript interfaces for all card types, effects, triggers, requirements, and actions, so that every mechanic in the play example can be described in data.\r\n- **Acceptance Criteria:**\r\n  - Every card in the play example can be represented as a data object.\r\n  - Effects, triggers, and requirements are data-driven and extensible.\r\n  - Adding a new card or mechanic is possible without engine code changes.\r\n  - Example card data objects are included for reference.\r\n\r\n## Next: Game Engine Core Loop\r\n- **Goal:** Outline and implement the main phases and state transitions (Draw, Level, Action, End, etc.), and define how user actions are submitted, validated, and resolved by the engine.\r\n- **Acceptance Criteria:**\r\n  - The full turn cycle is implemented and matches the play example.\r\n  - Actions (play card, move, attack, etc.) are submitted as data and processed by the engine.\r\n  - The stack, triggers, and resolutions are handled according to the rules.\r\n  - The engine can be run headless for testing.\r\n\r\n## Next: UI & Client Integration\r\n- **Goal:** Connect React and Phaser 3 to the engine, so that the UI reflects game state and user actions are sent to the engine, not handled directly in the UI.\r\n- **Acceptance Criteria:**\r\n  - UI updates in response to state changes from the engine.\r\n  - All user actions (clicks, drags, selections) are sent as data to the engine.\r\n  - No game logic is duplicated in the UI layer.\r\n  - The UI can be swapped or updated without breaking the engine.\r\n\r\n## Next: Testing & Debugging Tools\r\n- **Goal:** Provide tools for testing and debugging the game logic, including unit/integration tests and a debug UI for inspecting state and simulating actions.\r\n- **Acceptance Criteria:**\r\n  - Core engine logic is covered by automated tests.\r\n  - Developers can inspect the stack, triggers, and state transitions in real time.\r\n  - Simulated actions and test scenarios can be run without the full UI.\r\n\r\n## Next: Roadmap to Full Product\r\n- **Goal:** Identify the steps needed to evolve the MVP into a full-stack, multiplayer, live product, including backend, networking, and live ops features.\r\n- **Acceptance Criteria:**\r\n  - A clear migration path from local MVP to server-authoritative multiplayer is documented.\r\n  - Key backend features (auth, persistence, matchmaking, etc.) are listed.\r\n  - The architecture supports future live updates and content drops.\r\n\r\n---\r\n\r\n*This document is a living master plan. Each section will be expanded and refined as the project evolves.*\n```\n</attachment>\n\n</attachments>\n<context>\nThe current date is July 9, 2025.\n</context>\n<editorContext>\nThe user's current file is c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md. \n</editorContext>\n<reminder>\nWhen using the insert_edit_into_file tool, avoid repeating existing code, instead use a line comment with \\`...existing code...\\` to represent regions of unchanged code.\nWhen using the replace_string_in_file tool, include 3-5 lines of unchanged code before and after the string you want to replace, to make it unambiguous which part of the file should be edited.\n</reminder>\n<userRequest>\nSee and this is exactly why I'm glad we're having these discussions before diving into implementation. Please feel free to update project.md or another document with notes on these findings that may not be in any existing documentation because I want to close as many of these holes as possible for future iterations as well.\r\n\r\n1. Equipment are absolutely cards in their own right, they will be pulled from packs, have their own rarities and just overall are their own card type. Roles are very similar, the tier 1 roles of Warrior, Magician, and Scout are provided to the players but Tier 2 and higher roles (and the advance cards needed for them) are cards that must be pulled.\r\n\r\n2. Again, so glad to be having this conversation. Yes there are branching paths but only at tier 3. Basically, you have your tier 1 role which has 1-3 options to Advance to tier 2 (or into a Named Summon which is a dead end Advance). At the tier 3 level, there is significant overlap of what tier 2 roles feed into what tier 3 roles. For example:\r\nThe Paladin is a tier 3 class, but it is accessible both through the Warrior tree (Warrior -> Knight -> Paladin) and the Magician tree (Magician -> Light Mage -> Paladin) making a summon with the Paladin role eligible for requirements that require either Magician OR Warrior! Each tier locks you into itself though (exceptions apply), a tier 2 Advance card will require a Summon with a tier 1 role to activate, and a tier 3 may require a Summon with a tier 2 role to activate (usually).\r\n\r\n3. There is no perma-anything as of right now. Anything that occurs in the game state has zero effect on cards outside of the game state. There are some mechanics around \"Ranking Up\" cards as you use them in battles but that is outside the scope of this demo.\n</userRequest>\n"
+            },
+            {
+              "type": 3,
+              "cacheType": "ephemeral"
+            }
+          ],
+          "toolCallRounds": [
+            {
+              "response": "Excellent clarifications! These are crucial design details that significantly impact the data model and game systems. Let me document these findings in the project plan to ensure they're captured for future reference. ",
+              "toolCalls": [
+                {
+                  "name": "replace_string_in_file",
+                  "arguments": "{\"filePath\": \"c:\\\\Users\\\\cskib\\\\Projects\\\\CardGameDemo\\\\.github\\\\project.md\", \"oldString\": \"---\\n\\n## Next: Top-Level Entity Map & Relationships\\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\\n- **Acceptance Criteria:**\\n  - All major game concepts from the play example are represented as entities or relationships.\\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\\n  - A diagram or table shows how everything fits together.\", \"newString\": \"---\\n\\n## Key Design Clarifications & Discoveries\\n\\n### Summon Card System\\n- **Digital Provenance:** Each Summon card generated from packs has a unique digital signature with timestamp and opener identity, creating immutable provenance chains for trading/collecting.\\n- **Dynamic Equipment:** Equipment can be modified during gameplay on Summon Units, but Summon Slot configurations in decks serve as starting loadouts.\\n- **Modular Roles:** Roles function like equipment - modifiable in deck building and changeable during gameplay via Advance cards.\\n- **True Uniqueness:** No duplicate summons possible; even statistically identical summons are fundamentally different due to unique generation signatures.\\n\\n### Equipment & Role Card Economy\\n- **Equipment as Collectibles:** Equipment cards are their own card type with rarities, pulled from packs independently of summons.\\n- **Role Card Tiers:** Tier 1 roles (Warrior, Magician, Scout) are provided; Tier 2+ roles and their Advance cards must be collected.\\n- **Role Advancement Paths:**\\n  - Tier 1 → Tier 2: Linear progression (1-3 options per Tier 1)\\n  - Tier 2 → Tier 3: Branching convergence with significant overlap\\n  - Example: Paladin accessible via Warrior→Knight→Paladin OR Magician→Light Mage→Paladin\\n  - Multi-path Tier 3 roles satisfy requirements from multiple source trees\\n- **Tier Lock Requirements:** Advance cards typically require specific tier prerequisites (Tier 2 Advance needs Tier 1 role, etc.)\\n\\n### Game State Isolation\\n- **No Persistence:** Battle outcomes don't permanently affect card properties or player collections.\\n- **Future \\\"Ranking Up\\\":** Card progression mechanics planned but outside demo scope.\\n- **Pure Game State:** All modifications during gameplay are temporary state changes, not permanent card alterations.\\n\\n---\\n\\n## Next: Top-Level Entity Map & Relationships\\n- **Goal:** Clearly define the main entities (GameState, Player, Card, Board, Action, etc.) and how they interact, so that every part of the game has a place in the data model.\\n- **Acceptance Criteria:**\\n  - All major game concepts from the play example are represented as entities or relationships.\\n  - Relationships between entities (e.g., Player owns Deck, Board contains Units) are explicit.\\n  - A diagram or table shows how everything fits together.\\n  - Equipment and Role card economies are properly modeled as independent collectible systems.\\n  - Role advancement trees with branching convergence at Tier 3 are represented.\\n  - Digital provenance system for Summon cards is included in the data model.\"}",
+                  "id": "toolu_vrtx_01CPd9rrcwW827ERYVK1KSRJ__vscode-1752032904605"
+                }
+              ],
+              "toolInputRetry": 0,
+              "id": "053863e5-a844-4fee-b227-32fb8c12aa9a"
+            },
+            {
+              "response": "Perfect! These clarifications reveal some really sophisticated design elements:\n\n## The Role Advancement Tree is Brilliant\n\nThe **branching convergence at Tier 3** is a fantastic design choice. It means:\n- Players have multiple pathways to reach the same powerful role\n- Strategic deck building around multi-requirement cards becomes possible\n- The system rewards diverse collecting (you need both Warrior AND Magician advancement paths)\n- Late-game roles become true hybrid classes with multiple identity sources\n\n## Equipment Economy Implications\n\nHaving equipment as independent collectibles creates a rich secondary market and strategic depth:\n- Players can specialize in collecting powerful weapons vs. roles vs. summons\n- Equipment rarity curves become another balancing lever\n- Trading dynamics become more complex (do you trade that rare weapon or rare role?)\n- Deck building becomes about optimizing 4 different card type collections\n\n## Data Model Impact\n\nThis completely changes how I'd structure the relationships:\n\n```\nPlayer Collection:\n├── Summon Cards (unique, with provenance)\n├── Equipment Cards (collectible, rarity-based)\n├── Role Cards (Tier 1 provided, Tier 2+ collectible)\n└── Main Deck Cards (Action, Building, Quest, etc.)\n\nDeck Structure:\n├── 3 Summon Slots\n│   ├── Summon Card Reference\n│   ├── Role Card Reference (starting configuration)\n│   └── Equipment References (4 slots: weapon, offhand, armor, accessory)\n├── Main Deck (Action/Building/Quest/Counter/Reaction cards)\n└── Advance Deck (Role advancement and Named Summon cards)\n\nGame State (temporary):\n└── Summon Units (with current role, equipment, stats, position, effects)\n```\n\nShould we dive into creating this entity map now? I think we have enough clarity on the core relationships to start modeling the complete system.",
+              "toolCalls": [],
+              "toolInputRetry": 0,
+              "id": "e08c999b-141d-4f87-9440-ae8565b7eabc"
+            }
+          ],
+          "toolCallResults": {
+            "toolu_vrtx_01CPd9rrcwW827ERYVK1KSRJ__vscode-1752032904605": {
+              "$mid": 20,
+              "content": [
+                {
+                  "$mid": 22,
+                  "value": {
+                    "node": {
+                      "type": 1,
+                      "ctor": 2,
+                      "ctorName": "Zm",
+                      "children": [
+                        {
+                          "type": 2,
+                          "priority": 9007199254740991,
+                          "text": "The following files were successfully edited:",
+                          "lineBreakBefore": false
+                        },
+                        {
+                          "type": 2,
+                          "priority": 9007199254740991,
+                          "text": "\n",
+                          "lineBreakBefore": false
+                        },
+                        {
+                          "type": 2,
+                          "priority": 9007199254740991,
+                          "text": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\project.md",
+                          "lineBreakBefore": false
+                        },
+                        {
+                          "type": 2,
+                          "priority": 9007199254740991,
+                          "text": "\n",
+                          "lineBreakBefore": false
+                        }
+                      ],
+                      "props": {},
+                      "references": []
+                    }
+                  }
+                }
+              ]
+            }
+          },
+          "modelMessageId": "22c82a19-b184-4966-83db-cf5504162496",
+          "responseId": "d5534c26-81ad-40c6-bf7c-d9fcdafbae7b",
+          "sessionId": "b1c3ef98-deeb-436d-93ba-dae65d84b6c5",
+          "agentId": "github.copilot.editsAgent"
+        }
+      },
+      "followups": [],
+      "isCanceled": false,
+      "agent": {
+        "extensionId": {
+          "value": "GitHub.copilot-chat",
+          "_lower": "github.copilot-chat"
+        },
+        "publisherDisplayName": "GitHub",
+        "extensionPublisherId": "GitHub",
+        "extensionDisplayName": "GitHub Copilot Chat",
+        "id": "github.copilot.editsAgent",
+        "description": "Edit files in your workspace in agent mode",
+        "when": "config.chat.agent.enabled && !chatAgentModeDisallowed",
+        "metadata": {
+          "themeIcon": {
+            "id": "tools"
+          },
+          "hasFollowups": false,
+          "supportIssueReporting": false
+        },
+        "name": "agent",
+        "fullName": "GitHub Copilot",
+        "isDefault": true,
+        "locations": [
+          "panel"
+        ],
+        "modes": [
+          "agent"
+        ],
+        "slashCommands": [
+          {
+            "name": "list"
+          }
+        ],
+        "disambiguation": []
+      },
+      "contentReferences": [
+        {
+          "kind": "reference",
+          "reference": {
+            "$mid": 1,
+            "fsPath": "c:\\Users\\cskib\\Projects\\CardGameDemo\\.github\\copilot-instructions.md",
+            "_sep": 1,
+            "external": "file:///c%3A/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+            "path": "/c:/Users/cskib/Projects/CardGameDemo/.github/copilot-instructions.md",
+            "scheme": "file"
+          }
+        }
+      ],
+      "codeCitations": [],
+      "timestamp": 1752044757549
+    }
+  ],
+  "sessionId": "81a7ce71-b29d-477e-941a-8ac5f583a18e",
+  "creationDate": 1752043436895,
+  "isImported": false,
+  "lastMessageDate": 1752044757549
+}

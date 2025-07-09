@@ -1,0 +1,53 @@
+{
+  "id": "002-taste_of_battle-Alpha",
+  "name": "taste_of_battle",
+  "display_name": "Taste of Battle",
+  "flavor_text": "An adventurer's rite of passage on the battlefield.",
+  "description": "Objective: Target Summon you control, whose current level is less than 10, damages an enemy Summon. Reward: Increase target Summon's level by 2. Fail Condition: If target Summon is damaged by an enemy Summon, this quest fails.",
+  "card_type": "quest",
+  "target": {
+    "type": "summon",
+    "zone": "in_play",
+    "controller": "player",
+    "amount": 1,
+    "range_from_caster": null,
+    "target_evaluation_and": [
+      {
+        "property": "current_level",
+        "operator": "<",
+        "value": 10
+      }
+    ]
+  },
+  "play_requirements": {
+    "target_valid": true
+  },
+  "resolve_requirements": {
+    "target_valid": true
+  },
+  "objectives": [
+    {
+      "condition_trigger": "on_summon_damage",
+      "condition_evaluation": "damage.damager.id == target.id && damage.target.controller == 'opponent'"
+    }
+  ],
+  "fail_conditions": [
+    {
+      "condition_trigger": "on_summon_damage",
+      "condition_evaluation": "damage.target.id == target.id"
+    }
+  ],
+  "trigger": ["on_play"],
+  "resolve_timing": ["immediate"],
+  "rewards": [
+    {
+      "type": "level_up",
+      "value": 2
+    }
+  ],
+  "attribute": "earth",
+  "rarity": "uncommon",
+  "zone_after_resolve": "in_play",
+  "zone_after_complete": "recharge",
+  "zone_after_fail": "discard"
+}

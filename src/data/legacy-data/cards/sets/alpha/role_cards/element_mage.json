@@ -1,0 +1,35 @@
+{
+    "id": "025-element_mage-Alpha",
+    "name": "element_mage",
+    "display_name": "Element Mage",
+    "description": "A conduit of elemental magic, wielding the forces of fire, water, earth, and wind to devaste their foes.",
+    "card_type": "role",
+    "role_type": ["magician"],
+    "stat_modifiers": {
+        "STR": 1,
+        "END": 1,
+        "DEF": 1,
+        "INT": 1.6,
+        "SPI": 1,
+        "MDF": 1.1,
+        "SPD": 1.25,
+        "LCK": 1,
+        "ACC": 1
+    },
+    "requirements": {
+        "species": [
+            "gignen",
+            "fae",
+            "stoneheart",
+            "wilderling",
+            "demar",
+            "angar",
+            "creptilis"
+        ],
+        "role": {
+            "based_on": ["021-magician-Alpha"]
+        },
+        "min_level": 10
+    },
+    "tier": 2
+}

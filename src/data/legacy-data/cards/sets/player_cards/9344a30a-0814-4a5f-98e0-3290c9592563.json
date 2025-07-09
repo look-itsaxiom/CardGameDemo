@@ -1,0 +1,34 @@
+{
+    "id": "002-fae_template-Alpha:playerB.2025-06-12T00:05:24.751Z/8.8.10.13.14.11.10.8.8._._._.+.+._._._.+/9344a30a-0814-4a5f-98e0-3290c9592563",
+    "display_name": "Fae Magician B",
+    "species": "fae",
+    "card_type": "summon",
+    "attribute": "earth",
+    "base_stats": {
+        "STR": 8,
+        "END": 8,
+        "DEF": 10,
+        "INT": 13,
+        "SPI": 14,
+        "MDF": 11,
+        "SPD": 10,
+        "LCK": 8,
+        "ACC": 8
+    },
+    "growth_rates": {
+        "STR": 1,
+        "END": 1,
+        "DEF": 1,
+        "INT": 1.33,
+        "SPI": 1.33,
+        "MDF": 1,
+        "SPD": 1,
+        "LCK": 1,
+        "ACC": 1.33
+    },
+    "rarity": "uncommon",
+    "rank": 1,
+    "opened_date": "2025-06-12T00:05:24.751Z",
+    "opened_by": "playerB",
+    "template_id": "002-fae_template-Alpha"
+}

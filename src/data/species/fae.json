@@ -1,0 +1,19 @@
+{
+    "name": "Alpha Fae Template",
+    "description": "Graceful and intelligent, Fae are well rounded for magical positions.",
+    "id": "002-fae_template-Alpha",
+    "species": "fae",
+    "base_stats": {
+        "STR": { "min": 6, "max": 10 },
+        "END": { "min": 6, "max": 10 },
+        "DEF": { "min": 6, "max": 10 },
+        "INT": { "min": 10, "max": 16 },
+        "SPI": { "min": 10, "max": 14 },
+        "MDF": { "min": 8, "max": 14 },
+        "SPD": { "min": 8, "max": 12 },
+        "LCK": { "min": 8, "max": 12 },
+        "ACC": { "min": 8, "max": 12 }
+    },
+    "card_type": "summon_template",
+    "attribute": "earth"
+}

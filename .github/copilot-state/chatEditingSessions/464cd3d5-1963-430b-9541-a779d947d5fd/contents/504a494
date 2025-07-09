@@ -1,0 +1,287 @@
+/**
+ * Calculation and formula types for game mechanics
+ * This includes damage calculations, stat calculations, and other formulas
+ */
+
+import { Stats, GrowthRate, Percentage, StatType } from './core';
+import { SummonUnit } from './game-state';
+
+// ============================================================================
+// STAT CALCULATION TYPES
+// ============================================================================
+
+/** Configuration for calculating a summon's stats at a given level */
+export interface StatCalculationConfig {
+  baseStat: number;
+  growthRate: GrowthRate;
+  level: number;
+  roleModifier: number;
+  equipmentBonus: number;
+  temporaryModifiers: number;
+}
+
+/** Result of a stat calculation */
+export interface StatCalculationResult {
+  finalValue: number;
+  breakdown: {
+    base: number;
+    growth: number;
+    role: number;
+    equipment: number;
+    temporary: number;
+  };
+}
+
+/** Growth rate numeric values for calculations */
+export const GROWTH_RATE_VALUES: Record<GrowthRate, number> = {
+  [GrowthRate.MINIMAL]: 0.5,      // 1 every 2 levels
+  [GrowthRate.STEADY]: 0.66,      // 2 every 3 levels  
+  [GrowthRate.NORMAL]: 1.0,       // 1 every level
+  [GrowthRate.GRADUAL]: 1.33,     // 1 + bonus every 3 levels
+  [GrowthRate.ACCELERATED]: 1.5,  // 1 + bonus every 2 levels
+  [GrowthRate.EXCEPTIONAL]: 2.0   // 2 every level
+};
+
+// ============================================================================
+// DERIVED STAT CALCULATIONS
+// ============================================================================
+
+/** Configuration for calculating derived stats like HP, movement, etc. */
+export interface DerivedStatConfig {
+  /** Base value before modifications */
+  baseValue: number;
+  /** Primary stat that influences this derived stat */
+  primaryStat: StatType;
+  /** Formula type to use */
+  formulaType: 'LINEAR' | 'QUADRATIC' | 'EXPONENTIAL' | 'CUSTOM';
+  /** Additional parameters for the formula */
+  parameters: Record<string, number>;
+}
+
+/** Formulas for calculating derived stats */
+export interface DerivedStatFormulas {
+  /** Max HP = 50 + Floor(END ^ 1.5) */
+  maxHp: (endurance: number) => number;
+  /** Movement Speed = 2 + Floor((SPD - 10) / 5) */
+  movementSpeed: (speed: number) => number;
+  /** Basic Attack To Hit = 90 + (ACC / 10) */
+  basicAttackToHit: (accuracy: number) => number;
+  /** Critical Hit Chance = Floor((LCK * 0.3375) + 1.65) */
+  criticalHitChance: (luck: number) => number;
+}
+
+// ============================================================================
+// COMBAT CALCULATION TYPES
+// ============================================================================
+
+/** Parameters for damage calculation */
+export interface DamageCalculationParams {
+  /** The attacking unit or effect source */
+  attacker: SummonUnit | EffectSource;
+  /** The target being damaged */
+  target: SummonUnit;
+  /** Base power of the attack/effect */
+  basePower: number;
+  /** Type of damage */
+  damageType: 'PHYSICAL' | 'MAGICAL';
+  /** Elemental attribute */
+  attribute: 'NEUTRAL' | 'FIRE' | 'WATER' | 'EARTH' | 'AIR' | 'LIGHT' | 'DARK';
+  /** Custom damage formula (overrides default) */
+  customFormula?: string;
+  /** Can this attack crit? */
+  canCrit: boolean;
+  /** Crit multiplier if it crits */
+  critMultiplier: number;
+}
+
+/** Source of an effect that isn't a summon unit */
+export interface EffectSource {
+  id: string;
+  name: string;
+  /** Effective stats for calculation purposes */
+  effectiveStats: Partial<Stats>;
+  /** Source type */
+  sourceType: 'CARD_EFFECT' | 'BUILDING' | 'ENVIRONMENTAL';
+}
+
+/** Result of a damage calculation */
+export interface DamageCalculationResult {
+  /** Final damage amount */
+  finalDamage: number;
+  /** Did the attack hit? */
+  didHit: boolean;
+  /** Did the attack crit? */
+  didCrit: boolean;
+  /** Breakdown of the calculation */
+  breakdown: {
+    baseDamage: number;
+    attackerStat: number;
+    defenderStat: number;
+    critMultiplier: number;
+    otherModifiers: number;
+  };
+  /** Hit chance that was rolled against */
+  hitChance: Percentage;
+  /** Crit chance that was rolled against */
+  critChance: Percentage;
+  /** Random values that were rolled */
+  rolls: {
+    hitRoll: number;
+    critRoll: number;
+  };
+}
+
+/** Parameters for healing calculation */
+export interface HealingCalculationParams {
+  /** The healing source */
+  healer: SummonUnit | EffectSource;
+  /** The target being healed */
+  target: SummonUnit;
+  /** Base power of the healing */
+  basePower: number;
+  /** Custom healing formula */
+  customFormula?: string;
+  /** Can this heal crit? */
+  canCrit: boolean;
+  /** Crit multiplier if it crits */
+  critMultiplier: number;
+}
+
+/** Result of a healing calculation */
+export interface HealingCalculationResult {
+  /** Final healing amount */
+  finalHealing: number;
+  /** Did the heal crit? */
+  didCrit: boolean;
+  /** Breakdown of the calculation */
+  breakdown: {
+    baseHealing: number;
+    healerStat: number;
+    critMultiplier: number;
+    otherModifiers: number;
+  };
+  /** Actual HP restored (accounting for max HP) */
+  actualHpRestored: number;
+}
+
+// ============================================================================
+// ACCURACY AND HIT CALCULATION
+// ============================================================================
+
+/** Parameters for hit chance calculation */
+export interface HitCalculationParams {
+  /** Base accuracy of the attack/effect */
+  baseAccuracy: number;
+  /** Attacker's accuracy stat */
+  attackerAccuracy: number;
+  /** Target's evasion modifiers */
+  targetEvasion?: number;
+  /** Custom hit formula */
+  customFormula?: string;
+  /** Environmental modifiers */
+  environmentModifiers?: number;
+}
+
+/** Standard hit calculation formulas */
+export interface HitFormulas {
+  /** Standard: base_accuracy + (attacker.ACC / 10) */
+  standard: (params: HitCalculationParams) => number;
+  /** Enhanced: base_accuracy + (attacker.ACC / 10) + (attacker.LCK / 10) */
+  enhanced: (params: HitCalculationParams) => number;
+  /** Always hits */
+  automatic: (params: HitCalculationParams) => 100;
+  /** Custom formula evaluator */
+  custom: (formula: string, params: HitCalculationParams) => number;
+}
+
+// ============================================================================
+// FORMULA EVALUATION SYSTEM
+// ============================================================================
+
+/** Context for evaluating custom formulas */
+export interface FormulaContext {
+  /** The caster/source of the effect */
+  caster?: SummonUnit;
+  /** The target of the effect */
+  target?: SummonUnit;
+  /** Additional parameters */
+  parameters: Record<string, any>;
+  /** Current game state references */
+  gameContext: {
+    turnNumber: number;
+    activePlayerId: string;
+    boardState: any; // Reference to board for positional calculations
+  };
+}
+
+/** A parsed and executable formula */
+export interface ParsedFormula {
+  /** Original formula string */
+  original: string;
+  /** Parsed tokens */
+  tokens: FormulaToken[];
+  /** Variables referenced in the formula */
+  variables: string[];
+  /** Execute this formula with given context */
+  execute: (context: FormulaContext) => number;
+}
+
+/** Token types for formula parsing */
+export interface FormulaToken {
+  type: 'NUMBER' | 'VARIABLE' | 'OPERATOR' | 'FUNCTION' | 'PARENTHESIS';
+  value: string | number;
+  position: number;
+}
+
+/** Available functions in formulas */
+export interface FormulaFunctions {
+  /** Mathematical functions */
+  floor: (value: number) => number;
+  ceil: (value: number) => number;
+  round: (value: number) => number;
+  min: (a: number, b: number) => number;
+  max: (a: number, b: number) => number;
+  abs: (value: number) => number;
+  
+  /** Game-specific functions */
+  distance: (pos1: {x: number, y: number}, pos2: {x: number, y: number}) => number;
+  random: (min: number, max: number) => number;
+  summonCount: (playerId: string) => number;
+}
+
+// ============================================================================
+// PROBABILITY AND RANDOM GENERATION
+// ============================================================================
+
+/** Configuration for random generation with weights */
+export interface WeightedRandomConfig<T> {
+  options: Array<{
+    value: T;
+    weight: number;
+  }>;
+}
+
+/** Random number generation context */
+export interface RandomContext {
+  /** Seed for deterministic randomness (useful for replays) */
+  seed?: number;
+  /** Source of the randomness for tracking */
+  source: string;
+  /** Additional context */
+  context?: Record<string, any>;
+}
+
+/** Result of a random roll */
+export interface RandomResult {
+  /** The value that was rolled */
+  value: number;
+  /** The range it was rolled in */
+  range: {
+    min: number;
+    max: number;
+  };
+  /** Context information */
+  context: RandomContext;
+  /** Timestamp of the roll */
+  timestamp: Date;
+}

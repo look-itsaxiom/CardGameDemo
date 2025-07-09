@@ -1,0 +1,537 @@
+import { 
+  EnhancedCardBase, 
+  ModularEffect, 
+  EnhancedTrigger, 
+  Formula,
+  TargetingRule,
+  PlayRestriction 
+} from '../types';
+
+// Example: Blast Bolt - A simple damage spell
+export const blastBoltExample: EnhancedCardBase = {
+  id: "001-blast_bolt-Alpha",
+  name: "Blast Bolt",
+  type: "action",
+  description: "A long range bolt of fire that explodes on impact, dealing significant single-target damage.",
+  
+  metadata: {
+    set: "Alpha",
+    rarity: "rare",
+    attribute: "fire",
+    tags: ["spell", "damage", "ranged"],
+    version: "1.0"
+  },
+
+  gameRules: {
+    playRestrictions: [
+      {
+        phase: ["action"],
+        requirements: [
+          {
+            type: "hasRoleInPlay",
+            params: { role: "magician", includeDescendants: true }
+          }
+        ],
+        timing: "sorcery"
+      }
+    ],
+
+    triggers: [
+      {
+        id: "blast_bolt_on_play",
+        type: "onPlay",
+        priority: 0,
+        conditions: [
+          {
+            requirement: {
+              type: "hasRoleInPlay",
+              params: { role: "magician" }
+            }
+          }
+        ],
+        response: {
+          type: "automatic",
+          effects: [
+            {
+              id: "blast_bolt_damage",
+              type: "dealDamage",
+              timing: { when: "immediate" },
+              targeting: [
+                {
+                  selector: {
+                    type: "enemySummon",
+                    params: { zone: "inPlay" }
+                  },
+                  count: { min: 1, max: 1 },
+                  restrictions: [
+                    {
+                      type: "range",
+                      params: { 
+                        from: "caster", 
+                        maxDistance: 6 
+                      }
+                    }
+                  ]
+                }
+              ],
+              execution: {
+                steps: [
+                  {
+                    action: "calculate",
+                    params: { resultKey: "hitChance" },
+                    formula: {
+                      expression: "baseAccuracy + (caster.ACC / 10)",
+                      variables: [
+                        { name: "baseAccuracy", source: "constant" },
+                        { name: "caster.ACC", source: "caster", path: "ACC" }
+                      ]
+                    }
+                  },
+                  {
+                    action: "apply",
+                    params: { 
+                      type: "hitRoll",
+                      successThreshold: "hitChance"
+                    },
+                    requirements: [
+                      {
+                        type: "custom",
+                        params: { check: "rollSuccess" }
+                      }
+                    ]
+                  },
+                  {
+                    action: "calculate",
+                    params: { resultKey: "damage" },
+                    formula: {
+                      expression: "caster.INT * (1 + basePower/100) * (caster.INT / target.MDF)",
+                      variables: [
+                        { name: "caster.INT", source: "caster", path: "INT" },
+                        { name: "basePower", source: "constant" },
+                        { name: "target.MDF", source: "target", path: "MDF" }
+                      ]
+                    }
+                  },
+                  {
+                    action: "apply",
+                    params: { 
+                      type: "damage",
+                      amount: "damage",
+                      damageType: "magical",
+                      attribute: "fire"
+                    }
+                  }
+                ]
+              },
+              conditions: [
+                {
+                  requirement: {
+                    type: "targetInRange",
+                    params: { range: 6 }
+                  },
+                  onFail: "abort"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+
+    effects: [] // All effects are in triggers for this card
+  },
+
+  presentation: {
+    displayName: "Blast Bolt",
+    flavorText: "Fire and fury, concentrated.",
+    artAssets: [
+      {
+        type: "image",
+        url: "/assets/cards/blast_bolt.png",
+        tags: ["card-art"]
+      }
+    ],
+    uiHints: [
+      {
+        type: "highlight",
+        trigger: "onTargetValid",
+        params: { color: "red", intensity: 0.8 }
+      }
+    ]
+  }
+};
+
+// Example: Dark Altar - Complex building with delayed effect
+export const darkAltarExample: EnhancedCardBase = {
+  id: "010-dark_altar-Alpha",
+  name: "Dark Altar",
+  type: "building",
+  description: "At the end of your next turn, this building and any Summons within its spaces are destroyed. If a Summon was destroyed this way, target magician-based Summon you control becomes level 20 and you can immediately Advance using that Summon as a target.",
+
+  metadata: {
+    set: "Alpha",
+    rarity: "legend",
+    attribute: "dark",
+    tags: ["building", "destruction", "advancement"],
+    version: "1.0"
+  },
+
+  gameRules: {
+    playRestrictions: [
+      {
+        phase: ["action"],
+        requirements: [
+          {
+            type: "custom",
+            params: { check: "validBuildingPlacement", width: 2, height: 2 }
+          }
+        ],
+        timing: "sorcery"
+      }
+    ],
+
+    triggers: [
+      {
+        id: "dark_altar_delayed_destruction",
+        type: "onPhaseStart",
+        params: { 
+          phase: "end", 
+          turnsFromSet: 1, 
+          owner: "self" 
+        },
+        priority: 10, // High priority for destruction effects
+        conditions: [
+          {
+            requirement: {
+              type: "custom",
+              params: { check: "cardInPlay", cardId: "self" }
+            }
+          }
+        ],
+        response: {
+          type: "automatic",
+          effects: [
+            {
+              id: "destroy_altar_and_occupants",
+              type: "sequence",
+              timing: { when: "immediate" },
+              targeting: [
+                {
+                  selector: {
+                    type: "self",
+                    params: {}
+                  },
+                  count: { min: 1, max: 1 }
+                },
+                {
+                  selector: {
+                    type: "summonsInArea",
+                    params: { area: "selfOccupiedSpaces" }
+                  },
+                  count: { min: 0, max: 99 }
+                }
+              ],
+              execution: {
+                steps: [
+                  {
+                    action: "destroy",
+                    params: { target: "self" }
+                  },
+                  {
+                    action: "destroy",
+                    params: { target: "occupants" }
+                  },
+                  {
+                    action: "create",
+                    params: { 
+                      type: "trigger",
+                      triggerType: "onSummonDefeated",
+                      context: { source: "dark_altar_destruction" }
+                    }
+                  }
+                ]
+              },
+              followUps: [
+                {
+                  trigger: "onSummonDefeated",
+                  once: true,
+                  effect: {
+                    id: "altar_advancement_bonus",
+                    type: "sequence",
+                    timing: { when: "immediate" },
+                    targeting: [
+                      {
+                        selector: {
+                          type: "controllerSummon",
+                          params: { 
+                            zone: "inPlay",
+                            roleFilter: "magician"
+                          }
+                        },
+                        count: { min: 1, max: 1 }
+                      }
+                    ],
+                    execution: {
+                      steps: [
+                        {
+                          action: "apply",
+                          params: { 
+                            type: "setLevel",
+                            level: 20
+                          }
+                        },
+                        {
+                          action: "create",
+                          params: { 
+                            type: "permission",
+                            permission: "immediateAdvance",
+                            target: "selectedSummon"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                }
+              ]
+            }
+          ]
+        }
+      }
+    ],
+
+    effects: [],
+
+    staticAbilities: [
+      {
+        id: "altar_aura",
+        description: "Summons within the altar's spaces gain +2 INT but lose -1 SPI",
+        scope: "zone",
+        effects: [
+          {
+            id: "altar_stat_modification",
+            type: "changeStat",
+            timing: { when: "continuous" },
+            targeting: [
+              {
+                selector: {
+                  type: "summonsInArea",
+                  params: { area: "selfOccupiedSpaces" }
+                },
+                count: { min: 0, max: 99 }
+              }
+            ],
+            execution: {
+              steps: [
+                {
+                  action: "apply",
+                  params: { 
+                    type: "statModifier",
+                    stat: "INT",
+                    operation: "add",
+                    value: 2
+                  }
+                },
+                {
+                  action: "apply",
+                  params: { 
+                    type: "statModifier",
+                    stat: "SPI",
+                    operation: "add",
+                    value: -1
+                  }
+                }
+              ]
+            }
+          }
+        ]
+      }
+    ]
+  },
+
+  presentation: {
+    displayName: "Dark Altar",
+    flavorText: "Power demands sacrifice.",
+    artAssets: [
+      {
+        type: "image",
+        url: "/assets/cards/dark_altar.png",
+        tags: ["card-art"]
+      },
+      {
+        type: "animation",
+        url: "/assets/effects/dark_aura.json",
+        tags: ["building-effect"]
+      }
+    ],
+    uiHints: [
+      {
+        type: "glow",
+        trigger: "onPlacement",
+        params: { color: "purple", duration: 3000 }
+      }
+    ]
+  }
+};
+
+// Example: Dramatic Return - Counter card with complex trigger
+export const dramaticReturnExample: EnhancedCardBase = {
+  id: "003-dramatic_return-Alpha",
+  name: "Dramatic Return!",
+  type: "counter",
+  description: "Trigger: A Summon you control is removed from In Play. Return that Summon to an unoccupied space within your territory with 10% HP.",
+
+  metadata: {
+    set: "Alpha",
+    rarity: "legend",
+    attribute: "light",
+    tags: ["counter", "resurrection", "protective"],
+    version: "1.0"
+  },
+
+  gameRules: {
+    playRestrictions: [
+      {
+        phase: ["action"],
+        requirements: [],
+        timing: "instant"
+      }
+    ],
+
+    triggers: [
+      {
+        id: "dramatic_return_set_trigger",
+        type: "onPlay",
+        priority: 0,
+        conditions: [],
+        response: {
+          type: "automatic",
+          effects: [
+            {
+              id: "set_counter_facedown",
+              type: "custom",
+              timing: { when: "immediate" },
+              targeting: [],
+              execution: {
+                steps: [
+                  {
+                    action: "apply",
+                    params: { 
+                      type: "setCounterState",
+                      state: "facedown",
+                      zone: "inPlay"
+                    }
+                  },
+                  {
+                    action: "create",
+                    params: { 
+                      type: "triggerListener",
+                      listenFor: "onSummonDefeated",
+                      requirements: [
+                        {
+                          type: "custom",
+                          params: { 
+                            check: "summonController",
+                            controller: "self"
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        id: "dramatic_return_activation",
+        type: "onSummonDefeated",
+        priority: 5, // Higher than normal to beat other responses
+        conditions: [
+          {
+            requirement: {
+              type: "custom",
+              params: { 
+                check: "triggerContext",
+                contextKey: "defeatedSummon.controller",
+                equals: "self"
+              }
+            },
+            context: ["defeatedSummon"]
+          }
+        ],
+        response: {
+          type: "optional", // Player can choose to activate
+          effects: [
+            {
+              id: "return_summon_to_play",
+              type: "custom",
+              timing: { when: "immediate" },
+              targeting: [
+                {
+                  selector: {
+                    type: "position",
+                    params: { 
+                      zone: "controllerTerritory",
+                      occupied: false
+                    }
+                  },
+                  count: { min: 1, max: 1 }
+                }
+              ],
+              execution: {
+                steps: [
+                  {
+                    action: "calculate",
+                    params: { resultKey: "returnHP" },
+                    formula: {
+                      expression: "max(1, floor(maxHP * 0.1))",
+                      variables: [
+                        { name: "maxHP", source: "context", path: "defeatedSummon.maxHP" }
+                      ]
+                    }
+                  },
+                  {
+                    action: "create",
+                    params: { 
+                      type: "summonUnit",
+                      template: "contextKey:defeatedSummon",
+                      position: "selectedPosition",
+                      hp: "returnHP",
+                      skipSummonDraws: true
+                    }
+                  },
+                  {
+                    action: "destroy",
+                    params: { target: "self" }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ],
+
+    effects: []
+  },
+
+  presentation: {
+    displayName: "Dramatic Return!",
+    flavorText: "Death is but a temporary setback.",
+    artAssets: [
+      {
+        type: "image",
+        url: "/assets/cards/dramatic_return.png",
+        tags: ["card-art"]
+      }
+    ],
+    uiHints: [
+      {
+        type: "text",
+        trigger: "onActivation",
+        params: { text: "DRAMATIC RETURN!", color: "gold", size: "large" }
+      }
+    ]
+  }
+};
