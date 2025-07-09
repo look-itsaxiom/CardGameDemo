@@ -1,0 +1,32 @@
+# Project Master Plan: Tactical Card Game Demo
+
+## Vision
+
+Deliver a robust, extensible, and data-driven tactical RPG card game demo. The MVP is a self-contained, local snapshot of the larger product, focused on the core gameplay loop, data models, and extensibility. This demo will serve as the foundation for future expansion into a full-stack, multiplayer, authoritative-server product.
+
+## MVP Goals
+
+- All game data (cards, decks, board, etc.) is defined in TypeScript interfaces and/or static JSON, not hardcoded logic.
+- The game engine is modular, with strict separation between game logic (engine/state) and UI (Phaser/React).
+- The core gameplay loop (turns, phases, actions, triggers, stack, win/loss) is fully implemented and testable.
+- The system is designed for easy extension: new cards, mechanics, or rules can be added by editing data, not code.
+- UI is functional and clear, using React for menus/collection/deckbuilder and Phaser 3 for the board/gameplay.
+- No backend, authentication, or real-time multiplayer—just local, stubbed data and single-session play.
+
+## Core Design Pillars
+
+1. **Data-Driven Game Logic**
+   - All card effects, requirements, triggers, and rules are defined in structured data (JSON/TypeScript), not as bespoke scripts per card.
+   - The engine interprets this data to drive all gameplay mechanics.
+
+2. **Separation of Concerns**
+   - Game logic (engine/state) is completely decoupled from UI (Phaser/React).
+   - The UI is a “dumb” renderer and input collector, never the source of truth.
+
+3. **Authoritative Server Mindset**
+   - The architecture treats the game engine as the “server” and the UI as “clients” that submit actions and receive state updates.
+   - This enables a future transition to a true backend authoritative server with minimal refactor.
+
+---
+
+*Next: System breakdown and architecture overview.*

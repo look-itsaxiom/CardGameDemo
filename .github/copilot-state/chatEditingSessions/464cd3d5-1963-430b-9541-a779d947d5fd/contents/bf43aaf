@@ -1,0 +1,549 @@
+/**
+ * Action, Building, Quest, Counter, Reaction, and Advance card definitions
+ * These are the tactical cards used during gameplay
+ */
+
+import {
+  ActionCard,
+  BuildingCard,
+  QuestCard,
+  CounterCard,
+  AdvanceCard
+} from '../types';
+import {
+  CardType,
+  Speed,
+  Rarity
+} from '../types/core';
+
+// ============================================================================
+// ACTION CARDS
+// ============================================================================
+
+export const ACTION_CARDS: Record<string, ActionCard> = {
+  'sharpened_blade': {
+    id: 'action-sharpened-blade',
+    name: 'Sharpened Blade',
+    description: 'Enhance a weapon\'s cutting edge, increasing its power.',
+    cardType: CardType.ACTION,
+    rarity: Rarity.COMMON,
+    destinationAfterUse: 'RECHARGE',
+    actionEffect: {
+      id: 'effect-sharpen-weapon',
+      name: 'Sharpen Weapon',
+      description: 'Target Weapon equipped to a Warrior based Summon gains +10 Base Power.',
+      speed: Speed.ACTION,
+      requirements: [
+        {
+          type: 'SUMMON_ROLE',
+          parameters: { role: 'warrior' },
+          description: 'Must control a Warrior summon'
+        }
+      ],
+      resolution: {
+        type: 'STAT_MODIFIER',
+        parameters: { 
+          target: 'equipped_weapon',
+          modifier: 'base_power',
+          value: 10,
+          duration: 'permanent'
+        },
+        targetType: 'SINGLE'
+      }
+    },
+    effects: [],
+    triggers: [],
+    tags: ['weapon', 'enhancement', 'warrior']
+  },
+
+  'healing_hands': {
+    id: 'action-healing-hands',
+    name: 'Healing Hands',
+    description: 'Channel restorative magic to heal an ally.',
+    cardType: CardType.ACTION,
+    rarity: Rarity.COMMON,
+    destinationAfterUse: 'DISCARD',
+    actionEffect: {
+      id: 'effect-magical-healing',
+      name: 'Magical Healing',
+      description: 'Restore HP to target summon. Can critical heal.',
+      speed: Speed.ACTION,
+      requirements: [
+        {
+          type: 'SUMMON_ROLE',
+          parameters: { role: 'magician' },
+          description: 'Must control a Magician summon'
+        }
+      ],
+      resolution: {
+        type: 'HEAL',
+        parameters: {
+          formula: 'caster.SPI * (1 + base_power / 100)',
+          base_power: 40,
+          can_crit: true,
+          crit_multiplier: 1.5,
+          damage_type: 'magical',
+          attribute: 'light'
+        },
+        targetType: 'SINGLE'
+      }
+    },
+    effects: [],
+    triggers: [],
+    tags: ['healing', 'magical', 'support']
+  },
+
+  'rush': {
+    id: 'action-rush',
+    name: 'Rush',
+    description: 'Grant a summon explosive speed at the cost of defense.',
+    cardType: CardType.ACTION,
+    rarity: Rarity.COMMON,
+    destinationAfterUse: 'RECHARGE',
+    actionEffect: {
+      id: 'effect-rush',
+      name: 'Rush',
+      description: 'Double movement speed until end of turn, halve DEF until end of opponent\'s next turn.',
+      speed: Speed.ACTION,
+      requirements: [],
+      resolution: {
+        type: 'STAT_MODIFIER',
+        parameters: {
+          movement_multiplier: 2,
+          movement_duration: 'end_of_turn',
+          def_multiplier: 0.5,
+          def_duration: 'end_of_opponent_next_turn'
+        },
+        targetType: 'SINGLE'
+      }
+    },
+    effects: [],
+    triggers: [],
+    tags: ['movement', 'speed', 'temporary']
+  },
+
+  'tempest_slash': {
+    id: 'action-tempest-slash',
+    name: 'Tempest Slash',
+    description: 'Empower the next attack with wind magic for additional damage.',
+    cardType: CardType.ACTION,
+    rarity: Rarity.UNCOMMON,
+    destinationAfterUse: 'DISCARD',
+    actionEffect: {
+      id: 'effect-tempest-slash',
+      name: 'Tempest Slash',
+      description: 'Add movement and empower next basic attack with wind damage.',
+      speed: Speed.ACTION,
+      requirements: [],
+      resolution: {
+        type: 'STAT_MODIFIER',
+        parameters: {
+          movement_bonus: 1,
+          movement_duration: 'end_of_turn',
+          next_attack_bonus: {
+            formula: 'caster.STR * (1 + base_power / 100) * (caster.STR / target.DEF)',
+            base_power: 30,
+            damage_type: 'physical',
+            attribute: 'air',
+            can_crit: true
+          }
+        },
+        targetType: 'SINGLE'
+      }
+    },
+    effects: [],
+    triggers: [],
+    tags: ['enhancement', 'wind', 'attack']
+  },
+
+  'blast_bolt': {
+    id: 'action-blast-bolt',
+    name: 'Blast Bolt',
+    description: 'Fire a powerful magical projectile at an enemy.',
+    cardType: CardType.ACTION,
+    rarity: Rarity.COMMON,
+    destinationAfterUse: 'DISCARD',
+    actionEffect: {
+      id: 'effect-blast-bolt',
+      name: 'Blast Bolt',
+      description: 'Deal magical fire damage to target enemy.',
+      speed: Speed.ACTION,
+      requirements: [
+        {
+          type: 'SUMMON_ROLE',
+          parameters: { role: 'magician' },
+          description: 'Must control a Magician summon'
+        }
+      ],
+      resolution: {
+        type: 'DAMAGE',
+        parameters: {
+          formula: 'caster.INT * (1 + base_power / 100) * (caster.INT / target.MDF)',
+          base_power: 60,
+          base_accuracy: 85,
+          can_crit: true,
+          crit_multiplier: 1.5,
+          damage_type: 'magical',
+          attribute: 'fire'
+        },
+        targetType: 'SINGLE'
+      }
+    },
+    effects: [],
+    triggers: [],
+    tags: ['damage', 'magical', 'fire', 'ranged']
+  }
+};
+
+// ============================================================================
+// BUILDING CARDS
+// ============================================================================
+
+export const BUILDING_CARDS: Record<string, BuildingCard> = {
+  'gignen_country': {
+    id: 'building-gignen-country',
+    name: 'Gignen Country',
+    description: 'A settlement that accelerates the growth of Gignen summons.',
+    cardType: CardType.BUILDING,
+    rarity: Rarity.UNCOMMON,
+    dimensions: {
+      width: 3,
+      height: 2
+    },
+    isHidden: false,
+    ongoingEffects: [
+      {
+        id: 'effect-gignen-growth',
+        name: 'Gignen Growth Acceleration',
+        description: 'All Gignen based Summons you control receive an additional level whenever they level up.',
+        speed: Speed.ACTION,
+        requirements: [
+          {
+            type: 'SUMMON_SPECIES',
+            parameters: { species: 'gignen' },
+            description: 'Affects Gignen summons only'
+          }
+        ],
+        resolution: {
+          type: 'LEVEL_UP',
+          parameters: { bonus_levels: 1 },
+          targetType: 'MULTIPLE'
+        }
+      }
+    ],
+    effects: [],
+    triggers: [],
+    tags: ['gignen', 'leveling', 'territory']
+  },
+
+  'dark_altar': {
+    id: 'building-dark-altar',
+    name: 'Dark Altar',
+    description: 'A sinister structure that sacrifices summons for dark power.',
+    cardType: CardType.BUILDING,
+    rarity: Rarity.RARE,
+    dimensions: {
+      width: 2,
+      height: 2
+    },
+    isHidden: false,
+    ongoingEffects: [],
+    destructionConditions: [
+      {
+        type: 'CUSTOM',
+        parameters: { 
+          trigger: 'end_of_next_turn',
+          effect: 'destroy_with_occupants',
+          reward: 'advance_magician_to_20'
+        },
+        description: 'Destroys at end of next turn along with occupying summons'
+      }
+    ],
+    effects: [],
+    triggers: [],
+    tags: ['dark', 'sacrifice', 'powerful']
+  }
+};
+
+// ============================================================================
+// QUEST CARDS
+// ============================================================================
+
+export const QUEST_CARDS: Record<string, QuestCard> = {
+  'nearwood_forest_expedition': {
+    id: 'quest-nearwood-expedition',
+    name: 'Nearwood Forest Expedition',
+    description: 'Lead an expedition to gain valuable experience.',
+    cardType: CardType.QUEST,
+    rarity: Rarity.COMMON,
+    objective: {
+      type: 'SUMMON_LEVEL',
+      parameters: { 
+        roles: ['warrior', 'scout', 'magician'],
+        max_level: 9
+      },
+      description: 'Control target Warrior, Scout, or Magician based Summon whose current level is under 10'
+    },
+    reward: {
+      id: 'effect-expedition-experience',
+      name: 'Expedition Experience',
+      description: 'Target Summon gains 2 levels.',
+      speed: Speed.ACTION,
+      requirements: [],
+      resolution: {
+        type: 'LEVEL_UP',
+        parameters: { levels: 2 },
+        targetType: 'SINGLE'
+      }
+    },
+    repeatable: false,
+    effects: [],
+    triggers: [],
+    tags: ['experience', 'leveling', 'exploration']
+  }
+};
+
+// ============================================================================
+// COUNTER CARDS
+// ============================================================================
+
+export const COUNTER_CARDS: Record<string, CounterCard> = {
+  'dramatic_return': {
+    id: 'counter-dramatic-return',
+    name: 'Dramatic Return!',
+    description: 'Bring back a fallen ally when all seems lost.',
+    cardType: CardType.COUNTER,
+    rarity: Rarity.UNCOMMON,
+    mustBeSet: true,
+    activationTrigger: {
+      event: 'ON_DEFEAT',
+      conditions: [
+        {
+          type: 'SUMMON_IN_PLAY',
+          parameters: { controller: 'self' },
+          description: 'Your summon is defeated'
+        }
+      ],
+      effect: {
+        id: 'effect-dramatic-return',
+        name: 'Dramatic Return',
+        description: 'Return defeated summon to play with 10% HP.',
+        speed: Speed.COUNTER,
+        requirements: [],
+        resolution: {
+          type: 'SUMMON',
+          parameters: {
+            target: 'defeated_summon',
+            hp_percentage: 10,
+            location: 'your_territory'
+          },
+          targetType: 'SINGLE'
+        }
+      }
+    },
+    effects: [],
+    triggers: [],
+    tags: ['revival', 'defensive', 'dramatic']
+  },
+
+  'graverobbing': {
+    id: 'counter-graverobbing',
+    name: 'Graverobbing',
+    description: 'Deny the enemy their victory through dark magic.',
+    cardType: CardType.COUNTER,
+    rarity: Rarity.RARE,
+    mustBeSet: true,
+    activationTrigger: {
+      event: 'ON_DEFEAT',
+      conditions: [
+        {
+          type: 'SUMMON_IN_PLAY',
+          parameters: { controller: 'self' },
+          description: 'Your summon is defeated'
+        }
+      ],
+      effect: {
+        id: 'effect-graverobbing',
+        name: 'Graverobbing',
+        description: 'Nullify Victory Point gain. Cost: Discard a card.',
+        speed: Speed.COUNTER,
+        requirements: [],
+        resolution: {
+          type: 'CUSTOM',
+          parameters: {
+            nullify_vp_gain: true,
+            cost: 'discard_card'
+          },
+          targetType: 'SINGLE'
+        }
+      }
+    },
+    activationCost: {
+      id: 'cost-discard-card',
+      name: 'Discard Cost',
+      description: 'Discard a card from your hand.',
+      speed: Speed.COUNTER,
+      requirements: [],
+      resolution: {
+        type: 'CUSTOM',
+        parameters: { action: 'discard_from_hand' },
+        targetType: 'SINGLE'
+      }
+    },
+    effects: [],
+    triggers: [],
+    tags: ['denial', 'dark', 'sacrifice']
+  }
+};
+
+// ============================================================================
+// ADVANCE CARDS
+// ============================================================================
+
+export const ADVANCE_CARDS: Record<string, AdvanceCard> = {
+  'berserker_rage': {
+    id: 'advance-berserker-rage',
+    name: 'Berserker Rage',
+    description: 'Transform a warrior into a fearsome berserker.',
+    cardType: CardType.ADVANCE,
+    rarity: Rarity.UNCOMMON,
+    summonRequirements: [
+      {
+        type: 'SUMMON_ROLE',
+        parameters: { role: 'warrior' },
+        description: 'Target must be a Warrior'
+      },
+      {
+        type: 'SUMMON_LEVEL',
+        parameters: { min_level: 10 },
+        description: 'Target must be level 10 or higher'
+      }
+    ],
+    newRole: {
+      id: 'role-berserker', // Reference to berserker role
+      name: 'Berserker',
+      description: 'A fierce warrior who trades defense for overwhelming offensive power.',
+      cardType: CardType.ROLE,
+      rarity: Rarity.UNCOMMON,
+      tier: 2,
+      statModifiers: {},
+      roleAbilities: [],
+      effects: [],
+      triggers: [],
+      tags: []
+    },
+    advancementEffects: [],
+    effects: [],
+    triggers: [],
+    tags: ['advancement', 'warrior', 'berserker']
+  },
+
+  'alrecht_barkstep_scoutmaster': {
+    id: 'advance-alrecht-barkstep',
+    name: 'Alrecht Barkstep, Scoutmaster',
+    description: 'A legendary scout who can rally allies to his position.',
+    cardType: CardType.ADVANCE,
+    rarity: Rarity.LEGENDARY,
+    summonRequirements: [
+      {
+        type: 'SUMMON_ROLE',
+        parameters: { role: 'scout' },
+        description: 'Target must be a Scout'
+      },
+      {
+        type: 'CUSTOM',
+        parameters: { condition: 'completed_quest' },
+        description: 'Target must have completed a Quest'
+      }
+    ],
+    newRole: {
+      id: 'role-rogue', // Reference to rogue role
+      name: 'Rogue',
+      description: 'A stealthy operative with enhanced capabilities.',
+      cardType: CardType.ROLE,
+      rarity: Rarity.UNCOMMON,
+      tier: 2,
+      statModifiers: {},
+      roleAbilities: [],
+      effects: [],
+      triggers: [],
+      tags: []
+    },
+    advancementEffects: [
+      {
+        id: 'effect-follow-me',
+        name: 'Follow Me!',
+        description: 'Adds "Follow Me!" to hand when entering play and at start of turn.',
+        speed: Speed.ACTION,
+        requirements: [],
+        resolution: {
+          type: 'CUSTOM',
+          parameters: { action: 'add_follow_me_to_hand' },
+          targetType: 'SINGLE'
+        }
+      }
+    ],
+    effects: [],
+    triggers: [],
+    tags: ['named', 'legendary', 'scout', 'support']
+  },
+
+  'shadow_pact': {
+    id: 'advance-shadow-pact',
+    name: 'Shadow Pact',
+    description: 'Forge a dark contract to gain immense magical power.',
+    cardType: CardType.ADVANCE,
+    rarity: Rarity.EPIC,
+    summonRequirements: [
+      {
+        type: 'SUMMON_ROLE',
+        parameters: { role: 'magician' },
+        description: 'Target must be a Magician'
+      },
+      {
+        type: 'SUMMON_LEVEL',
+        parameters: { exact_level: 20 },
+        description: 'Target must be exactly level 20'
+      }
+    ],
+    newRole: {
+      id: 'role-warlock', // Reference to warlock role
+      name: 'Warlock',
+      description: 'A master of dark magic with immense power.',
+      cardType: CardType.ROLE,
+      rarity: Rarity.RARE,
+      tier: 2,
+      statModifiers: {},
+      roleAbilities: [],
+      effects: [],
+      triggers: [],
+      tags: []
+    },
+    advancementEffects: [
+      {
+        id: 'effect-nightmare-pain',
+        name: 'Nightmare Pain',
+        description: 'Adds "Nightmare Pain" counter to hand each draw phase.',
+        speed: Speed.ACTION,
+        requirements: [],
+        resolution: {
+          type: 'CUSTOM',
+          parameters: { action: 'add_nightmare_pain_to_hand' },
+          targetType: 'SINGLE'
+        }
+      }
+    ],
+    effects: [],
+    triggers: [],
+    tags: ['dark', 'powerful', 'warlock', 'pact']
+  }
+};
+
+// Export organized collections
+export const TACTICAL_CARDS = {
+  actions: ACTION_CARDS,
+  buildings: BUILDING_CARDS,
+  quests: QUEST_CARDS,
+  counters: COUNTER_CARDS,
+  advances: ADVANCE_CARDS
+} as const;

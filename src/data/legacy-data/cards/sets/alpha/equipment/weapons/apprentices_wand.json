@@ -1,0 +1,25 @@
+{
+    "id": "035-apprentices_wand-Alpha",
+    "name": "apprentices_wand",
+    "display_name": "Apprentice's Wand",
+    "description": "A simple wand used by apprentices to channel their magical energy.",
+    "card_type": "equipment",
+    "equipment_type": "weapon",
+    "stat_modifiers": {
+        "STR": 1,
+        "END": 1,
+        "DEF": 1,
+        "INT": 1.01,
+        "SPI": 1,
+        "MDF": 1,
+        "SPD": 1,
+        "LCK": 1,
+        "ACC": 1
+    },
+    "base_power": 25,
+    "damage_stat": "INT",
+    "damage_type": "magical",
+    "attack_range": 3,
+    "attribute": "neutral",
+    "rarity": "common"
+}

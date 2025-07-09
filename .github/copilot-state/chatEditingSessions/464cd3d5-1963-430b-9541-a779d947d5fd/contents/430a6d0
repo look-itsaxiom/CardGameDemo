@@ -1,0 +1,307 @@
+/**
+ * Card type definitions for all card types in the game
+ * This includes the data structures for cards and their effects
+ */
+
+import {
+  Entity,
+  EntityId,
+  Rarity,
+  CardType,
+  EquipmentSlot,
+  Speed,
+  DamageType,
+  DamageAttribute,
+  Stats,
+  GrowthRates,
+  Coordinate,
+  Percentage
+} from './core';
+
+// ============================================================================
+// EFFECT SYSTEM TYPES
+// ============================================================================
+
+/** Base interface for all card effects */
+export interface Effect {
+  id: string;
+  name: string;
+  description: string;
+  speed: Speed;
+  /** Conditions that must be met to play/activate this effect */
+  requirements: EffectRequirement[];
+  /** What happens when this effect resolves */
+  resolution: EffectResolution;
+}
+
+/** Requirement types for playing cards or activating effects */
+export interface EffectRequirement {
+  type: 'SUMMON_IN_PLAY' | 'SUMMON_ROLE' | 'SUMMON_LEVEL' | 'SUMMON_SPECIES' | 
+        'TERRITORY_CONTROL' | 'CARD_IN_HAND' | 'CUSTOM';
+  parameters: Record<string, any>;
+  description: string;
+}
+
+/** What happens when an effect resolves */
+export interface EffectResolution {
+  type: 'DAMAGE' | 'HEAL' | 'STAT_MODIFIER' | 'MOVEMENT' | 'SUMMON' | 
+        'DRAW_CARDS' | 'LEVEL_UP' | 'DESTROY' | 'CUSTOM';
+  parameters: Record<string, any>;
+  targetType: 'SINGLE' | 'MULTIPLE' | 'ALL' | 'AREA';
+}
+
+/** Trigger conditions for automatic effects */
+export interface Trigger {
+  event: 'ON_PLAY' | 'ON_DEFEAT' | 'ON_DAMAGE' | 'ON_HEAL' | 'ON_MOVE' | 
+         'TURN_START' | 'TURN_END' | 'PHASE_START' | 'PHASE_END' | 'CUSTOM';
+  conditions?: EffectRequirement[];
+  effect: Effect;
+}
+
+// ============================================================================
+// BASE CARD INTERFACE
+// ============================================================================
+
+/** Base interface for all cards */
+export interface BaseCard extends Entity {
+  cardType: CardType;
+  rarity: Rarity;
+  /** Visual representation data */
+  artwork?: string;
+  /** Card effects and abilities */
+  effects: Effect[];
+  /** Automatic triggers */
+  triggers: Trigger[];
+  /** Cost to play the card (if applicable) */
+  cost?: number;
+  /** Tags for categorization and searching */
+  tags: string[];
+}
+
+// ============================================================================
+// SUMMON CARDS
+// ============================================================================
+
+/** Species definition for summon generation */
+export interface SummonSpecies extends Entity {
+  /** Base stats for this species */
+  baseStats: Stats;
+  /** Visual representation */
+  artwork: string;
+  /** Species-specific abilities */
+  speciesAbilities: Effect[];
+}
+
+/** Generated summon card (unique instance) */
+export interface SummonCard extends BaseCard {
+  cardType: CardType.SUMMON;
+  /** Reference to the species template */
+  speciesId: EntityId;
+  /** Generated stats for this specific summon */
+  baseStats: Stats;
+  /** Generated growth rates for this specific summon */
+  growthRates: GrowthRates;
+  /** Generated at pack opening time */
+  generatedAt: Date;
+}
+
+// ============================================================================
+// ROLE CARDS
+// ============================================================================
+
+/** Role cards define class/job for summons */
+export interface RoleCard extends BaseCard {
+  cardType: CardType.ROLE;
+  /** Tier level of this role (1 = basic, 2+ = advanced) */
+  tier: number;
+  /** Stat modifiers applied when this role is active */
+  statModifiers: Partial<Stats>;
+  /** Role-specific abilities */
+  roleAbilities: Effect[];
+}
+
+// ============================================================================
+// EQUIPMENT CARDS
+// ============================================================================
+
+/** Equipment cards enhance summons */
+export interface EquipmentCard extends BaseCard {
+  cardType: CardType.EQUIPMENT;
+  /** Which slot this equipment occupies */
+  slot: EquipmentSlot;
+  /** Stat bonuses provided */
+  statBonuses: Partial<Stats>;
+  /** Base power for weapons */
+  basePower?: number;
+  /** Attack range for weapons */
+  attackRange?: number;
+  /** Equipment-specific abilities */
+  equipmentAbilities: Effect[];
+}
+
+// ============================================================================
+// ACTION CARDS
+// ============================================================================
+
+/** Action cards are played during action phase */
+export interface ActionCard extends BaseCard {
+  cardType: CardType.ACTION;
+  /** Where this card goes after resolution */
+  destinationAfterUse: 'DISCARD' | 'RECHARGE' | 'REMOVED';
+  /** Main effect of the action */
+  actionEffect: Effect;
+}
+
+// ============================================================================
+// BUILDING CARDS
+// ============================================================================
+
+/** Building cards create permanent effects on the board */
+export interface BuildingCard extends BaseCard {
+  cardType: CardType.BUILDING;
+  /** Size requirements for placement */
+  dimensions: {
+    width: number;
+    height: number;
+  };
+  /** Is this building placed face down initially? */
+  isHidden: boolean;
+  /** Ongoing effects while in play */
+  ongoingEffects: Effect[];
+  /** Destruction conditions */
+  destructionConditions?: EffectRequirement[];
+}
+
+// ============================================================================
+// QUEST CARDS
+// ============================================================================
+
+/** Quest cards provide objectives for rewards */
+export interface QuestCard extends BaseCard {
+  cardType: CardType.QUEST;
+  /** Objective that must be completed */
+  objective: EffectRequirement;
+  /** Reward for completing the quest */
+  reward: Effect;
+  /** Can this quest be completed multiple times? */
+  repeatable: boolean;
+}
+
+// ============================================================================
+// COUNTER AND REACTION CARDS
+// ============================================================================
+
+/** Counter cards respond to specific triggers */
+export interface CounterCard extends BaseCard {
+  cardType: CardType.COUNTER;
+  /** Must be set face down before activation */
+  mustBeSet: true;
+  /** Specific trigger that allows activation */
+  activationTrigger: Trigger;
+  /** Additional cost to activate */
+  activationCost?: Effect;
+}
+
+/** Reaction cards provide quick responses */
+export interface ReactionCard extends BaseCard {
+  cardType: CardType.REACTION;
+  /** Can be played from hand or set face down */
+  canPlayFromHand: boolean;
+  /** Quick response effect */
+  reactionEffect: Effect;
+}
+
+// ============================================================================
+// ADVANCE CARDS
+// ============================================================================
+
+/** Advance cards evolve summons to higher tiers */
+export interface AdvanceCard extends BaseCard {
+  cardType: CardType.ADVANCE;
+  /** Requirements for the target summon */
+  summonRequirements: EffectRequirement[];
+  /** New role granted by advancement */
+  newRole: RoleCard;
+  /** Additional effects from advancement */
+  advancementEffects: Effect[];
+}
+
+// ============================================================================
+// UNION TYPE FOR ALL CARDS
+// ============================================================================
+
+/** Union type representing any card in the game */
+export type Card = 
+  | SummonCard
+  | RoleCard
+  | EquipmentCard
+  | ActionCard
+  | BuildingCard
+  | QuestCard
+  | CounterCard
+  | ReactionCard
+  | AdvanceCard;
+
+// ============================================================================
+// CARD COLLECTION TYPES
+// ============================================================================
+
+/** Player's card collection */
+export interface CardCollection {
+  playerId: EntityId;
+  cards: Map<EntityId, Card>;
+  /** Quick lookup by card type */
+  cardsByType: Map<CardType, EntityId[]>;
+  /** Quick lookup by rarity */
+  cardsByRarity: Map<Rarity, EntityId[]>;
+}
+
+/** Deck composition for a game */
+export interface Deck {
+  playerId: EntityId;
+  name: string;
+  /** The 3 summon slots */
+  summonSlots: SummonSlot[];
+  /** Main deck cards */
+  mainDeck: EntityId[];
+  /** Advance deck cards */
+  advanceDeck: EntityId[];
+  /** When this deck was created/modified */
+  lastModified: Date;
+}
+
+/** A single summon slot configuration */
+export interface SummonSlot {
+  /** The primary summon card */
+  summon: EntityId;
+  /** The role card applied */
+  role: EntityId;
+  /** Equipment in each slot */
+  equipment: {
+    [EquipmentSlot.WEAPON]?: EntityId;
+    [EquipmentSlot.OFFHAND]?: EntityId;
+    [EquipmentSlot.ARMOR]?: EntityId;
+    [EquipmentSlot.ACCESSORY]?: EntityId;
+  };
+}
+
+// ============================================================================
+// CARD GENERATION TYPES
+// ============================================================================
+
+/** Configuration for generating summon cards */
+export interface SummonGenerationConfig {
+  species: SummonSpecies;
+  rarity: Rarity;
+  /** Probability tables for growth rates by rarity */
+  growthRateProbabilities: Record<Rarity, Record<GrowthRate, Percentage>>;
+}
+
+/** Pack opening configuration */
+export interface PackConfig {
+  name: string;
+  cardCount: number;
+  rarityDistribution: Record<Rarity, Percentage>;
+  availableSpecies: EntityId[];
+  cost: number; // in-game currency
+}

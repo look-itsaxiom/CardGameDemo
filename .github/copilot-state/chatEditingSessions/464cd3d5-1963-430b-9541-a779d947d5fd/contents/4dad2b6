@@ -1,0 +1,286 @@
+/**
+ * Core game data including species, roles, and equipment definitions
+ * This represents the foundational cards that don't change between games
+ */
+
+import {
+  SummonSpecies,
+  RoleCard,
+  EquipmentCard
+} from '../types';
+import {
+  StatType,
+  CardType,
+  EquipmentSlot,
+  Rarity
+} from '../types/core';
+
+// ============================================================================
+// SUMMON SPECIES DEFINITIONS
+// ============================================================================
+
+export const SUMMON_SPECIES: Record<string, SummonSpecies> = {
+  'gignen': {
+    id: 'species-gignen',
+    name: 'Gignen',
+    description: 'A balanced humanoid species known for their adaptability and determination.',
+    baseStats: {
+      [StatType.STR]: 12,
+      [StatType.END]: 10,
+      [StatType.DEF]: 11,
+      [StatType.INT]: 11,
+      [StatType.SPI]: 10,
+      [StatType.MDF]: 8,
+      [StatType.SPD]: 10,
+      [StatType.ACC]: 9,
+      [StatType.LCK]: 12
+    },
+    artwork: 'gignen-default',
+    speciesAbilities: [] // No inherent species abilities for now
+  },
+
+  'fae': {
+    id: 'species-fae',
+    name: 'Fae',
+    description: 'Mystical beings with strong magical affinity and graceful movements.',
+    baseStats: {
+      [StatType.STR]: 8,
+      [StatType.END]: 10,
+      [StatType.DEF]: 9,
+      [StatType.INT]: 15,
+      [StatType.SPI]: 16,
+      [StatType.MDF]: 12,
+      [StatType.SPD]: 13,
+      [StatType.ACC]: 11,
+      [StatType.LCK]: 10
+    },
+    artwork: 'fae-default',
+    speciesAbilities: []
+  },
+
+  'wilderling': {
+    id: 'species-wilderling',
+    name: 'Wilderling',
+    description: 'Swift forest dwellers with exceptional speed and accuracy.',
+    baseStats: {
+      [StatType.STR]: 11,
+      [StatType.END]: 12,
+      [StatType.DEF]: 8,
+      [StatType.INT]: 9,
+      [StatType.SPI]: 8,
+      [StatType.MDF]: 7,
+      [StatType.SPD]: 18,
+      [StatType.ACC]: 16,
+      [StatType.LCK]: 12
+    },
+    artwork: 'wilderling-default',
+    speciesAbilities: []
+  },
+
+  'stoneheart': {
+    id: 'species-stoneheart',
+    name: 'Stoneheart',
+    description: 'Rock-skinned beings with incredible durability and strength.',
+    baseStats: {
+      [StatType.STR]: 14,
+      [StatType.END]: 16,
+      [StatType.DEF]: 15,
+      [StatType.INT]: 6,
+      [StatType.SPI]: 8,
+      [StatType.MDF]: 10,
+      [StatType.SPD]: 7,
+      [StatType.ACC]: 8,
+      [StatType.LCK]: 9
+    },
+    artwork: 'stoneheart-default',
+    speciesAbilities: []
+  }
+};
+
+// ============================================================================
+// ROLE CARD DEFINITIONS
+// ============================================================================
+
+export const ROLE_CARDS: Record<string, RoleCard> = {
+  // Tier 1 Roles
+  'warrior': {
+    id: 'role-warrior',
+    name: 'Warrior',
+    description: 'A frontline fighter specializing in physical combat and defense.',
+    cardType: CardType.ROLE,
+    rarity: Rarity.COMMON,
+    tier: 1,
+    statModifiers: {
+      [StatType.STR]: 2,
+      [StatType.DEF]: 2,
+      [StatType.END]: 1
+    },
+    roleAbilities: [],
+    effects: [],
+    triggers: [],
+    tags: ['melee', 'physical', 'tank']
+  },
+
+  'scout': {
+    id: 'role-scout',
+    name: 'Scout',
+    description: 'A swift reconnaissance specialist with high mobility and accuracy.',
+    cardType: CardType.ROLE,
+    rarity: Rarity.COMMON,
+    tier: 1,
+    statModifiers: {
+      [StatType.SPD]: 3,
+      [StatType.ACC]: 2,
+      [StatType.LCK]: 1
+    },
+    roleAbilities: [],
+    effects: [],
+    triggers: [],
+    tags: ['ranged', 'mobility', 'accuracy']
+  },
+
+  'magician': {
+    id: 'role-magician',
+    name: 'Magician',
+    description: 'A spellcaster who harnesses magical energies for offense and support.',
+    cardType: CardType.ROLE,
+    rarity: Rarity.COMMON,
+    tier: 1,
+    statModifiers: {
+      [StatType.INT]: 3,
+      [StatType.SPI]: 2,
+      [StatType.MDF]: 1
+    },
+    roleAbilities: [],
+    effects: [],
+    triggers: [],
+    tags: ['magical', 'ranged', 'support']
+  },
+
+  // Tier 2 Roles (Advanced)
+  'berserker': {
+    id: 'role-berserker',
+    name: 'Berserker',
+    description: 'A fierce warrior who trades defense for overwhelming offensive power.',
+    cardType: CardType.ROLE,
+    rarity: Rarity.UNCOMMON,
+    tier: 2,
+    statModifiers: {
+      [StatType.STR]: 5,
+      [StatType.SPD]: 2,
+      [StatType.END]: 1,
+      [StatType.DEF]: -1 // Trade-off
+    },
+    roleAbilities: [],
+    effects: [],
+    triggers: [],
+    tags: ['melee', 'physical', 'berserker']
+  },
+
+  'rogue': {
+    id: 'role-rogue',
+    name: 'Rogue',
+    description: 'A stealthy operative with enhanced critical hit capabilities.',
+    cardType: CardType.ROLE,
+    rarity: Rarity.UNCOMMON,
+    tier: 2,
+    statModifiers: {
+      [StatType.SPD]: 3,
+      [StatType.LCK]: 4,
+      [StatType.ACC]: 3,
+      [StatType.STR]: -1
+    },
+    roleAbilities: [],
+    effects: [],
+    triggers: [],
+    tags: ['stealth', 'critical', 'mobility']
+  },
+
+  'warlock': {
+    id: 'role-warlock',
+    name: 'Warlock',
+    description: 'A dark magic user with immense power and unique abilities.',
+    cardType: CardType.ROLE,
+    rarity: Rarity.RARE,
+    tier: 2,
+    statModifiers: {
+      [StatType.INT]: 6,
+      [StatType.SPI]: 2,
+      [StatType.MDF]: 2,
+      [StatType.STR]: -2,
+      [StatType.DEF]: -1
+    },
+    roleAbilities: [],
+    effects: [],
+    triggers: [],
+    tags: ['dark-magic', 'powerful', 'risky']
+  }
+};
+
+// ============================================================================
+// EQUIPMENT CARD DEFINITIONS
+// ============================================================================
+
+export const EQUIPMENT_CARDS: Record<string, EquipmentCard> = {
+  // Weapons
+  'heirloom_sword': {
+    id: 'equip-heirloom-sword',
+    name: 'Heirloom Sword',
+    description: 'A well-crafted blade passed down through generations.',
+    cardType: CardType.EQUIPMENT,
+    rarity: Rarity.COMMON,
+    slot: EquipmentSlot.WEAPON,
+    basePower: 30,
+    attackRange: 1,
+    statBonuses: {
+      [StatType.STR]: 1
+    },
+    equipmentAbilities: [],
+    effects: [],
+    triggers: [],
+    tags: ['sword', 'melee', 'physical']
+  },
+
+  'apprentice_wand': {
+    id: 'equip-apprentice-wand',
+    name: "Apprentice's Wand",
+    description: 'A basic magical focus for channeling spells.',
+    cardType: CardType.EQUIPMENT,
+    rarity: Rarity.COMMON,
+    slot: EquipmentSlot.WEAPON,
+    basePower: 30,
+    attackRange: 3,
+    statBonuses: {
+      [StatType.INT]: 1
+    },
+    equipmentAbilities: [],
+    effects: [],
+    triggers: [],
+    tags: ['wand', 'magical', 'ranged']
+  },
+
+  'hunting_bow': {
+    id: 'equip-hunting-bow',
+    name: 'Hunting Bow',
+    description: 'A precise ranged weapon favored by scouts and hunters.',
+    cardType: CardType.EQUIPMENT,
+    rarity: Rarity.COMMON,
+    slot: EquipmentSlot.WEAPON,
+    basePower: 30,
+    attackRange: 5,
+    statBonuses: {
+      [StatType.ACC]: 2
+    },
+    equipmentAbilities: [],
+    effects: [],
+    triggers: [],
+    tags: ['bow', 'ranged', 'physical']
+  }
+};
+
+// Export organized collections
+export const CORE_DATA = {
+  species: SUMMON_SPECIES,
+  roles: ROLE_CARDS,
+  equipment: EQUIPMENT_CARDS
+} as const;

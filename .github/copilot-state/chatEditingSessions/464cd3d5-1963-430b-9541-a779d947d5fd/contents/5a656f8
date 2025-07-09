@@ -1,0 +1,188 @@
+/**
+ * Core type definitions for the tactical card game
+ * These are the foundational types that everything else builds upon
+ */
+
+// ============================================================================
+// BASIC ENUMS AND CONSTANTS
+// ============================================================================
+
+/** The nine core stats that define a summon's capabilities */
+export enum StatType {
+  STR = 'STR', // Strength - Affects physical attack damage
+  END = 'END', // Endurance - Affects maximum HP
+  DEF = 'DEF', // Defense - Affects physical damage taken
+  INT = 'INT', // Intelligence - Affects magical attack damage
+  SPI = 'SPI', // Spirit - Affects healing and support abilities
+  MDF = 'MDF', // Magic Defense - Affects magical damage taken
+  SPD = 'SPD', // Speed - Affects movement speed
+  ACC = 'ACC', // Accuracy - Affects chance to hit
+  LCK = 'LCK'  // Luck - Affects critical hits and random elements
+}
+
+/** Growth rate categories for stats when leveling up */
+export enum GrowthRate {
+  MINIMAL = 'MINIMAL',       // 1 every 2 levels (0.5)
+  STEADY = 'STEADY',         // 2 every 3 levels (0.66)
+  NORMAL = 'NORMAL',         // 1 every level (1.0)
+  GRADUAL = 'GRADUAL',       // 1 + bonus every 3 levels (1.33)
+  ACCELERATED = 'ACCELERATED', // 1 + bonus every 2 levels (1.5)
+  EXCEPTIONAL = 'EXCEPTIONAL'  // 2 every level (2.0)
+}
+
+/** Card rarity levels that affect generation probability and power */
+export enum Rarity {
+  COMMON = 'COMMON',
+  UNCOMMON = 'UNCOMMON',
+  RARE = 'RARE',
+  EPIC = 'EPIC',
+  LEGENDARY = 'LEGENDARY'
+}
+
+/** Different types of cards in the game */
+export enum CardType {
+  SUMMON = 'SUMMON',
+  ROLE = 'ROLE',
+  EQUIPMENT = 'EQUIPMENT',
+  ACTION = 'ACTION',
+  BUILDING = 'BUILDING',
+  QUEST = 'QUEST',
+  COUNTER = 'COUNTER',
+  REACTION = 'REACTION',
+  ADVANCE = 'ADVANCE'
+}
+
+/** Equipment slot types */
+export enum EquipmentSlot {
+  WEAPON = 'WEAPON',
+  OFFHAND = 'OFFHAND',
+  ARMOR = 'ARMOR',
+  ACCESSORY = 'ACCESSORY'
+}
+
+/** Game speed levels for the priority system */
+export enum Speed {
+  ACTION = 'ACTION',     // Slowest - main phase only
+  REACTION = 'REACTION', // Medium - can respond to actions
+  COUNTER = 'COUNTER'    // Fastest - can respond to anything
+}
+
+/** Damage types for attacks and effects */
+export enum DamageType {
+  PHYSICAL = 'PHYSICAL',
+  MAGICAL = 'MAGICAL'
+}
+
+/** Damage attributes for elemental effects */
+export enum DamageAttribute {
+  NEUTRAL = 'NEUTRAL',
+  FIRE = 'FIRE',
+  WATER = 'WATER',
+  EARTH = 'EARTH',
+  AIR = 'AIR',
+  LIGHT = 'LIGHT',
+  DARK = 'DARK'
+}
+
+/** Turn phases */
+export enum TurnPhase {
+  DRAW = 'DRAW',
+  LEVEL = 'LEVEL',
+  ACTION = 'ACTION',
+  END = 'END'
+}
+
+/** Game zones where cards can exist */
+export enum Zone {
+  HAND = 'HAND',
+  MAIN_DECK = 'MAIN_DECK',
+  ADVANCE_DECK = 'ADVANCE_DECK',
+  DISCARD_PILE = 'DISCARD_PILE',
+  RECHARGE_PILE = 'RECHARGE_PILE',
+  IN_PLAY = 'IN_PLAY',
+  REMOVED = 'REMOVED'
+}
+
+// ============================================================================
+// COORDINATE AND POSITIONING
+// ============================================================================
+
+/** 2D coordinate for game board positioning */
+export interface Coordinate {
+  x: number;
+  y: number;
+}
+
+/** Game board dimensions and territory definitions */
+export const BOARD_CONFIG = {
+  WIDTH: 12,
+  HEIGHT: 14,
+  PLAYER_TERRITORY_ROWS: 3
+} as const;
+
+// ============================================================================
+// BASIC INTERFACES
+// ============================================================================
+
+/** Base stats object with all nine stats */
+export interface Stats {
+  [StatType.STR]: number;
+  [StatType.END]: number;
+  [StatType.DEF]: number;
+  [StatType.INT]: number;
+  [StatType.SPI]: number;
+  [StatType.MDF]: number;
+  [StatType.SPD]: number;
+  [StatType.ACC]: number;
+  [StatType.LCK]: number;
+}
+
+/** Growth rates for each stat when leveling */
+export interface GrowthRates {
+  [StatType.STR]: GrowthRate;
+  [StatType.END]: GrowthRate;
+  [StatType.DEF]: GrowthRate;
+  [StatType.INT]: GrowthRate;
+  [StatType.SPI]: GrowthRate;
+  [StatType.MDF]: GrowthRate;
+  [StatType.SPD]: GrowthRate;
+  [StatType.ACC]: GrowthRate;
+  [StatType.LCK]: GrowthRate;
+}
+
+/** Unique identifier for any game entity */
+export type EntityId = string;
+
+/** Base interface for all identifiable game entities */
+export interface Entity {
+  id: EntityId;
+  name: string;
+  description?: string;
+}
+
+/** Player identification */
+export interface Player extends Entity {
+  victoryPoints: number;
+}
+
+// ============================================================================
+// UTILITY TYPES
+// ============================================================================
+
+/** Numeric range for validation */
+export interface NumericRange {
+  min: number;
+  max: number;
+}
+
+/** Probability percentage (0-100) */
+export type Percentage = number;
+
+/** Level range for summons */
+export const LEVEL_RANGE: NumericRange = { min: 5, max: 20 };
+
+/** Maximum hand size before discarding */
+export const MAX_HAND_SIZE = 6;
+
+/** Victory points needed to win */
+export const VICTORY_POINTS_TO_WIN = 3;

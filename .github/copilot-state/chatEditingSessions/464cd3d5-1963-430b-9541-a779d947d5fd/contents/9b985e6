@@ -1,0 +1,23 @@
+/**
+ * Game engine exports
+ */
+
+export * from './calculations';
+
+// Re-export for convenience
+export {
+  calculateStat,
+  calculateAllStats,
+  DERIVED_STATS,
+  calculateBasicAttackDamage,
+  calculateRangedAttackDamage,
+  calculateMagicalAttackDamage,
+  calculateHealing,
+  rollCritical,
+  rollHit,
+  rollPercentage,
+  isValidLevel,
+  isValidCoordinate,
+  calculateDistance,
+  isWithinRange
+} from './calculations';

@@ -1,0 +1,34 @@
+{
+    "id": "003-stoneheart_template-Alpha:playerB.2025-03-12T00:05:24.751Z/12.14.11.9.9.6.7.8.8.++._._._.+.-._.+._/c28e4f34-f8aa-4c82-9c94-17bcda45d49b",
+    "display_name": "Stoneheart Warrior B",
+    "species": "stoneheart",
+    "card_type": "summon",
+    "attribute": "fire",
+    "base_stats": {
+        "STR": 12,
+        "END": 14,
+        "DEF": 11,
+        "INT": 9,
+        "SPI": 9,
+        "MDF": 6,
+        "SPD": 7,
+        "LCK": 8,
+        "ACC": 8
+    },
+    "growth_rates": {
+        "STR": 1.5,
+        "END": 1,
+        "DEF": 1,
+        "INT": 1,
+        "SPI": 1.33,
+        "MDF": 0.66,
+        "SPD": 1,
+        "LCK": 1.33,
+        "ACC": 1
+    },
+    "rarity": "uncommon",
+    "rank": 1,
+    "opened_date": "2025-03-12T00:05:24.751Z",
+    "opened_by": "playerB",
+    "template_id": "003-stoneheart_template-Alpha"
+}

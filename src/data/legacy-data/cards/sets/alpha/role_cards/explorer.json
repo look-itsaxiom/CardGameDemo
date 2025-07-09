@@ -1,0 +1,35 @@
+{
+    "id": "029-explorer-Alpha",
+    "name": "explorer",
+    "display_name": "Explorer",
+    "description": "A daring explorer who ventures into the unknown, using their wits and agility to navigate treacherous terrain and adapt to new environments.",
+    "card_type": "role",
+    "role_type": ["scout"],
+    "stat_modifiers": {
+        "STR": 1,
+        "END": 1.1,
+        "DEF": 1,
+        "INT": 1,
+        "SPI": 1,
+        "MDF": 1,
+        "SPD": 1.6,
+        "LCK": 1.5,
+        "ACC": 1
+    },
+    "requirements": {
+        "species": [
+            "gignen",
+            "fae",
+            "stoneheart",
+            "wilderling",
+            "demar",
+            "angar",
+            "creptilis"
+        ],
+        "role": {
+            "based_on": ["021-scout-Alpha"]
+        },
+        "min_level": 10
+    },
+    "tier": 2
+}

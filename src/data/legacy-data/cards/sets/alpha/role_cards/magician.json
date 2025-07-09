@@ -1,0 +1,31 @@
+{
+    "id": "021-magician-Alpha",
+    "name": "magician",
+    "display_name": "Magician",
+    "description": "A developing magic user learning to control the elements and cast powerful spells, using their intellect and creativity to overcome challenges.",
+    "card_type": "role",
+    "role_type": ["magician"],
+    "stat_modifiers": {
+        "STR": 1,
+        "END": 1,
+        "DEF": 1,
+        "INT": 1.25,
+        "SPI": 1.25,
+        "MDF": 1,
+        "SPD": 1,
+        "LCK": 1,
+        "ACC": 1
+    },
+    "requirements": {
+        "species": [
+            "gignen",
+            "fae",
+            "stoneheart",
+            "wilderling",
+            "demar",
+            "angar",
+            "creptilis"
+        ]
+    },
+    "tier": 1
+}

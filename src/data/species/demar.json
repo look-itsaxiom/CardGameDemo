@@ -1,0 +1,19 @@
+{
+    "name": "Alpha Demar Template",
+    "id": "006-demar_template-Alpha",
+    "description": "Inventive and clever devils, Demarkin excel in crafting and magical support.",
+    "species": "demar",
+    "base_stats": {
+        "STR": { "min": 4, "max": 10 },
+        "END": { "min": 6, "max": 10 },
+        "DEF": { "min": 6, "max": 10 },
+        "INT": { "min": 12, "max": 16 },
+        "SPI": { "min": 6, "max": 12 },
+        "MDF": { "min": 10, "max": 16 },
+        "SPD": { "min": 8, "max": 12 },
+        "LCK": { "min": 6, "max": 10 },
+        "ACC": { "min": 8, "max": 14 }
+    },
+    "card_type": "summon_template",
+    "attribute": "dark"
+}

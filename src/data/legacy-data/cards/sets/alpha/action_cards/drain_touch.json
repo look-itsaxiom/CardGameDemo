@@ -1,0 +1,53 @@
+{
+  "id": "012-drain_touch-Alpha",
+  "name": "drain_touch",
+  "display_name": "Drain Touch",
+  "description": "A close-range attack that siphons life from a target, dealing damage and healing the caster.",
+  "card_type": "action",
+  "caster": {
+    "role_type": "magician"
+  },
+  "target": {
+    "type": "summon",
+    "zone": "in_play",
+    "controller": "any",
+    "amount": 1,
+    "range_from_caster": 1
+  },
+  "play_requirements": {
+    "caster_valid": true,
+    "target_valid": true
+  },
+  "resolve_requirements": {
+    "caster_valid": true,
+    "target_valid": true
+  },
+  "trigger": ["on_play"],
+  "resolve_timing": ["immediate"],
+  "effects": [
+    {
+      "type": "damage",
+      "base_accuracy": 0.9,
+      "hit_formula": "standard",
+      "damage_formula": "caster.INT * (1 + base_power/100) * (caster.INT / target.MDF)",
+      "damage_type": "magical",
+      "damage_attribute": "dark",
+      "base_power": 30,
+      "can_crit": true,
+      "crit_multiplier": 1.5,
+      "crit_formula": "standard"
+    },
+    {
+      "type": "healing",
+      "specific_trigger": "on_summon_damage_by_this_effect",
+      "healing_formula": "damage * 0.5",
+      "healing_type": "magical",
+      "healing_attribute": "dark",
+      "base_power": 20,
+      "can_crit": false
+    }
+  ],
+  "attribute": "dark",
+  "rarity": "uncommon",
+  "zone_after_resolve": "discard"
+}

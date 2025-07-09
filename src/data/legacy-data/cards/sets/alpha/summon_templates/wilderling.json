@@ -1,0 +1,33 @@
+{
+    "name": "Alpha Wilderling Template",
+    "description": "Agile and primal, Wilderlings possess keen senses and have deep rooted physical prowess.",
+    "id": "004-wilderling_template-Alpha",
+    "species": "wilderling",
+    "base_stats": {
+        "STR": { "min": 10, "max": 16 },
+        "END": { "min": 8, "max": 12 },
+        "DEF": { "min": 6, "max": 10 },
+        "INT": { "min": 6, "max": 10 },
+        "SPI": { "min": 6, "max": 12 },
+        "MDF": { "min": 6, "max": 10 },
+        "SPD": { "min": 10, "max": 16 },
+        "LCK": { "min": 6, "max": 10 },
+        "ACC": { "min": 10, "max": 14 }
+    },
+    "card_type": "summon_template",
+    "attribute": "wind",
+    "rarity_probability": {
+        "common": {
+            "probability": 0.2
+        },
+        "uncommon": {
+            "probability": 0.5
+        },
+        "rare": {
+            "probability": 0.25
+        },
+        "legend": {
+            "probability": 0.05
+        }
+    }
+}
