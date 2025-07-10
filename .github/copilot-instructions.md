@@ -1,11 +1,32 @@
 # Github Copilot Instructions
 
 This project is an indie game development project focused on creating a card game demo using Typescript based Phaser 3/React.
-Currently, the project operates using stubbed data from the /data directory and user data defined directly in the application but the goal is to eventuall become a fully fledged
+Currently, the project operates using stubbed data from the /data directory and user data defined directly in the application but the goal is to eventually become a fully fledged
 full-stack web application with a backend API and database including user authentication and authorization, multiplayer support, and a full card game engine.
 
 All code is written in Typescript, React handles the website frontend, and Phaser 3 is used for the game itself.
 The project is structured to separate the game logic from the UI logic, allowing for easier testing and maintenance.
+
+## Type System & Architecture
+
+**Core Type Definitions:** All game entities, relationships, and data structures are defined in `src/types/index.ts`. This includes:
+
+-   **Digital Provenance System:** Unique Summon cards with cryptographic signatures and ownership tracking
+-   **Species System:** Templates for generating unique Summon cards with stat ranges and trait effects
+-   **Role Advancement Trees:** Complex branching progression system with multi-path convergence at Tier 3
+-   **Board System:** Grid Engine compatible with typed layers for pathfinding integration
+-   **Effect System:** Data-driven triggers, requirements, and effects with stack-based resolution
+-   **Ongoing/Delayed Effects:** Persistent and scheduled effects tracking at game state level
+
+**Data-Driven Design:** All card mechanics, effects, and rules are defined as structured data that the engine interprets, not hardcoded logic.
+
+## Technical Integration
+
+**boardgame.io:** Used for authoritative game state management, turn-based phase system, and multiplayer support. All game actions are structured as boardgame.io moves.
+
+**Grid Engine:** Board system designed for integration with Grid Engine npm package for pathfinding and movement calculations.
+
+**Effect System:** Custom trigger/response system with speed levels (Action/Reaction/Counter) and stack-based resolution rather than json-rules-engine for precise timing control.
 
 When writing code, please follow these guidelines:
 
@@ -24,6 +45,20 @@ When writing code, please follow these guidelines:
 13. Only implement and write code that has been approved by the prompter.
 14. Never make assumptions regarding the project structure, existing code, intended functionality, design patterns, or any other aspect of the project. Always ask for clarification if needed.
 
+## Card Implementation Guidelines
+
+**Type Compliance:** All cards must implement the appropriate interfaces from `src/types/index.ts` (SummonCard, ActionCard, EquipmentCard, etc.).
+
+**Effect Structure:** Card effects must use the standardized Effect interface with proper targeting rules and parameter structures.
+
+**Species References:** Use `speciesId` strings to reference Species definitions, never embed species data directly in cards.
+
+**Role Advancement:** When creating advancement cards, ensure proper bidirectional relationships in role trees and validate tier requirements.
+
+**Digital Signatures:** Summon cards require unique digital signatures with timestamp, opener, and cryptographic signature.
+
+**Ongoing Effects:** Use OngoingEffect and DelayedEffect interfaces for persistent or scheduled effects rather than ad-hoc implementations.
+
 # The Goal
 
 The game being developed is a tactical grid based rpg card game with a fantasy theme. Players will be able to collect cards, build decks, and battle against each other or AI opponents at full realization.
@@ -31,11 +66,11 @@ Currently, we are focused on creating a demo that showcases the core gameplay me
 
 The demo will include:
 
-- A deck builder UI for creating and managing decks.
-- A card shop UI for purchasing and acquiring new cards. (fake currency for now)
-- A card collection UI for viewing and managing collected cards.
-- A game board UI for playing the game, including a grid-based layout for placing cards and interacting with them.
-- A game engine that handles the core gameplay mechanics, including card interactions, turn management, and win/loss conditions.
+-   A deck builder UI for creating and managing decks.
+-   A card shop UI for purchasing and acquiring new cards. (fake currency for now)
+-   A card collection UI for viewing and managing collected cards.
+-   A game board UI for playing the game, including a grid-based layout for placing cards and interacting with them.
+-   A game engine that handles the core gameplay mechanics, including card interactions, turn management, and win/loss conditions.
 
 # The Game Mechanics
 
@@ -50,10 +85,10 @@ an "advance" deck
 
 A "summon slot" is its own grouping of cards that consists of:
 
-- 1 "summon" card that is placed in the slot and represents the main card for that slot.
-- 1 "role" card that defines the tier 1 role or class of the summon (e.g., scout, magician, warrior, etc.).
-- multiple "equipment" card slots that can be placed on the summon card to enhance its abilities or provide additional effects.
-  - Equipment card slots include 1 weapon, 1 offhand, 1 armor, and 1 accessory slot.
+-   1 "summon" card that is placed in the slot and represents the main card for that slot.
+-   1 "role" card that defines the tier 1 role or class of the summon (e.g., scout, magician, warrior, etc.).
+-   multiple "equipment" card slots that can be placed on the summon card to enhance its abilities or provide additional effects.
+    -   Equipment card slots include 1 weapon, 1 offhand, 1 armor, and 1 accessory slot.
 
 "summon" cards are cards that players pull from packs that are randomly generated from summon templates and completely unique.
 Each summon card generates base stats based on its species, and growth rates for each stat based on probability tables based on the rarity of the card.
@@ -68,14 +103,14 @@ The combination of all these cards in a summon slot synthesize a summon card tha
 
 The main deck is a collection of cards that players draw from during the game. Card types as of this writing include: Action cards, Building cards, Quest cards, Counter cards, and Reaction cards.
 
-- Action cards are played during a player's main phase and have various effects, they usually have requirements to be played such as having a summon with a certain role and valid targets in play. Action cards usually are played, their effects resolve, and then move to either the Recharge or Discard piles, more on this later.
-- Building cards are played during a player's main phase and represent permenants that provide ongoing effects on specific spaces on the game board. They can be placed on the board and remain in play until destroyed or removed by an effect. Building cards also have requirements to be played such as having valid spaces to place them on, or a summon with a certain role.
-  - A special sub-type of Building card is the "Building - Trap" card, which is a building that is secretly placed facedown in the In Play Zone and can be activated when an opponent's summon moves into its space. When activated, it reveals its effect and resolves it, then is moved to the Recharge or Discard piles.
-- Quest cards are played during a player's main phase and can vary a bit, but generally represent objectives that players can complete for rewards, or ways for players to level their summons faster than the normal rate. Quest cards are either resolved immediately and moved to the Recharge or Discard piles, or remain in play until completed or failed.
-- Counter cards must be played face down in the In Play Zone before they can be activated and resolved. Once they've been set in this way, any time their trigger condition is met, their controlling player can activate them to resolve their effect. Counter cards are usually played in response to an opponent's action or effect, and can be used to disrupt their plans or gain an advantage. Counter cards are moved to the Recharge or Discard piles after being activated.
-- Reaction cards are played in response to an opponent's action or effect even from a player's hand, and can be used to disrupt their plans or gain an advantage.
-  They can be played from the hand on a players turn, or set facedown in the In Play Zone and activated on your opponents turn. Reaction cards differ from Counter cards in that they don't have specific trigger conditions for activation but their effects are less potent.
-  Reaction cards are moved to the Recharge or Discard piles after being activated.
+-   Action cards are played during a player's main phase and have various effects, they usually have requirements to be played such as having a summon with a certain role and valid targets in play. Action cards usually are played, their effects resolve, and then move to either the Recharge or Discard piles, more on this later.
+-   Building cards are played during a player's main phase and represent permenants that provide ongoing effects on specific spaces on the game board. They can be placed on the board and remain in play until destroyed or removed by an effect. Building cards also have requirements to be played such as having valid spaces to place them on, or a summon with a certain role.
+    -   A special sub-type of Building card is the "Building - Trap" card, which is a building that is secretly placed facedown in the In Play Zone and can be activated when an opponent's summon moves into its space. When activated, it reveals its effect and resolves it, then is moved to the Recharge or Discard piles.
+-   Quest cards are played during a player's main phase and can vary a bit, but generally represent objectives that players can complete for rewards, or ways for players to level their summons faster than the normal rate. Quest cards are either resolved immediately and moved to the Recharge or Discard piles, or remain in play until completed or failed.
+-   Counter cards must be played face down in the In Play Zone before they can be activated and resolved. Once they've been set in this way, any time their trigger condition is met, their controlling player can activate them to resolve their effect. Counter cards are usually played in response to an opponent's action or effect, and can be used to disrupt their plans or gain an advantage. Counter cards are moved to the Recharge or Discard piles after being activated.
+-   Reaction cards are played in response to an opponent's action or effect even from a player's hand, and can be used to disrupt their plans or gain an advantage.
+    They can be played from the hand on a players turn, or set facedown in the In Play Zone and activated on your opponents turn. Reaction cards differ from Counter cards in that they don't have specific trigger conditions for activation but their effects are less potent.
+    Reaction cards are moved to the Recharge or Discard piles after being activated.
 
 The "advance" deck is a collection of cards that players can play during the game to "advance" or promote their summons to roles of higher tiers or to Named Summons.
 Regardless, cards in the advance deck have strict requirements for summons to meet before they can be played but are always available to the player when their summons meet them.
@@ -98,18 +133,18 @@ The other zones are the In Play Zone, and the 12x14 Game Board square grid that 
    It is shuffled at the start of the game and whenever it is searched through to add a specific card to the player's hand or when a card is moved to the Discard Pile directly from it.
    The general rule of practice is when a player would need to pick up and search through the Main Deck to find a card to resolve an effect, they should shuffle the deck afterwards.
 
-   - When the Main Deck is depleted and a draw is required, the player attempts to shuffle their Recharge Pile into their Main Deck. If the Recharge Pile is also empty, then that draw attempt fails.
+    - When the Main Deck is depleted and a draw is required, the player attempts to shuffle their Recharge Pile into their Main Deck. If the Recharge Pile is also empty, then that draw attempt fails.
 
 3. The Advance Deck is where players keep their cards that can be played to advance their summons.
    These cards are almost an extension of the player's hand but removed into their own zone since it isn't always that they're requirements are met for use.
    However, when those requirements are met, players can play cards from their Advance Deck at any time during their Action Phase.
 4. The Discard Pile and Recharge Pile are where cards go when they are removed from play or resolved.
 
-- Which Pile they go to is usually indicated on the card itself or by the effect that removed them but if not, each card type has a default behavior:
-  - Counter, Building, and Quest go to the Discard Pile when resolved.
-  - Action and Reaction cards go to the Recharge Pile when activated.
-  - Summon cards and other unique cards are removed from play completely (not a zone) when they leave the In Play Zone.
-- As mentioned, the Recharge Pile is shuffled into the Main Deck when it is depleted and a draw is required.
+-   Which Pile they go to is usually indicated on the card itself or by the effect that removed them but if not, each card type has a default behavior:
+    -   Counter, Building, and Quest go to the Discard Pile when resolved.
+    -   Action and Reaction cards go to the Recharge Pile when activated.
+    -   Summon cards and other unique cards are removed from play completely (not a zone) when they leave the In Play Zone.
+-   As mentioned, the Recharge Pile is shuffled into the Main Deck when it is depleted and a draw is required.
 
 5. The In Play Zone is where cards that are currently active in the game reside. This includes Summons, Buildings, Counters, Quests and any other cards that have been played and are affecting the game state.
 6. The Game Board is where the Summons and Buildings are placed during the game. It is a 12x14 grid with each player controlling the first 3 rows on their side of the board.
@@ -120,25 +155,25 @@ The player's turn is decided by a coin flip at the start of the game, and each t
 2. Level Phase: All Summons the turn player controls currently in play gain 1 level.
 3. Action Phase: The only restrictions on this phase are that a player is only able to perform a normal turn summon once per turn, Summons In Play can only attack once per turn, and can move spaces up to their movement speed value per turn.
 
-- ex. A summon with a movement speed of 2 can choose to move 1 space, then attack, the player can perform other actions, and then that summon can finish their remaining movement at any point during the Action Phase.
-- Player can only play a single Summon per turn unless otherwise specified by a card effect, this single summon is refered to as a "Turn Summon" and triggers what is called "Summon Draws". When a "Turn Summon" resolves, the player draws 3 cards from their main deck into their hand.
-- Beyond these restrictions, players can perform any number of actions during this phase assuming they have the resources and meet the requirements or trigger conditions to do so.
+-   ex. A summon with a movement speed of 2 can choose to move 1 space, then attack, the player can perform other actions, and then that summon can finish their remaining movement at any point during the Action Phase.
+-   Player can only play a single Summon per turn unless otherwise specified by a card effect, this single summon is refered to as a "Turn Summon" and triggers what is called "Summon Draws". When a "Turn Summon" resolves, the player draws 3 cards from their main deck into their hand.
+-   Beyond these restrictions, players can perform any number of actions during this phase assuming they have the resources and meet the requirements or trigger conditions to do so.
 
 4. End Phase: Once a player has run out of actions to perform, they designate the end of their turn and the End Phase begins and resolves.
 
-- If the turn player has more than 6 cards in their hand, they'll need to send cards to the Recharge pile until they have 6 cards left in hand.
-- Once the End Phase resolves, the next player's turn begins.
+-   If the turn player has more than 6 cards in their hand, they'll need to send cards to the Recharge pile until they have 6 cards left in hand.
+-   Once the End Phase resolves, the next player's turn begins.
 
 The primary objective of the game is to accrue 3 Victory Points (VP) by defeating the opponent's Summons, completing certain Quest cards, or by making a direct attack on the opponent's territory while there are no opposing Summons inside it.
 
-- When a Tier 1 Summon drops to 0 HP, it is removed from the In Play Zone and from the game completely. At that time, the player opposing the player who controlled the defeated Summon gains 1 VP.
-- When a Tier 2 Summon drops to 0 HP, it is removed from the In Play Zone and from the game completely. At that time, the player opposing the player who controlled the defeated Summon gains 2 VP.
-- When a Summon you control is within your opponent's territory and there are no opposing Summons in that territory, you can make a direct attack on the opponent's territory to gain 1 VP.
-- Some card effects can grant or remove VP from players.
+-   When a Tier 1 Summon drops to 0 HP, it is removed from the In Play Zone and from the game completely. At that time, the player opposing the player who controlled the defeated Summon gains 1 VP.
+-   When a Tier 2 Summon drops to 0 HP, it is removed from the In Play Zone and from the game completely. At that time, the player opposing the player who controlled the defeated Summon gains 2 VP.
+-   When a Summon you control is within your opponent's territory and there are no opposing Summons in that territory, you can make a direct attack on the opponent's territory to gain 1 VP.
+-   Some card effects can grant or remove VP from players.
 
-- When a player reaches 3 VP, they win the game.
-- If both players reach 3 VP at the same time, the player with the most Summons in play wins the game.
-- If both players reach 3 VP at the same time and have the same number of Summons in play, then the game is a draw.
+-   When a player reaches 3 VP, they win the game.
+-   If both players reach 3 VP at the same time, the player with the most Summons in play wins the game.
+-   If both players reach 3 VP at the same time and have the same number of Summons in play, then the game is a draw.
 
 ## Play Mechanics
 
@@ -242,14 +277,14 @@ Roles don't contribute to the growth of stats but represent a boost to them as a
 
 Now that we have determined the Current Stats of a Summon Unit at a given level, we can calculate its other properties such as:
 
-- Max HP: MaxHP = 50 + Floor(END ^ 1.5)
-- Movement Speed: MV = 2 + Floor((SPD - 10) / 5)
-- Basic Attack To Hit Chance: ToHit = 90 + (ACC / 10)
-- Basic Attack Damage: Damage = STR x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT
-  - IF_CRIT is a multiplier that applies when a critical hit occurs, 1.5x damage.
-- Attack Range: Determined by the Weapon card equipped to the Summon Unit.
-- Critical Hit Chance: CritChance = Floor((LCK x 0.3375) + 1.65)
-- Standard Ability To Hit Chance: AbilityToHit = AbilityAccuracy + (ACC / 10)
+-   Max HP: MaxHP = 50 + Floor(END ^ 1.5)
+-   Movement Speed: MV = 2 + Floor((SPD - 10) / 5)
+-   Basic Attack To Hit Chance: ToHit = 90 + (ACC / 10)
+-   Basic Attack Damage: Damage = STR x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT
+    -   IF_CRIT is a multiplier that applies when a critical hit occurs, 1.5x damage.
+-   Attack Range: Determined by the Weapon card equipped to the Summon Unit.
+-   Critical Hit Chance: CritChance = Floor((LCK x 0.3375) + 1.65)
+-   Standard Ability To Hit Chance: AbilityToHit = AbilityAccuracy + (ACC / 10)
 
 Now that we have all these properties, we have a fully realized Summon Unit ready for battle in game.
 
@@ -296,7 +331,7 @@ CritChance = Floor((Player B's Fae Magician LCK x 0.3375) + 1.65) = Floor((13 x 
 A random number between 1 and 100 is generated, if it's less than or equal to 6, the attack crits. The random number generated is 73, so the attack does not crit.
 Now we can calculate the damage dealt by the attack using the formula designated by the card: "caster.INT x (1 + base_power /100) x (caster.INT / target.MDF)"
 Blast Bolt has a base power of 60 and the type of damage it deals is magical fire attribute damage.
-Damage = Player B's Fae Magician INT x (1 + Blast Bolt base power / 100) x (Player B's Fae Magician INT / Player A's Gignen Warrior MDF)
+Damage = Player B's Fae Magician INT x (1 + 60 / 100) x (Player B's Fae Magician INT / Player A's Gignen Warrior MDF)
 Damage = 19 x (1 + 60 / 100) x (19 / 11) = 19 x 1.6 x 1.7272 = 52.45408
 The damage is rounded down to 52.
 The last step in determining damage dealt is to apply any additional factors that may modify the damage dealt. This could be ongoing effects from other cards, resistances or weaknesses to certain damage types, or any other relevant factors.
@@ -427,7 +462,7 @@ Next we determine if the attack crits using the standard crit formula for basic 
 CritChance = Floor((Player A's Gignen Scout LCK x 0.3375) + 1.65) = Floor((27 x 0.3375) + 1.65) = Floor(9.1125 + 1.65) = Floor(10.7625) = 10%
 A random number between 1 and 100 is generated, if it's less than or equal to 10, the attack crits. The random number generated is 71, so the attack does not crit.
 Now we can calculate the damage dealt using the basic attack damage formula for the equipped weapon: "((STR + ACC) / 2) x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT"
-Damage = ((Player A's Gignen Scout STR + Player A's Gignen Scout ACC) / 2) x (1 + Weapon Power / 100) x (Player A's Gignen Scout STR / Player B's Wilderling Scout DEF) x IF_CRIT
+Damage = ((Player A's Gignen Scout STR + Player A's Gignen Scout ACC) / 2) x (1 + 30 / 100) x (15 / 12) x IF_CRIT
 Damage = ((15 + 16) / 2) x (1 + 30 / 100) x (15 / 12) x 1 = (31 / 2) x 1.3 x 1.25 x 1 = 15.5 x 1.3 x 1.25 x 1 = 25.1875
 The damage is rounded down to 25.
 Player B's Wilderling Scout takes 25 damage, reducing its HP from 114 to 89.
@@ -437,14 +472,14 @@ Turn 6 - Player B:
 Player B begins their turn by drawing a card from their Main Deck, adding it to their hand during their Draw Phase. The card they draw is "Life Alchemy".
 With their Fae Magician and Wilderling Scout in play, they both level up during their Level Phase.
 Player B's Fae Magician levels up from 6 to 7 during their Level Phase.
-Player B's Fae Magician's stats are recalculated for level 7 per its Growth Rates: HP 10/108, MV 3, STR 15, END 15, DEF 17, INT 27, SPI 29, MDF 18, SPD 18, LCK 15, ACC 17
+Player B's Fae Magician's stats are recalculated for level 7 per its Growth Rates: HP 89/108, MV 3, STR 15, END 15, DEF 17, INT 27, SPI 29, MDF 18, SPD 18, LCK 15, ACC 17
 Player B's Wilderling Scout levels up from 5 to 6 during their Level Phase.
 Player B's Wilderling Scout's stats are recalculated for level 6 per its Growth Rates: HP 89/120, MV 6, STR 18, END 17, DEF 13, INT 15, SPI 14, MDF 10, SPD 31, LCK 20, ACC 25
 Player B begins their Action Phase by inspecting their hand to formulate a plan and grins to themselves.
 Player B selects "Ensnare" from their hand, requiring a Scout based Summon to be in play, designates their Wilderling Scout as the caster, and targets Player A's Gignen Berserker for the card's effect.
 Player B's "Ensnare" enters the In Play Zone and with no response available from Player A, resolves its effect.
 Ensnare's effect causes the caster to make a ranged attack against a target Summon, and if it hits, the target is potentially immobilized until the end of the opponent's next turn.
-First, we need to determine if the ranged attack effect hits. Ensnare designates its own unique hit formula to be used: "base_accuracy + (caster.ACC / 10) + (caster.LCK / 10)"
+First, we need to determine if the ranged attack effect hits. Ensnare designates its own unique hit formula to be used: "base*accuracy + (caster.ACC / 10) + (caster.LCK / 10)"
 Ensnare has a base accuracy of 75.
 ToHit = 75 + (Player B's Wilderling Scout ACC / 10) + (Player B's Wilderling Scout LCK / 10) = 75 + (25 / 10) + (20 / 10) = 75 + 2.5 + 2 = 79.5%
 A random number between 1 and 100 is generated, if it's less than or equal to 79.5, the attack hits. The random number generated is 47, so the attack hits.
@@ -482,14 +517,13 @@ CritChance = Floor((Player B's Fae Magician LCK x 0.3375) + 1.65) = Floor((15 x 
 A random number between 1 and 100 is generated, if it's less than or equal to 6, the attack crits. The random number generated is 33, so the attack does not crit.
 Now we can calculate the damage dealt using the formula designated by the card: "caster.INT x (1 + base_power /100) x (caster.INT / target.MDF)"
 Drain Touch has a base power of 30 and the type of damage it deals is magical dark attribute damage.
-Damage = Player B's Fae Magician INT x (1 + Drain Touch base power / 100) x (Player B's Fae Magician INT / Player A's Gignen Berserker MDF)
-Damage = 27 x (1 + 30 / 100) x (27 / 15) = 27 x 1.3 x 1.8 = 63.18
+Damage = Player B's Fae Magician INT x (1 + 30 / 100) x (27 / 15) = 27 x 1.3 x 1.8 = 63.18
 The damage is rounded down to 63.
 The last step in determining damage dealt is to apply any additional factors that may modify the damage dealt. This could be ongoing effects from other cards, resistances or weaknesses to certain damage types, or any other relevant factors.
 In this case, there are no additional factors to consider, so the final damage dealt is 63.
 Player A's Gignen Berserker takes 63 damage, reducing its HP from 133 to 70.
-The second part of Drain Touch's effect triggers off the damage dealt, healing the caster for a designated formula: "damage_dealt _ 0.5"
-Heal Amount = Damage Dealt _ 0.5 = 63 \* 0.5 = 31.5
+The second part of Drain Touch's effect triggers off the damage dealt, healing the caster for a designated formula: "damage_dealt * 0.5"
+Heal Amount = Damage Dealt \_ 0.5 = 63 \* 0.5 = 31.5
 The heal amount is rounded down to 31.
 Player B's Fae Magician heals 31 HP, increasing its HP from 10/108 to 41/108.
 Once the effect resolves, "Drain Touch" is moved to Player B's Discard Pile, as designated by the card.
@@ -506,7 +540,7 @@ Next we determine if the attack crits using the standard crit formula for basic 
 CritChance = Floor((Player B's Wilderling Scout LCK x 0.3375) + 1.65) = Floor((20 x 0.3375) + 1.65) = Floor(6.75 + 1.65) = Floor(8.4) = 8%
 A random number between 1 and 100 is generated, if it's less than or equal to 8, the attack crits. The random number generated is 77, so the attack does not crit.
 Now we can calculate the damage dealt using the basic attack damage formula for the equipped weapon: "((STR + ACC) / 2) x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT"
-Damage = ((Player B's Wilderling Scout STR + Player B's Wilderling Scout ACC) / 2) x (1 + Weapon Power / 100) x (Player B's Wilderling Scout STR / Player A's Gignen Magician DEF) x IF_CRIT
+Damage = ((Player B's Wilderling Scout STR + Player B's Wilderling Scout ACC) / 2) x (1 + 30 / 100) x (18 / 14) x IF_CRIT
 Damage = ((18 + 25) / 2) x (1 + 30 / 100) x (18 / 14) x 1 = (43 / 2) x 1.3 x 1.2857 x 1 = 21.5 x 1.3 x 1.2857 x 1 = 35.942855
 The damage is rounded down to 35.
 Player A's Gignen Magician takes 35 damage, reducing its HP from 108 to 73.
@@ -517,7 +551,7 @@ Next we determine if the attack crits using the standard crit formula for basic 
 CritChance = Floor((Player B's Wilderling Scout LCK x 0.3375) + 1.65) = Floor((20 x 0.3375) + 1.65) = Floor(6.75 + 1.65) = Floor(8.4) = 8%
 A random number between 1 and 100 is generated, if it's less than or equal to 8, the attack crits. The random number generated is 10, so the attack does not crit.
 Now we can calculate the damage dealt using the basic attack damage formula for the equipped weapon: "((STR + ACC) / 2) x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT"
-Damage = ((Player B's Wilderling Scout STR + Player B's Wilderling Scout ACC) / 2) x (1 + Weapon Power / 100) x (Player B's Wilderling Scout STR / Player A's Gignen Magician DEF) x IF_CRIT
+Damage = ((Player B's Wilderling Scout STR + Player B's Wilderling Scout ACC) / 2) x (1 + 30 / 100) x (18 / 14) x IF_CRIT
 Damage = ((18 + 25) / 2) x (1 + 30 / 100) x (18 / 14) x 1 = (43 / 2) x 1.3 x 1.2857 x 1 = 21.5 x 1.3 x 1.2857 x 1 = 35.942855
 The damage is rounded down to 35.
 Player A's Gignen Magician takes 35 damage, reducing its HP from 73 to 38.
@@ -561,7 +595,6 @@ Next we determine if the attack crits using the standard crit formula for basic 
 CritChance = Floor((Player A's Alrecht Barkstep, Scoutmaster LCK x 0.3375) + 1.65) = Floor((37 x 0.3375) + 1.65) = Floor(12.4875 + 1.65) = Floor(14.1375) = 14%
 A random number between 1 and 100 is generated, if it's less than or equal to 14, the attack crits. The random number generated is 20, so the attack does crit.
 Now we can calculate the damage dealt, first by the weapon attack using the basic attack damage formula for the equipped weapon: "((STR+ACC)/2) x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT"
-Damage = ((Player A's Alrecht Barkstep, Scoutmaster STR + Player A's Alrecht Barkstep, Scoutmaster ACC) / 2) x (1 + Weapon Power / 100) x (Player A's Alrecht Barkstep, Scoutmaster STR / Player B's Wilderling Scout DEF) x IF_CRIT
 Damage = ((24 + 43) / 2) x (1 + 30 / 100) x (24 / 13) x 1.5 = (67 / 2) x 1.3 x 1.8461538461538463 x 1.5 = 33.5 x 1.3 x 1.8461538461538463 x 1.5 = 130.5
 The damage is rounded down to 130.
 Check for any additional factors that may modify the damage dealt. In this case, there are no additional factors to consider, so the final damage dealt is 130.
@@ -586,7 +619,7 @@ Player B's Fae Magician's stats are recalculated for level 8 per its Growth Rate
 Player B begins their Action Phase, beginning to worry about the board state.
 Player B uses their Turn Summon to play their Stoneheart Warrior, selecting a valid space in their territory: (4,12). Inside of the Dark Altar's occupied spaces.
 The Summon Card enters the In Play Zone, revealing it to Player A and prompting a response. With no response available from Player A, the Summon materializes on the game board and its stats and properties are calculated:
-Player B's Summon: Species: Stoneheart, Role: Warrior, Level 5, HP 146/146 STR 14, END 12, DEF 11, INT 6, SPI 11, MDF 8, SPD 9, LCK 11, ACC 9, Growth Rates: STR 1.33, END 1, DEF 1, INT 1, SPI 1.33, MDF 1.5, SPD 1, LCK 0.66, ACC 1.5, Equipment: "Heirloom Sword" (038-heirloom_sword-Alpha) 
+Player B's Summon: Species: Stoneheart, Role: Warrior, Level 5, HP 146/146 STR 14, END 12, DEF 11, INT 6, SPI 11, MDF 8, SPD 9, LCK 11, ACC 9, Growth Rates: STR 1.33, END 1, DEF 1, INT 1, SPI 1.33, MDF 1.5, SPD 1, LCK 0.66, ACC 1.5, Equipment: "Heirloom Sword" (038-heirloom_sword-Alpha)
 Successfully performing their Turn Summon, Player B draws their 3 Summon Draws but does not have quite enough cards in their Main Deck to draw 3, so they draw 2 cards instead then shuffle their Recharge Pile to form a new Main Deck and draw their last card.
 Player B's Summon Draws are "Obliterate", "Stonewarden's Command", and "Blast Bolt". 2 Action Cards and a Reaction Card.
 Player B moves their Fae Magician a space forward to (5,12) to be adjacent to their Stoneheart Warrior.
@@ -654,11 +687,8 @@ Next we determine if the attack crits using the standard crit formula for basic 
 CritChance = Floor((Player A's Alrecht Barkstep, Scoutmaster LCK x 0.3375) + 1.65) = Floor((39 x 0.3375) + 1.65) = Floor(13.1625 + 1.65) = Floor(14.8125) = 14%
 A random number between 1 and 100 is generated, if it's less than or equal to 14, the attack crits. The random number generated is 40, so the attack does not crit.
 Now we can calculate the damage dealt using the basic attack damage formula for the equipped weapon: "((STR + ACC) / 2) x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT"
-Damage = ((Player A's Alrecht Barkstep, Scoutmaster STR + Player A's Alrecht Barkstep, Scoutmaster ACC) / 2) x (1 + Weapon Power / 100) x (Player A's Alrecht Barkstep, Scoutmaster STR / Player B's Fae Magician DEF) x IF_CRIT
-Due to the current effect of Magician's Sanctum, Player B's Fae Magician's DEF for this calculation is increased by half of its MDF.
-Player B's Fae Magician MDF is 41, so its DEF is increased by 20.5, rounded to 20.
-Player B's Fae Magician's DEF is treated as 50 for this calculation.
-Damage = ((25 + 45) / 2) x (1 + 30 / 100) x (25 / 50) x 1 = (70 / 2) x 1.3 x 0.5 x 1 = 35 x 1.3 x 0.5 x 1 = 22.75
+Damage = ((25 + 45) / 2) x (1 + 30 / 100) x (25 / 50) x IF_CRIT
+Damage = (70 / 2) x 1.3 x 0.5 x 1 = 35 x 1.3 x 0.5 x 1 = 22.75
 The damage is rounded down to 22.
 Player B's Fae Magician takes 22 damage, reducing its HP from 167 to 145.
 Check for any additional factors that may modify the damage dealt. In this case, there are no additional factors to consider, so the final damage dealt is 22.
@@ -675,7 +705,9 @@ CritChance = Floor((Player A's Gignen Berserker LCK x 0.3375) + 1.65) = Floor((3
 A random number between 1 and 100 is generated, if it's less than or equal to 14, the attack crits. The random number generated is 19, so the attack does not crit.
 Now we can calculate the damage dealt using the basic attack damage formula for the equipped weapon: "STR x (1 + Weapon Power / 100) x (STR / Target DEF) x IF_CRIT"
 Damage = Player A's Gignen Berserker STR x (1 + Weapon Power / 100) x (Player A's Gignen Berserker STR / Player B's Fae Magician DEF) x IF_CRIT
-Due to the current effect of Magician's Sanctum, Player B's Fae Magician's DEF is calculated as 50.
+Due to the current effect of Magician's Sanctum, Player B's Fae Magician's DEF for this calculation is increased by half of its MDF.
+Player B's Fae Magician MDF is 41, so its DEF is increased by 20.5, rounded to 20.
+Player B's Fae Magician's DEF is treated as 50 for this calculation.
 Damage = Player A's Gignen Berserker STR x (1 + 30 / 100) x (Player A's Gignen Berserker STR / Player B's Fae Magician DEF) x 1
 Damage = 48 x (1 + 30 / 100) x (48 / 50) x 1 = 48 x 1.3 x 0.96 x 1 = 60.672
 The damage is rounded down to 60.
@@ -715,3 +747,15 @@ Game Over - Player B Wins!
 In the future, my vision for this game is a fully realized multiplayer experience with microtransactions with in game currency to purchase card packs and cosmetic items.
 I also want to implement an auction house system for players to use in game currency to trade cards with each other.
 I have a lot of faith in this project and I believe it has the potential to be a great game but a lot hinges on the execution to create something that can be extended over time to create new and interesting mechanics and archetypes as the game evolves.
+
+## Engine Architecture Patterns
+
+**Authoritative State Management:** The game engine is the single source of truth. All game state changes flow through the engine, never through the UI directly.
+
+**Action-Based Commands:** All player interactions are converted to Action objects that the engine validates and processes. UI components submit actions, not direct state changes.
+
+**Event-Driven Updates:** The UI responds to state change events from the engine. Components re-render based on new state, maintaining reactive data flow.
+
+**Stack-Based Effect Resolution:** All card effects, triggers, and responses use a stack-based resolution system for precise timing control and player response windows.
+
+**Data-Driven Game Logic:** The engine interprets structured data (cards, effects, formulas) rather than executing hardcoded logic per card or mechanic.
