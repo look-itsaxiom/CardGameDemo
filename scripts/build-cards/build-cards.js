@@ -4,6 +4,7 @@ import { fileURLToPath } from "url";
 import { dirname, join } from "path";
 import { writeFile, mkdir } from "fs/promises";
 import { existsSync } from "fs";
+import { pathToFileURL } from "url";
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
@@ -28,9 +29,13 @@ async function buildCardDatabase() {
         }
 
         // Import the card database from TypeScript
-        // Note: This requires the TypeScript files to be compiled first
-        // In a real build process, we'd use ts-node or compile first
-        const { cardDatabase } = await import(`${CARDS_INPUT}/index.js`);
+        // Convert Windows path to file URL for ESM imports
+        const indexPath = join(CARDS_INPUT, "index.js");
+        const indexURL = pathToFileURL(indexPath).href;
+
+        console.log(`📥 Importing from: ${indexURL}`);
+
+        const { cardDatabase } = await import(indexURL);
 
         // Serialize to JSON with formatting
         const jsonOutput = JSON.stringify(cardDatabase, null, 2);
