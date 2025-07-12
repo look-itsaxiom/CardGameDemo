@@ -1,7 +1,7 @@
 import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
 
 /**
- * Sharpened Blade - Action Card (Alpha Set #001)
+ * Sharpened Blade - Action Card (Alpha Set #005)
  *
  * Requires: Control a Warrior-based summon equipped with a weapon
  * Effect: Permanently increases target weapon's base power by 10
@@ -12,7 +12,7 @@ import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
  */
 export const sharpenedBlade: ActionCard = {
     // Core card identity
-    id: "alpha-001-sharpened-blade-action",
+    id: "005-sharpen_blade-Alpha",
     name: "Sharpened Blade",
     type: CardType.ACTION,
     rarity: CardRarity.COMMON,

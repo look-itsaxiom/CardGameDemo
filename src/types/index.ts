@@ -191,6 +191,7 @@ export interface RoleCard extends BaseCard {
     statModifiers: Partial<BaseStats>; // Multipliers applied to base stats
     advancements?: RoleAdvancement[]; // What this role can advance to
     advancementSources?: CardId[]; // What roles can advance to this one (for reverse lookup)
+    effects?: Effect[]; // Special abilities for higher tier roles
 }
 
 // Equipment cards for customization

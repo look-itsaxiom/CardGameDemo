@@ -26,7 +26,10 @@
         "dev-nolog": "vite --config vite/config.dev.mjs",
         "build-nolog": "vite build --config vite/config.prod.mjs",
         "build:cards": "node scripts/build-cards/build-cards.js",
-        "build:cards:watch": "node scripts/build-cards/build-cards.js --watch"
+        "build:cards:watch": "node scripts/build-cards/build-cards.js --watch",
+        "test:alpha": "node scripts/tests/run-alpha-tests.js",
+        "test:progress": "node scripts/tests/progress-check.js",
+        "test:play-example": "node scripts/tests/play-example-check.js"
     },
     "dependencies": {
         "phaser": "^3.90.0",
