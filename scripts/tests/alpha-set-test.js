@@ -17,9 +17,9 @@ import { join } from "path";
 // Cards mentioned in the play example and legacy data
 const EXPECTED_CARDS = {
     action: [
-        { id: "001-blast_bolt-Alpha", name: "Blast Bolt", implemented: false },
+        { id: "001-blast_bolt-Alpha", name: "Blast Bolt", implemented: true },
         {
-            id: "005-sharpen_blade-Alpha",
+            id: "005-sharpened_blade-Alpha",
             name: "Sharpened Blade",
             implemented: true,
         },
@@ -28,29 +28,29 @@ const EXPECTED_CARDS = {
             name: "Healing Hands",
             implemented: true,
         },
-        { id: "009-rush-Alpha", name: "Rush", implemented: false },
-        { id: "011-ensnare-Alpha", name: "Ensnare", implemented: false },
+        { id: "009-rush-Alpha", name: "Rush", implemented: true },
+        { id: "011-ensnare-Alpha", name: "Ensnare", implemented: true },
         {
             id: "012-drain_touch-Alpha",
             name: "Drain Touch",
-            implemented: false,
+            implemented: true,
         },
         {
             id: "013-adventurous_spirit-Alpha",
             name: "Adventurous Spirit",
-            implemented: false,
+            implemented: true,
         },
         {
             id: "015-spell_recall-Alpha",
             name: "Spell Recall",
-            implemented: false,
+            implemented: true,
         },
         {
             id: "016-life_alchemy-Alpha",
             name: "Life Alchemy",
-            implemented: false,
+            implemented: true,
         },
-        { id: "017-dual_shot-Alpha", name: "Dual Shot", implemented: false },
+        { id: "017-dual_shot-Alpha", name: "Dual Shot", implemented: true },
     ],
     role: [
         { id: "020-warrior-Alpha", name: "Warrior", implemented: true },
@@ -72,23 +72,23 @@ const EXPECTED_CARDS = {
         { id: "032-warlock-Alpha", name: "Warlock", implemented: true },
     ],
     building: [
-        { id: "050-dark_altar-Alpha", name: "Dark Altar", implemented: false },
+        { id: "010-dark_altar-Alpha", name: "Dark Altar", implemented: true },
         {
-            id: "051-gignen_country-Alpha",
+            id: "004-gignen_country-Alpha",
             name: "Gignen Country",
-            implemented: false,
+            implemented: true,
         },
     ],
     quest: [
         {
             id: "060-nearwood_forest_expedition-Alpha",
             name: "Nearwood Forest Expedition",
-            implemented: false,
+            implemented: true,
         },
         {
-            id: "061-taste_of_battle-Alpha",
+            id: "003-taste_of_battle-Alpha",
             name: "Taste of Battle",
-            implemented: false,
+            implemented: true,
         },
     ],
     counter: [

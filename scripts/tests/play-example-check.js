@@ -18,7 +18,7 @@ const PLAY_EXAMPLE_CARDS = [
 
     // From Turn 2 - Player B draws
     { name: "Blast Bolt", type: "action", id: "001-blast_bolt-Alpha" },
-    { name: "Dark Altar", type: "building", id: "050-dark_altar-Alpha" },
+    { name: "Dark Altar", type: "building", id: "010-dark_altar-Alpha" },
     { name: "Ensnare", type: "action", id: "011-ensnare-Alpha" },
 
     // From Turn 2 - Player B draws "Drain Touch"
@@ -28,7 +28,7 @@ const PLAY_EXAMPLE_CARDS = [
     {
         name: "Gignen Country",
         type: "building",
-        id: "051-gignen_country-Alpha",
+        id: "004-gignen_country-Alpha",
     },
 
     // Equipment mentioned

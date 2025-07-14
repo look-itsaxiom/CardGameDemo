@@ -223,10 +223,22 @@ export interface BuildingCard extends PlayableCard {
 
 export interface QuestCard extends PlayableCard {
     type: CardType.QUEST;
-    objective: QuestObjective;
-    reward: Effect[];
-    failureCondition?: QuestObjective; // Conditions that cause quest to fail
-    punishment?: Effect[]; // Effects applied if quest fails
+
+    // Quest objectives and failure conditions - checked when player attempts activation
+    objectiveRequirements: Requirement[]; // Requirements that must be met to activate quest
+    objectiveEffects: Effect[]; // Effects that trigger when player activates quest
+
+    // Optional failure conditions - these trigger automatically when met
+    failureRequirements?: Requirement[]; // Conditions that cause automatic failure
+    failureEffects?: Effect[]; // Effects that trigger on failure
+
+    // Player interaction settings
+    canBeActivatedBy?: "owner" | "opponent" | "either"; // Defaults to "owner"
+    activationTiming?: SpeedLevel; // What speed the activation uses, defaults to ACTION
+
+    // Destination after completion/failure
+    destinationOnCompletion?: "recharge" | "discard" | "removed"; // Defaults to "recharge"
+    destinationOnFailure?: "recharge" | "discard" | "removed"; // Defaults to "discard"
 }
 
 export interface CounterCard extends PlayableCard {
@@ -435,12 +447,7 @@ export interface RoleRequirement {
     additionalRequirements?: Requirement[];
 }
 
-export interface QuestObjective {
-    type: string; // e.g., 'controlSummon', 'dealDamage', 'surviveRounds'
-    parameters: Record<string, any>;
-    completed: boolean;
-    failed?: boolean; // Track failure state separately
-}
+// QuestObjective removed - quests now use standard Requirements system
 
 // ============================================================================
 // STACK & PRIORITY SYSTEM
@@ -574,3 +581,112 @@ export type SpecificAction =
     | AttackAction
     | RespondAction
     | EndPhaseAction;
+
+// ============================================================================
+// EFFECT MODIFICATION TYPES
+// ============================================================================
+
+export enum ModificationTarget {
+    // Direct stats (from BaseStats)
+    STR = "STR",
+    END = "END",
+    DEF = "DEF",
+    INT = "INT",
+    SPI = "SPI",
+    MDF = "MDF",
+    SPD = "SPD",
+    ACC = "ACC",
+    LCK = "LCK",
+
+    // Calculated values
+    MOVEMENT_SPEED = "movementSpeed",
+    MAX_HP = "maxHP",
+    CURRENT_HP = "currentHP",
+    ATTACK_DAMAGE = "attackDamage",
+    CRIT_CHANCE = "critChance",
+    HIT_CHANCE = "hitChance",
+}
+
+export enum ModificationType {
+    ADD = "add",
+    SUBTRACT = "subtract",
+    MULTIPLY = "multiply",
+    DIVIDE = "divide",
+    SET = "set",
+}
+
+export interface ModificationDuration {
+    type: "permanent" | "untilRemoved" | "phaseEnd" | "turnEnd" | "roundEnd";
+
+    // For phaseEnd: specifies which phase and whose turn
+    phase?: GamePhase; // Which phase to end at
+    playerTurn?: "self" | "opponent" | "any"; // Whose turn
+    turnOffset?: number; // 0 = this turn, 1 = next turn, 2 = turn after next, etc.
+
+    // For roundEnd: specifies number of complete rounds
+    rounds?: number;
+
+    // For complex scenarios: custom condition
+    condition?: {
+        type: "cardPlayed" | "summonDefeated" | "damageDealt" | "custom";
+        parameters?: Record<string, any>;
+    };
+}
+
+// Convenience factory functions for common durations
+export const Duration = {
+    permanent: (): ModificationDuration => ({ type: "permanent" }),
+    untilRemoved: (): ModificationDuration => ({ type: "untilRemoved" }),
+
+    // Phase-based durations
+    endOfThisPhase: (phase: GamePhase): ModificationDuration => ({
+        type: "phaseEnd",
+        phase,
+        playerTurn: "self",
+        turnOffset: 0,
+    }),
+    endOfThisTurn: (): ModificationDuration => ({
+        type: "turnEnd",
+        playerTurn: "self",
+        turnOffset: 0,
+    }),
+    endOfOpponentTurn: (): ModificationDuration => ({
+        type: "turnEnd",
+        playerTurn: "opponent",
+        turnOffset: 0,
+    }),
+    endOfOpponentNextTurn: (): ModificationDuration => ({
+        type: "turnEnd",
+        playerTurn: "opponent",
+        turnOffset: 1,
+    }),
+
+    // Advanced scenarios
+    endOfPhaseInTurns: (
+        phase: GamePhase,
+        playerTurn: "self" | "opponent" | "any",
+        turnOffset: number
+    ): ModificationDuration => ({
+        type: "phaseEnd",
+        phase,
+        playerTurn,
+        turnOffset,
+    }),
+    forRounds: (rounds: number): ModificationDuration => ({
+        type: "roundEnd",
+        rounds,
+    }),
+    untilCondition: (
+        condition: ModificationDuration["condition"]
+    ): ModificationDuration => ({
+        type: "untilRemoved",
+        condition,
+    }),
+};
+
+export interface ModificationEffect {
+    target: ModificationTarget;
+    type: ModificationType;
+    value: number;
+    duration: ModificationDuration;
+}
