@@ -12,7 +12,7 @@ import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
  */
 export const sharpenedBlade: ActionCard = {
     // Core card identity
-    id: "005-sharpen_blade-Alpha",
+    id: "005-sharpened_blade-Alpha",
     name: "Sharpened Blade",
     type: CardType.ACTION,
     rarity: CardRarity.COMMON,
