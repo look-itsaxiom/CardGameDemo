@@ -72,8 +72,9 @@ export const darkAltar: BuildingCard = {
                                         type: "single",
                                         restrictions: [
                                             {
-                                                type: "summonInPlay",
+                                                type: "summon",
                                                 parameters: {
+                                                    zone: "inPlay",
                                                     controller: "self",
                                                     roleFamily: "magician",
                                                 },

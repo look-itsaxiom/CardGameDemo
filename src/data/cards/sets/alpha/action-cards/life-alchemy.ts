@@ -63,13 +63,12 @@ export const lifeAlchemy: ActionCard = {
                 type: "multiple",
                 restrictions: [
                     {
-                        type: "summonInPlay",
-                        parameters: {
-                            zone: "inPlay",
-                            controller: "self", // Must target your own summons
-                            rangeFromCaster: 4, // Range 4 from caster
-                            targetCount: 2, // Must select exactly 2 targets
-                        },
+                        type: "summon",
+                        zone: "inPlay",
+                        controller: "self", // Must target your own summons
+                        rangeFromCaster: 4, // Range 4 from caster
+                        minimumCount: 2, // Must select exactly 2 targets
+                        maximumCount: 2,
                     },
                 ],
             },

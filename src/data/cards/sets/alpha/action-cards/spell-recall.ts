@@ -72,13 +72,11 @@ export const spellRecall: ActionCard = {
                 type: "single",
                 restrictions: [
                     {
-                        type: "cardInZone",
-                        parameters: {
-                            zones: ["recharge", "discard"],
-                            cardType: "action",
-                            controller: "self",
-                            requiresRoleFamily: "magician", // Must require magician to play
-                        },
+                        type: "card",
+                        zone: ["recharge", "discard"],
+                        cardType: "action",
+                        controller: "self",
+                        requiresRoleFamily: "magician", // Must require magician to play
                     },
                 ],
             },

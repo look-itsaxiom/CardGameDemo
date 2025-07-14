@@ -62,12 +62,10 @@ export const rush: ActionCard = {
                 type: "single",
                 restrictions: [
                     {
-                        type: "summonInPlay",
-                        parameters: {
-                            zone: "inPlay",
-                            controller: "self", // Must target your own summon
-                            roleFamily: "warrior", // Must be warrior-based
-                        },
+                        type: "summon",
+                        zone: "inPlay",
+                        controller: "self", // Must target your own summon
+                        roleFamily: ["warrior"], // Must be warrior-based
                     },
                 ],
             },

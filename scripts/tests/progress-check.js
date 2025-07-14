@@ -16,7 +16,7 @@ const CARD_TYPES = {
     "quest-cards": { expected: 2, folder: "quest-cards" },
     "counter-cards": { expected: 2, folder: "counter-cards" },
     "equipment-cards": { expected: 3, folder: "weapon-cards" }, // Equipment split into multiple folders
-    "advance-cards": { expected: 4, folder: "advance-cards" },
+    "advance-cards": { expected: 5, folder: "advance-cards" },
 };
 
 async function checkProgress() {

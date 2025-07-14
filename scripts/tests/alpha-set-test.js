@@ -95,51 +95,56 @@ const EXPECTED_CARDS = {
         {
             id: "070-dramatic_return-Alpha",
             name: "Dramatic Return!",
-            implemented: false,
+            implemented: true,
         },
         {
-            id: "071-graverobbing-Alpha",
+            id: "019-graverobbing-Alpha",
             name: "Graverobbing",
-            implemented: false,
+            implemented: true,
         },
     ],
     equipment: [
         {
             id: "034-heirloom_sword-Alpha",
             name: "Heirloom Sword",
-            implemented: false,
+            implemented: true,
         },
         {
             id: "035-apprentices_wand-Alpha",
             name: "Apprentice's Wand",
-            implemented: false,
+            implemented: true,
         },
         {
             id: "036-hunting_bow-Alpha",
             name: "Hunting Bow",
-            implemented: false,
+            implemented: true,
         },
     ],
     advance: [
         {
-            id: "080-berserker_rage-Alpha",
+            id: "007-berserker_rage-Alpha",
             name: "Berserker Rage",
-            implemented: false,
+            implemented: true,
         },
         {
-            id: "081-knighthood_ceremony-Alpha",
+            id: "008-knighthood_ceremony-Alpha",
             name: "Knighthood Ceremony",
-            implemented: false,
+            implemented: true,
         },
         {
-            id: "082-shadow_pact-Alpha",
+            id: "018-shadow_pact-Alpha",
             name: "Shadow Pact",
-            implemented: false,
+            implemented: true,
         },
         {
-            id: "083-alrecht_barkstep-Alpha",
+            id: "014-alrecht_barkstep-Alpha",
             name: "Alrecht Barkstep, Scoutmaster",
-            implemented: false,
+            implemented: true,
+        },
+        {
+            id: "033-oath_of_light-Alpha",
+            name: "Oath of Light",
+            implemented: true,
         },
     ],
 };
@@ -296,7 +301,7 @@ class AlphaSetTestRunner {
 
     async testEquipmentCards() {
         console.log("⚔️  Testing Equipment Cards...");
-        await this.testCardType("equipment", "equipment-cards");
+        await this.testCardType("equipment", "weapon-cards");
     }
 
     async testAdvanceCards() {

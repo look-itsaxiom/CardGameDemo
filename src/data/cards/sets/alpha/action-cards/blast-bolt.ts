@@ -57,12 +57,10 @@ export const blastBolt: ActionCard = {
                 type: "single",
                 restrictions: [
                     {
-                        type: "summonInPlay",
-                        parameters: {
-                            zone: "inPlay",
-                            controller: "any", // Can target any summon
-                            rangeFromCaster: 6, // Long range
-                        },
+                        type: "summon",
+                        zone: "inPlay",
+                        controller: "any", // Can target any summon
+                        rangeFromCaster: 6, // Long range
                     },
                 ],
             },
