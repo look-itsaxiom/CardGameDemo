@@ -54,12 +54,10 @@ export const healingHands: ActionCard = {
                 type: "single",
                 restrictions: [
                     {
-                        type: "summonInPlay",
-                        parameters: {
-                            zone: "inPlay",
-                            controller: "any", // Can heal any summon
-                            rangeFromCaster: 4,
-                        },
+                        type: "summon",
+                        zone: "inPlay",
+                        controller: "any", // Can heal any summon
+                        rangeFromCaster: 4,
                     },
                 ],
             },

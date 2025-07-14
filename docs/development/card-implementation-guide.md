@@ -54,7 +54,8 @@ src/data/cards/
 ### Naming Conventions
 
 -   **File names:** `kebab-case.ts` (e.g., `sharpened-blade.ts`)
--   **Card IDs:** Use format `{set}-{set card #}-{name}-{type}` (e.g., `alpha-001-sharpened-blade-action`)
+-   **Card IDs:** Use format `{set card #}-{name}-{set}` (e.g., `001-sharpened-blade-Alpha`)
+-   **Unique Card IDs:** Cards that are created dynamically from card effects should use the format `{set card #}-{spawning card #}-'i'-{name}`
 -   **Species IDs:** Simple lowercase (e.g., `gignen`, `fae`, `stoneheart`)
 -   **Unique card IDs:** Use UUID v4 format for generated summons
 -   **Set organization:** Each set has its own directory with card type subdirectories

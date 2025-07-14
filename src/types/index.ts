@@ -80,8 +80,8 @@ export enum CardRarity {
     COMMON = "common",
     UNCOMMON = "uncommon",
     RARE = "rare",
-    EPIC = "epic",
-    LEGENDARY = "legendary",
+    LEGEND = "legend",
+    MYTH = "myth",
 }
 
 // ============================================================================
@@ -162,7 +162,7 @@ export interface BaseCard {
 // Shared properties for playable cards (not summons/roles/equipment)
 export interface PlayableCard extends BaseCard {
     speed: SpeedLevel;
-    requirements: Requirement[];
+    requirements: TypedRequirement[];
     effects: Effect[];
     destinationPile: "discard" | "recharge" | "removed";
 }
@@ -179,7 +179,7 @@ export interface SummonCard extends BaseCard {
 // Role advancement tree structure
 export interface RoleAdvancement {
     toRole: CardId;
-    requirements?: Requirement[]; // Additional requirements beyond base role + level
+    requirements?: TypedRequirement[]; // Additional requirements beyond base role + level
 }
 
 // Role cards define classes/jobs
@@ -225,11 +225,11 @@ export interface QuestCard extends PlayableCard {
     type: CardType.QUEST;
 
     // Quest objectives and failure conditions - checked when player attempts activation
-    objectiveRequirements: Requirement[]; // Requirements that must be met to activate quest
+    objectiveRequirements: TypedRequirement[]; // Requirements that must be met to activate quest
     objectiveEffects: Effect[]; // Effects that trigger when player activates quest
 
     // Optional failure conditions - these trigger automatically when met
-    failureRequirements?: Requirement[]; // Conditions that cause automatic failure
+    failureRequirements?: TypedRequirement[]; // Conditions that cause automatic failure
     failureEffects?: Effect[]; // Effects that trigger on failure
 
     // Player interaction settings
@@ -255,6 +255,21 @@ export interface ReactionCard extends PlayableCard {
 export interface AdvanceCard extends PlayableCard {
     type: CardType.ADVANCE;
     speed: SpeedLevel.ACTION;
+    advanceType: "roleChange" | "namedSummon";
+
+    // For role change cards
+    targetRole?: string; // The role this card changes the target to
+
+    // For named summon cards
+    namedSummonStats?: {
+        species: string;
+        role: string;
+        level: number;
+        baseStats: BaseStats;
+        growthRates: GrowthRates;
+        inheritedProperties?: string[]; // Properties inherited from material summon
+        uniqueEffects?: Effect[]; // Special effects unique to this named summon
+    };
 }
 
 export type Card =
@@ -326,6 +341,10 @@ export interface SummonUnit {
     attacksUsed: number; // How many attacks used this turn
     totalMovement: number; // Total movement speed calculated from stats
     movementUsed: number; // How much movement used this turn
+
+    // Quest completion tracking
+    completedQuests: string[]; // IDs of quest cards this unit has been involved in completing
+    questParticipations: QuestParticipation[]; // Detailed history of quest interactions
 }
 
 export interface StatusEffect {
@@ -335,6 +354,28 @@ export interface StatusEffect {
     duration: number; // Turns remaining
     effects: Effect[];
 }
+
+export interface QuestParticipation {
+    questId: string; // ID of the quest card
+    questName: string; // Name for easy debugging/display
+    completedTurn: number; // Turn when quest was completed
+    role: "primary" | "secondary"; // Primary = targeted by quest, Secondary = involved in completion
+    rewards?: string[]; // What rewards this unit received from quest completion
+}
+
+/**
+ * Quest Completion Tracking System
+ *
+ * When a quest is completed:
+ * 1. The quest's target summon gets the quest ID added to `completedQuests[]`
+ * 2. A detailed `QuestParticipation` record is added to `questParticipations[]`
+ * 3. Any other summons involved get secondary participation records
+ *
+ * Requirements can check quest completion using:
+ * - `questCompletion.required: true` - Summon must have completed at least one quest
+ * - `questCompletion.minimumCompleted: N` - Summon must have completed at least N quests
+ * - `questCompletion.specificQuests: [ids]` - Summon must have completed specific quest IDs
+ */
 
 // ============================================================================
 // BOARD & ZONES (Grid Engine Compatible)
@@ -424,6 +465,76 @@ export interface Requirement {
     parameters: Record<string, any>;
 }
 
+// Base requirement interface with universal properties
+export interface BaseRequirement {
+    id: string;
+}
+
+// Summon control requirement
+export interface ControlsSummonRequirement extends BaseRequirement {
+    type: "controlsSummon";
+    parameters: {
+        controller: "self" | "opponent";
+        zone: string;
+        roleFamily?: string[];
+        roleId?: string;
+        tier?: number | number[];
+        levelRange?: { min?: number, max?: number };
+        hasDealtDamageThisTurn?: boolean;
+        minimumCount: number;
+        questCompletion?: {
+            required: boolean;
+            minimumCompleted: number;
+            specificQuests?: string[];
+        };
+    };
+}
+
+// Role family control requirement
+export interface ControlsRoleFamilyRequirement extends BaseRequirement {
+    type: "controlsRoleFamily";
+    parameters: {
+        roleFamily: string;
+        minimumCount: number;
+    };
+}
+
+// Target in zone requirement
+export interface HasTargetInZoneRequirement extends BaseRequirement {
+    type: "hasTargetInZone";
+    parameters: {
+        zone: string;
+        cardType: string;
+        controller: "self" | "opponent";
+        minimumCount: number;
+    };
+}
+
+// Cost payment requirement
+export interface CanPayCostRequirement extends BaseRequirement {
+    type: "canPayCost";
+    parameters: {
+        costType: string;
+        amount?: number;
+        source?: string[];
+        destinationZone?: string;
+    };
+}
+
+// Generic requirement for backwards compatibility and extensibility
+export interface GenericRequirement extends BaseRequirement {
+    type: string;
+    parameters: Record<string, any>;
+}
+
+// Union type for all possible requirements
+export type TypedRequirement = 
+    | ControlsSummonRequirement 
+    | ControlsRoleFamilyRequirement 
+    | HasTargetInZoneRequirement 
+    | CanPayCostRequirement 
+    | GenericRequirement;
+
 export interface Effect {
     id: string;
     type: string; // e.g., 'dealDamage', 'heal', 'moveUnit', 'drawCards'
@@ -436,15 +547,76 @@ export interface TargetingRule {
     restrictions: TargetRestriction[];
 }
 
-export interface TargetRestriction {
-    type: string; // e.g., 'summonWithRole', 'enemyUnit', 'adjacentSpace'
-    parameters: Record<string, any>;
+// Base target restriction interface with universal properties
+export interface BaseTargetRestriction {
+    zone: string | string[];
+    controller: "self" | "opponent" | "any";
+    minimumCount?: number;
+    maximumCount?: number;
+    rangeFromCaster?: number;
 }
+
+// Summon-specific target restriction
+export interface SummonTargetRestriction extends BaseTargetRestriction {
+    type: "summon";
+    roleFamily?: string[];
+    roleId?: string;
+    tier?: number | number[];
+    levelRange?: { min?: number, max?: number };
+    hasDealtDamageThisTurn?: boolean;
+    questCompletion?: {
+        required: boolean;
+        minimumCompleted: number;
+        specificQuests?: string[];
+    };
+}
+
+// Card-specific target restriction (for cards in zones like hand, discard, etc.)
+export interface CardTargetRestriction extends BaseTargetRestriction {
+    type: "card";
+    cardType: "action" | "building" | "quest" | "counter" | "reaction" | "advance";
+    requiresRoleFamily?: string;
+    rarity?: string;
+    attribute?: string;
+}
+
+// Space-specific target restriction (for board positions)
+export interface SpaceTargetRestriction extends BaseTargetRestriction {
+    type: "space";
+    occupiedBy?: "none" | "summon" | "building" | "any";
+    rangeFromCaster?: number;
+    withinTerritory?: "self" | "opponent" | "unclaimed";
+    adjacentTo?: string; // ID of another entity
+}
+
+// Building-specific target restriction
+export interface BuildingTargetRestriction extends BaseTargetRestriction {
+    type: "building";
+    buildingType?: "standard" | "trap";
+    attribute?: string;
+}
+
+// Equipment-specific target restriction
+export interface EquipmentTargetRestriction extends BaseTargetRestriction {
+    type: "equipment";
+    equipmentType?: "weapon" | "armor" | "accessory" | "offhand";
+    slotType?: "weapon" | "armor" | "accessory" | "offhand";
+    equippedToRoleFamily?: string[];
+    basePower?: number;
+}
+
+// Union type for all possible target restrictions
+export type TargetRestriction = 
+    | SummonTargetRestriction 
+    | CardTargetRestriction 
+    | SpaceTargetRestriction 
+    | BuildingTargetRestriction
+    | EquipmentTargetRestriction;
 
 export interface RoleRequirement {
     requiredRole: CardId; // Role that the summon must currently have
     minimumLevel?: number;
-    additionalRequirements?: Requirement[];
+    additionalRequirements?: TypedRequirement[];
 }
 
 // QuestObjective removed - quests now use standard Requirements system

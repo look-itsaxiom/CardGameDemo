@@ -75,13 +75,11 @@ export const tasteOfBattle: QuestCard = {
                 type: "single",
                 restrictions: [
                     {
-                        type: "summonInPlay",
-                        parameters: {
-                            zone: "inPlay",
-                            controller: "self",
-                            levelRange: { max: 9 },
-                            hasDealtDamageThisTurn: true,
-                        },
+                        type: "summon",
+                        zone: "inPlay",
+                        controller: "self",
+                        levelRange: { max: 9 },
+                        hasDealtDamageThisTurn: true,
                     },
                 ],
             },

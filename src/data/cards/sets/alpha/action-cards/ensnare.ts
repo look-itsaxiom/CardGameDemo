@@ -72,12 +72,10 @@ export const ensnare: ActionCard = {
                 type: "single",
                 restrictions: [
                     {
-                        type: "summonInPlay",
-                        parameters: {
-                            zone: "inPlay",
-                            controller: "any", // Can target any summon
-                            rangeFromCaster: 5, // Medium range
-                        },
+                        type: "summon",
+                        zone: "inPlay",
+                        controller: "any", // Can target any summon
+                        rangeFromCaster: 5, // Medium range
                     },
                 ],
             },

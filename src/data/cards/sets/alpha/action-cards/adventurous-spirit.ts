@@ -51,12 +51,10 @@ export const adventurousSpirit: ActionCard = {
                 type: "single",
                 restrictions: [
                     {
-                        type: "cardInZone",
-                        parameters: {
-                            zones: ["deck", "recharge", "discard"],
-                            cardType: "quest",
-                            controller: "self",
-                        },
+                        type: "card",
+                        zone: ["deck", "recharge", "discard"],
+                        cardType: "quest",
+                        controller: "self",
                     },
                 ],
             },

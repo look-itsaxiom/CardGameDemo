@@ -56,16 +56,11 @@ export const sharpenedBlade: ActionCard = {
                 type: "single",
                 restrictions: [
                     {
-                        type: "equipmentSlot", // Generic equipment slot restriction
-                        parameters: {
-                            slot: "weapon",
-                        },
-                    },
-                    {
-                        type: "equippedToRoleFamily", // Generic role family restriction
-                        parameters: {
-                            roleFamily: "warrior", // Any role from warrior family tree
-                        },
+                        type: "equipment",
+                        zone: "inPlay", // Equipment that's currently equipped
+                        controller: "self", // Must target your own equipment
+                        equipmentType: "weapon", // Must be a weapon
+                        equippedToRoleFamily: ["warrior"], // Must be equipped to a warrior family summon
                     },
                 ],
             },

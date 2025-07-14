@@ -12,7 +12,7 @@ import { join } from "path";
 // Cards specifically mentioned in the play example (copilot-instructions.md)
 const PLAY_EXAMPLE_CARDS = [
     // From Turn 1 - Player A draws
-    { name: "Sharpened Blade", type: "action", id: "005-sharpen_blade-Alpha" },
+    { name: "Sharpened Blade", type: "action", id: "005-sharpened_blade-Alpha" },
     { name: "Healing Hands", type: "action", id: "006-healing_hands-Alpha" },
     { name: "Rush", type: "action", id: "009-rush-Alpha" },
 
@@ -57,15 +57,15 @@ const PLAY_EXAMPLE_CARDS = [
         type: "counter",
         id: "070-dramatic_return-Alpha",
     },
-    { name: "Graverobbing", type: "counter", id: "071-graverobbing-Alpha" },
+    { name: "Graverobbing", type: "counter", id: "019-graverobbing-Alpha" },
 
     // Advance cards mentioned
-    { name: "Berserker Rage", type: "advance", id: "080-berserker_rage-Alpha" },
-    { name: "Shadow Pact", type: "advance", id: "082-shadow_pact-Alpha" },
+    { name: "Berserker Rage", type: "advance", id: "007-berserker_rage-Alpha" },
+    { name: "Shadow Pact", type: "advance", id: "018-shadow_pact-Alpha" },
     {
         name: "Alrecht Barkstep, Scoutmaster",
         type: "advance",
-        id: "083-alrecht_barkstep-Alpha",
+        id: "014-alrecht_barkstep-Alpha",
     },
 
     // Other action cards mentioned later

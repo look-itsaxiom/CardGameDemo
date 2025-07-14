@@ -48,12 +48,10 @@ export const dualShot: ActionCard = {
                 type: "single",
                 restrictions: [
                     {
-                        type: "summonInPlay",
-                        parameters: {
-                            zone: "inPlay",
-                            controller: "self", // Must target your own summon
-                            roleFamily: "scout", // Must be scout-based
-                        },
+                        type: "summon",
+                        zone: "inPlay",
+                        controller: "self", // Must target your own summon
+                        roleFamily: ["scout"], // Must be scout-based
                     },
                 ],
             },
