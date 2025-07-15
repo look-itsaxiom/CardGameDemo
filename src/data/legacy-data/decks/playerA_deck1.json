@@ -1,0 +1,52 @@
+{
+    "id": "playerA_deck1",
+    "name": "Player A's Deck 1",
+    "owner": "playerA",
+    "format": "3v3",
+    "deck": {
+        "summons": [
+            {
+                "slot_index": 1,
+                "summon_id": "001-gignen-Alpha.playerA.2025-06-12T00:05:24.751Z/12.8.10.12.8.8.10.9.9.+._._.-._.-.--.++.-/b078b552-6dea-4b43-b375-87f9acf00501",
+                "role_id": "020-warrior-Alpha",
+                "equipment_slot": {
+                    "weapon": "034-heirloom_sword-Alpha",
+                    "offhand": null,
+                    "armor": null,
+                    "accessory": null
+                }
+            },
+            {
+                "slot_index": 2,
+                "summon_id": "001-gignen-Alpha.playerA.2025-04-22T00:05:24.751Z/10.8.11.10.9.10.10.12.9.+._.--.+.+._._.++.--/7a02f02c-0bb2-4b7b-b3b8-f3121e5891bd",
+                "role_id": "021-magician-Alpha",
+                "equipment_slot": {
+                    "weapon": "035-apprentices_wand-Alpha",
+                    "offhand": null,
+                    "armor": null,
+                    "accessory": null
+                }
+            },
+            {
+                "slot_index": 3,
+                "summon_id": "001-gignen-Alpha.playerA.2025-04-22T00:05:24.751Z/10.11.8.10.11.9.12.12.10._.+._._._._.+.++.+/091c3864-a542-4493-877f-8acd5dc311bd",
+                "role_id": "022-scout-Alpha",
+                "equipment_slot": {
+                    "weapon": "036-hunting_bow-Alpha",
+                    "offhand": null,
+                    "armor": null,
+                    "accessory": null
+                }
+            }
+        ],
+        "main_deck": [
+            "005-sharpen_blade-Alpha",
+            "006-healing_hands-Alpha",
+            "004-gignen_country-Alpha",
+            "002-nearwood_forest_expidition-Alpha",
+            "009-rush-Alpha",
+            "013-adventurous_spirit-Alpha"
+        ],
+        "advance_deck": ["014-alrecht_barkstep-Alpha", "007-berserker_rage-Alpha"]
+    }
+}

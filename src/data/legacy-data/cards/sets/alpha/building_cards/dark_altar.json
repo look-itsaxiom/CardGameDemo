@@ -1,0 +1,86 @@
+{
+    "id": "010-dark_altar-Alpha",
+    "name": "dark_altar",
+    "display_name": "Dark Altar",
+    "flavor_text": "The Dark Altar is a mysterious and foreboding structure, shrouded in shadows and whispers of ancient power. It is said to be a place where forbidden rituals are performed, and knowledge of the Dark is sought.",
+    "description": "At the end of your next turn, this building, and any Summons within the spaces it occupies, are destroyed. If a Summon was destroyed by this effect, target magician-based Summon you control becomes level 20 and you can immediately Advance using that Summon as a target.",
+    "card_type": "building",
+    "space": {
+        "occupied": false,
+        "controller": "player",
+        "x": 2,
+        "y": 2,
+        "designated_at_set": false,
+        "designated_at_play": true,
+        "designated_at_resolve": true
+    },
+    "play_requirements": {
+        "In_Play_Available": true,
+        "space_valid": true
+    },
+    "resolve_requirements": {
+        "in_play": true
+    },
+    "trigger_requirements": {
+        "in_play": true
+    },
+    "trigger": ["on_player_next_turn_end_phase"],
+    "resolve_timing": ["immediate"],
+    "effects": [
+        {
+            "type": "destroy_self"
+        },
+        {
+            "type": "destroy",
+            "specific_target": {
+                "type": "summon",
+                "zone": "in_play",
+                "controller": "any"
+            },
+            "specific_trigger": ["on_player_next_turn_end_phase", "on_summon_in_occupied_space"]
+        },
+        {
+            "type": "level_up",
+            "value": 20,
+            "specific_trigger": ["on_summon_destroyed_by_this_effect"],
+            "specific_target": {
+                "type": "summon",
+                "zone": "in_play",
+                "controller": "player",
+                "target_evaluation_and": [
+                    {
+                        "property": "role_type",
+                        "operator": "contains",
+                        "value": "magician"
+                    }
+                ]
+            },
+            "specific_resolve_requirements": {
+                "target_valid": true
+            }
+        },
+        {
+            "type": "enable_advance_summon",
+            "specific_trigger": ["on_summon_destroyed_by_this_effect", "on_level_up"],
+            "specific_target": {
+                "type": "advance_summon",
+                "zone": "advance_deck",
+                "controller": "player",
+                "target_evaluation_and": [
+                    {
+                        "property": "play_requirements.target_valid",
+                        "operator": "==",
+                        "value": true
+                    }
+                ]
+            },
+            "specific_resolve_requirements": {
+                "target_valid": true
+            }
+        }
+    ],
+    "attribute": "neutral",
+    "rarity": "legend",
+    "zone_after_resolve": "in_play",
+    "zone_after_destroy": "discard"
+}
