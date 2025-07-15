@@ -1,9 +1,5 @@
 # Tactical Card Game Demo
 
-A data-driven tactical RPG card game built with TypeScript, React, and Phaser 3. This project demonstrates a robust, extensible architecture for complex card game mechanics with a focus on type safety and maintainability.
-
-![screenshot](screenshot.png)
-
 ## 🎯 Project Vision
 
 This is a tactical grid-based RPG card game featuring:
@@ -148,30 +144,42 @@ Combat uses a stack system similar to trading card games:
 
 ## 📚 Documentation
 
--   **[Architecture Overview](docs/architecture/)** - Technical design and patterns
--   **[Game Systems](docs/game-systems/)** - Detailed mechanics and rules
--   **[Development Guide](docs/development/)** - Implementation guidelines
--   **[Role System](docs/game-systems/role-system.md)** - Complete role advancement trees
+**Complete documentation is available in the [docs](docs/) directory:**
+
+| Document                                                        | Description                                   |
+| --------------------------------------------------------------- | --------------------------------------------- |
+| [**Project Overview**](docs/01-project-overview.md)             | Vision, architecture, and design philosophy   |
+| [**Getting Started**](docs/02-getting-started.md)               | Installation, setup, and development workflow |
+| [**Game Design**](docs/03-game-design.md)                       | Rules, mechanics, and gameplay systems        |
+| [**Technical Architecture**](docs/04-technical-architecture.md) | Type system, data structures, and patterns    |
+| [**Development Guide**](docs/05-development-guide.md)           | Implementation standards and workflows        |
 
 ## 🏗️ Development Status
 
-**Current Phase**: Alpha Set Implementation
+**Current Phase**: Game Engine Core Loop Implementation
 
--   ✅ Core type system and architecture
--   ✅ Complete role system (13 roles, 3 families)
--   ✅ Data-driven card framework
--   🔄 Card implementation (Action cards in progress)
--   🔄 Game engine integration
--   📋 UI development (planned)
+**Recent Achievements:**
+
+-   ✅ Complete Alpha set (37/37 cards) with TypeScript type safety
+-   ✅ Comprehensive role system (13 roles, 3 families)
+-   ✅ Data-driven card architecture with automated build system
+-   ✅ Digital provenance system for unique card tracking
+
+**Next Priorities:**
+
+-   🔄 Authoritative game engine implementation
+-   🔄 Turn-based phase system (Draw → Level → Action → End)
+-   � Stack-based effect resolution
+-   🔄 Game state management with zone tracking
 
 ## 🎨 Design Philosophy
 
 This project follows a **data-driven interpretation** approach:
 
--   Game rules are data, not code
--   The engine interprets structured data to drive gameplay
--   Adding content means editing data files, not writing logic
--   Enables rapid iteration and easy extensibility
+-   **Game rules are data, not code** - All mechanics defined as structured data
+-   **Engine interprets structured data** - Dynamic rule processing
+-   **Content is configuration** - New features through data editing
+-   **Extensibility through schema** - Easy addition of new mechanics
 
 ## 🤝 Contributing
 
