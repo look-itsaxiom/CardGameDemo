@@ -52,9 +52,7 @@ export const alphaAdvanceCardsList = [
 
 // Export counter cards
 export const alphaCounterCards = counterCards;
-export const alphaCounterCardsList = [
-    counterCards.graverobbing,
-];
+export const alphaCounterCardsList = [counterCards.graverobbing];
 
 // Export a combined collection of all Alpha set cards
 export const alphaSetCards = {

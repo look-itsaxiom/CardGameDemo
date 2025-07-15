@@ -15,7 +15,7 @@ import { QuestCard, CardType, CardRarity, SpeedLevel } from "@types";
  */
 export const tasteOfBattle: QuestCard = {
     // Core card identity
-    id: "003-taste_of_battle-Alpha",
+    id: "002-taste_of_battle-Alpha",
     name: "Taste of Battle",
     type: CardType.QUEST,
     rarity: CardRarity.UNCOMMON,

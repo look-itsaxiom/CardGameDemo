@@ -14,7 +14,7 @@ import { CounterCard, CardType, CardRarity, SpeedLevel } from "@types";
  */
 export const dramaticReturn: CounterCard = {
     // Core card identity
-    id: "070-dramatic_return-Alpha",
+    id: "003-dramatic_return-Alpha",
     name: "Dramatic Return!",
     type: CardType.COUNTER,
     rarity: CardRarity.LEGEND,

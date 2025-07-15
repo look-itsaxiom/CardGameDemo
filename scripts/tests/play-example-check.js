@@ -12,7 +12,11 @@ import { join } from "path";
 // Cards specifically mentioned in the play example (copilot-instructions.md)
 const PLAY_EXAMPLE_CARDS = [
     // From Turn 1 - Player A draws
-    { name: "Sharpened Blade", type: "action", id: "005-sharpened_blade-Alpha" },
+    {
+        name: "Sharpened Blade",
+        type: "action",
+        id: "005-sharpened_blade-Alpha",
+    },
     { name: "Healing Hands", type: "action", id: "006-healing_hands-Alpha" },
     { name: "Rush", type: "action", id: "009-rush-Alpha" },
 
