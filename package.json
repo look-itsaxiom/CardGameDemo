@@ -21,12 +21,13 @@
         "typescript"
     ],
     "scripts": {
-        "dev": "node log.js dev & vite --config vite/config.dev.mjs",
-        "build": "node log.js build & vite build --config vite/config.prod.mjs",
-        "dev-nolog": "vite --config vite/config.dev.mjs",
-        "build-nolog": "vite build --config vite/config.prod.mjs",
-        "build:cards": "node scripts/build-cards/build-cards.js",
-        "build:cards:watch": "node scripts/build-cards/build-cards.js --watch",
+        "dev:cards": "node log.js dev && npm run build:cards && vite --config vite/config.dev.mjs",
+        "dev": "node log.js dev && vite --config vite/config.dev.mjs",
+        "build": "node log.js build && vite build --config vite/config.prod.mjs && npm run build:cards",
+        "dev-nolog": "npm run build:cards && vite --config vite/config.dev.mjs",
+        "build-nolog": "vite build --config vite/config.prod.mjs && npm run build:cards",
+        "build:cards": "tsx scripts/build-cards/build-cards.ts",
+        "build:cards:watch": "tsx scripts/build-cards/build-cards.ts --watch",
         "test:alpha": "node scripts/tests/run-alpha-tests.js",
         "test:progress": "node scripts/tests/progress-check.js",
         "test:play-example": "node scripts/tests/play-example-check.js"
@@ -46,9 +47,10 @@
         "eslint-plugin-react-hooks": "^5.2.0",
         "eslint-plugin-react-refresh": "^0.4.19",
         "globals": "^16.0.0",
+        "terser": "^5.28.1",
+        "tsx": "^4.20.3",
         "typescript": "~5.7.2",
         "typescript-eslint": "^8.26.1",
-        "vite": "^6.3.1",
-        "terser": "^5.28.1"
+        "vite": "^6.3.1"
     }
 }

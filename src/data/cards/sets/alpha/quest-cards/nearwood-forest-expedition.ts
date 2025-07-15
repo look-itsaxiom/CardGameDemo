@@ -14,7 +14,7 @@ import { QuestCard, CardType, CardRarity, SpeedLevel } from "@types";
  */
 export const nearwoodForestExpedition: QuestCard = {
     // Core card identity
-    id: "060-nearwood_forest_expedition-Alpha",
+    id: "037-nearwood_forest_expedition-Alpha",
     name: "Nearwood Forest Expedition",
     type: CardType.QUEST,
     rarity: CardRarity.COMMON,

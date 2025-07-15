@@ -479,7 +479,7 @@ export interface ControlsSummonRequirement extends BaseRequirement {
         roleFamily?: string[];
         roleId?: string;
         tier?: number | number[];
-        levelRange?: { min?: number, max?: number };
+        levelRange?: { min?: number; max?: number };
         hasDealtDamageThisTurn?: boolean;
         minimumCount: number;
         questCompletion?: {
@@ -528,11 +528,11 @@ export interface GenericRequirement extends BaseRequirement {
 }
 
 // Union type for all possible requirements
-export type TypedRequirement = 
-    | ControlsSummonRequirement 
-    | ControlsRoleFamilyRequirement 
-    | HasTargetInZoneRequirement 
-    | CanPayCostRequirement 
+export type TypedRequirement =
+    | ControlsSummonRequirement
+    | ControlsRoleFamilyRequirement
+    | HasTargetInZoneRequirement
+    | CanPayCostRequirement
     | GenericRequirement;
 
 export interface Effect {
@@ -562,7 +562,7 @@ export interface SummonTargetRestriction extends BaseTargetRestriction {
     roleFamily?: string[];
     roleId?: string;
     tier?: number | number[];
-    levelRange?: { min?: number, max?: number };
+    levelRange?: { min?: number; max?: number };
     hasDealtDamageThisTurn?: boolean;
     questCompletion?: {
         required: boolean;
@@ -574,7 +574,13 @@ export interface SummonTargetRestriction extends BaseTargetRestriction {
 // Card-specific target restriction (for cards in zones like hand, discard, etc.)
 export interface CardTargetRestriction extends BaseTargetRestriction {
     type: "card";
-    cardType: "action" | "building" | "quest" | "counter" | "reaction" | "advance";
+    cardType:
+        | "action"
+        | "building"
+        | "quest"
+        | "counter"
+        | "reaction"
+        | "advance";
     requiresRoleFamily?: string;
     rarity?: string;
     attribute?: string;
@@ -606,10 +612,10 @@ export interface EquipmentTargetRestriction extends BaseTargetRestriction {
 }
 
 // Union type for all possible target restrictions
-export type TargetRestriction = 
-    | SummonTargetRestriction 
-    | CardTargetRestriction 
-    | SpaceTargetRestriction 
+export type TargetRestriction =
+    | SummonTargetRestriction
+    | CardTargetRestriction
+    | SpaceTargetRestriction
     | BuildingTargetRestriction
     | EquipmentTargetRestriction;
 
