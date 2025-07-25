@@ -4,16 +4,16 @@
  * Single Responsibility: Processes and validates player actions
  */
 
-import { GameAction, GamePhase, PlayerZones } from "../types/index.js";
-import { GameStateManager } from "./GameStateManager.js";
-import { CardManager } from "./CardManager.js";
-import { BoardManager } from "./BoardManager.js";
-import { PhaseManager } from "./PhaseManager.js";
-import { EffectTypeRegistry } from "./EffectTypeRegistry.js";
-import { StackManager } from "./StackManager.js";
-import { TriggerDetector } from "./TriggerDetector.js";
-import { RequirementValidator } from "./RequirementValidator.js";
-import { summonUnitSynthesis } from "./SummonUnitSynthesisService.js";
+import { GameAction, GamePhase, PlayerZones } from "types/index";
+import { GameStateManager } from "./GameStateManager";
+import { CardManager } from "./CardManager";
+import { BoardManager } from "./BoardManager";
+import { PhaseManager } from "./PhaseManager";
+import { EffectTypeRegistry } from "./EffectTypeRegistry";
+import { StackManager } from "./StackManager";
+import { TriggerDetector } from "./TriggerDetector";
+import { RequirementValidator } from "./RequirementValidator";
+import { summonUnitSynthesis } from "./SummonUnitSynthesisService";
 
 export class ActionProcessor {
   constructor(
@@ -200,8 +200,20 @@ export class ActionProcessor {
       return { success: false, message: placementValidation.message };
     }
 
-    // Create and place summon unit (using deprecated method for now)
-    const summonUnit = this.boardManager.createSummonUnit(cardId, position);
+    // Validate card is a summon
+    const card = this.cardManager.getCard(cardId);
+    if (!card || card.type !== "summon") {
+      return { success: false, message: `Card ${cardId} is not a valid summon` };
+    }
+
+    // Validate player owns this card
+    if (!playerZones.hand.includes(cardId)) {
+      return { success: false, message: `Card ${cardId} not found in player's hand` };
+    }
+
+    // Create and place summon unit
+    const summonUnit = this.boardManager.createSummonUnitFromSlot(cardId, position);
+
     this.boardManager.placeSummonUnit(summonUnit);
 
     // Remove card from hand

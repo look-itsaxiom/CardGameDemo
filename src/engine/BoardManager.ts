@@ -137,7 +137,8 @@ export class BoardManager {
    * Create summon unit from a summon slot configuration
    * Now uses proper Summon+Role+Equipment synthesis
    */
-  createSummonUnitFromSlot(summonSlot: SummonSlot, position: Position): SummonUnit | null {
+  createSummonUnitFromSlot(summonSlotId: string, position: Position): SummonUnit {
+    const summonSlot = summonUnitSynthesis.getSummonSlotByCardId(summonSlotId);
     return summonUnitSynthesis.createSummonUnitFromSlot(summonSlot, position);
   }
 

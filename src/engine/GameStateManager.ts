@@ -4,7 +4,9 @@
  * Single Responsibility: Manages the authoritative game state
  */
 
-import { GameState, GamePhase, PlayerId, Player, PlayerZones, positionToId, BoardPosition, GameZones, Deck3v3, CardId } from "../types/index.js";
+import { GameState, GamePhase, PlayerId, Player, PlayerZones, positionToId, BoardPosition, GameZones, Deck3v3, CardId, RoleCard, SummonUnit } from "types/index";
+import { SummonUnitSynthesisService } from "./SummonUnitSynthesisService";
+import { cardDatabase } from "./CardDatabaseService";
 
 export class GameStateManager {
   private state: GameState;
@@ -77,7 +79,9 @@ export class GameStateManager {
       // Players start with their 3 summon cards from summon slots in hand
       const startingHand: CardId[] = [];
       deck.summonSlots.forEach((slot) => {
-        startingHand.push(slot.summonCard);
+        // Synthesize summon slots into temporary cards for starting hand
+        const summonSlotCardId = SummonUnitSynthesisService.getInstance().registerSummonSlot(playerId, slot);
+        startingHand.push(summonSlotCardId);
       });
 
       return {
@@ -145,8 +149,10 @@ export class GameStateManager {
     if (!summon) return null;
 
     // Return the current role card based on summon's roleId
+    const roleId = summon.currentRole;
     // This would need to interact with card database to get role card data
-    return null; // Placeholder - would need card database integration
+    const roleCard = cardDatabase.getCard(roleId) as RoleCard;
+    return roleCard || null;
   }
 
   /**

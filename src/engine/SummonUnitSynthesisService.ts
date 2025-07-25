@@ -12,23 +12,59 @@ import { cardDatabase } from "./CardDatabaseService.js";
 import { speciesDatabase } from "./SpeciesDatabaseService.js";
 
 export class SummonUnitSynthesisService {
+
+  /**
+   * Singleton instance
+   */
+  private static instance: SummonUnitSynthesisService;
+
+  private constructor() {}
+
+  /**
+   * Get the singleton instance
+   */
+  static getInstance(): SummonUnitSynthesisService {
+    if (!this.instance) {
+      this.instance = new SummonUnitSynthesisService();
+    }
+    return this.instance;
+  }
+
+  private summonSlotDictionary: Record<string, SummonSlot> = {};
+
+  registerSummonSlot(playerId: string, summonSlot: SummonSlot): string {
+    const { summonCard } = summonSlot;
+    const summonId = `${playerId}_${summonCard}`;
+    this.summonSlotDictionary[summonId] = summonSlot;
+    return summonId;
+  }
+
+  getSummonSlotByCardId(summonId: string): SummonSlot {
+    const summonSlot = this.summonSlotDictionary[summonId];
+    if (!summonSlot) {
+      console.error(`Summon slot with ID ${summonId} not found`);
+      throw new Error(`Summon slot with ID ${summonId} not found`);
+    }
+    return summonSlot;
+  }
+
   /**
    * Create a Summon Unit from a properly configured summon slot
    */
-  createSummonUnitFromSlot(summonSlot: SummonSlot, position: Position): SummonUnit | null {
+  createSummonUnitFromSlot(summonSlot: SummonSlot, position: Position): SummonUnit {
     try {
       // 1. Load the Summon Card
       const summonCard = cardDatabase.getSummonCard(summonSlot.summonCard);
       if (!summonCard) {
         console.error(`Summon card not found: ${summonSlot.summonCard}`);
-        return null;
+        throw new Error(`Summon card not found: ${summonSlot.summonCard}`);
       }
-
+      
       // 2. Load the Role Card
       const roleCard = cardDatabase.getRoleCard(summonSlot.roleCard);
       if (!roleCard) {
         console.error(`Role card not found: ${summonSlot.roleCard}`);
-        return null;
+        throw new Error(`Role card not found: ${summonSlot.roleCard}`);
       }
 
       // 3. Load Equipment Cards
@@ -38,14 +74,14 @@ export class SummonUnitSynthesisService {
       const synthesizedStats = this.synthesizeStats(summonCard, roleCard, equipment);
       if (!synthesizedStats) {
         console.error(`Failed to synthesize stats for summon unit`);
-        return null;
+        throw new Error(`Failed to synthesize stats for summon unit`);
       }
 
       // 5. Create the final Summon Unit
       return this.assembleSummonUnit(summonCard, roleCard, equipment, synthesizedStats, position);
     } catch (error) {
       console.error(`Error creating summon unit from slot:`, error);
-      return null;
+      throw error;
     }
   }
 
@@ -252,4 +288,4 @@ export class SummonUnitSynthesisService {
 }
 
 // Export singleton instance
-export const summonUnitSynthesis = new SummonUnitSynthesisService();
+export const summonUnitSynthesis = SummonUnitSynthesisService.getInstance();

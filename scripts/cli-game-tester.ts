@@ -9,7 +9,7 @@
 
 import { GameEngine, GameEngineConfig } from "../src/engine/GameEngine.js";
 import { allPlayers, allDecks } from "../src/data/players/index.js";
-import { Player, GameAction, GamePhase, Card, CardType } from "../src/types/index.js";
+import { Player, GameAction, GamePhase, Card, CardType, SummonSlot } from "../src/types/index.js";
 import { cardDatabase } from "../src/engine/CardDatabaseService.js";
 import * as readline from "readline";
 
@@ -355,7 +355,7 @@ class CLIGameTester {
    * Show available summon slots for the current player
    */
   private showSummonSlots(playerId: string): void {
-    const slotDefinitions = (globalThis as any).summonSlotDefinitions;
+    const slotDefinitions: { playerA_slots: SummonSlot[]; playerB_slots: SummonSlot[] } = (globalThis as any).summonSlotDefinitions;
 
     if (!slotDefinitions) {
       console.log("❌ Summon slot data not loaded yet");
@@ -373,17 +373,16 @@ class CLIGameTester {
     console.log(`${playerId}'s Summon Slots:`);
     console.log("=====================");
 
-    playerSlots.forEach((slot: any, index: number) => {
-      console.log(`${index}. ${slot.summon} + ${slot.role} + ${slot.equipment.weapon || slot.equipment.armor || slot.equipment.accessory}`);
+    playerSlots.forEach((slot: SummonSlot, index: number) => {
+      console.log(`${index}. ${slot.summonCard} + ${slot.roleCard} + ${slot.equipment.weapon || slot.equipment.armor || slot.equipment.accessory}`);
 
       // Show synthesis preview if possible
       const state = this.engine.getState();
       const config = this.engine.getConfig();
 
       // Basic info about the slot composition
-      const summonCard = config.cardDatabase[slot.summon];
-      const roleCard = config.cardDatabase[slot.role];
-      const equipmentCard = config.cardDatabase[slot.equipment.weapon || slot.equipment.armor || slot.equipment.accessory];
+      const summonCard = config.cardDatabase[slot.summonCard];
+      const roleCard = config.cardDatabase[slot.roleCard];
 
       if (summonCard && summonCard.type === "summon") {
         console.log(`   🧬 Base: ${summonCard.name} (${(summonCard as any).speciesId || "Unknown Species"})`);
@@ -391,12 +390,16 @@ class CLIGameTester {
       if (roleCard) {
         console.log(`   🎭 Role: ${roleCard.name}`);
       }
-      if (equipmentCard) {
-        console.log(`   ⚔️  Equipment: ${equipmentCard.name}`);
-        if (equipmentCard.type === "equipment" && (equipmentCard as any).subtype === "weapon" && (equipmentCard as any).range) {
-          console.log(`      📏 Range: ${(equipmentCard as any).range} | 💪 Power: ${(equipmentCard as any).power || "N/A"}`);
+      for (const equipment of Object.values(slot.equipment)) {
+        const equipmentCard = config.cardDatabase[equipment];
+        if (equipmentCard) {
+          console.log(`   ⚔️  Equipment: ${equipmentCard.name}`);
+          if (equipmentCard.type === "equipment" && (equipmentCard as any).subtype === "weapon" && (equipmentCard as any).range) {
+            console.log(`      📏 Range: ${(equipmentCard as any).range} | 💪 Power: ${(equipmentCard as any).power || "N/A"}`);
+          }
         }
       }
+
       console.log();
     });
 
@@ -408,7 +411,7 @@ class CLIGameTester {
    * Play a summon slot using available summon cards as proxy
    */
   private playSummonSlot(playerId: string, slotIndex: number, position: { x: number; y: number }): void {
-    const slotDefinitions = (globalThis as any).summonSlotDefinitions;
+    const slotDefinitions: { playerA_slots: SummonSlot[]; playerB_slots: SummonSlot[] } = (globalThis as any).summonSlotDefinitions;
 
     if (!slotDefinitions) {
       console.log("❌ Summon slot data not loaded yet");
@@ -423,10 +426,10 @@ class CLIGameTester {
     }
 
     const slot = playerSlots[slotIndex];
-    console.log(`🧬 Playing slot: ${slot.summon} + ${slot.role} + ${Object.values(slot.equipment)[0]}...`);
+    console.log(`🧬 Playing slot: ${slot.summonCard} + ${slot.roleCard} + ${Object.values(slot.equipment)[0]}...`);
 
     // For now, use the summon card from the slot to play through the existing system
-    const summonCardId = slot.summon;
+    const summonCardId = slot.summonCard;
 
     // Create the play action using the existing playCard system
     const playAction: GameAction = {
