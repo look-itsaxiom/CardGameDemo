@@ -28,11 +28,7 @@
     "build-nolog": "vite build --config vite/config.prod.mjs && npm run build:cards",
     "build:cards": "tsx scripts/build-cards/build-cards.ts",
     "build:cards:watch": "tsx scripts/build-cards/build-cards.ts --watch",
-    "test:alpha": "node scripts/tests/run-alpha-tests.js",
-    "test:progress": "node scripts/tests/progress-check.js",
-    "test:play-example": "node scripts/tests/play-example-check.js",
-    "test:cli": "tsx scripts/cli-game-tester.ts",
-    "test:unit": "tsx scripts/unit-tests.ts"
+    "test:cli": "tsx scripts/cli-game-tester.ts"
   },
   "dependencies": {
     "phaser": "^3.90.0",
