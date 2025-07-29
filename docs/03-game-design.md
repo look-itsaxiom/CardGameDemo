@@ -253,7 +253,7 @@ Each turn consists of four phases:
 
 **Card Acquisition:**
 
--   Purchase card packs from shop
+-   PurAxiom card packs from shop
 -   Earn through gameplay rewards
 -   Future: Trade via auction house
 
