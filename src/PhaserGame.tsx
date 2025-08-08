@@ -10,10 +10,10 @@ export interface IRefPhaserGame
 
 interface IProps
 {
-    currentActiveScene?: (scene_instance: Phaser.Scene) => void
+    // Props removed - no longer need currentActiveScene callback
 }
 
-export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame({ currentActiveScene }, ref)
+export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame(_, ref)
 {
     const game = useRef<Phaser.Game | null>(null!);
 
@@ -51,13 +51,6 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
     {
         EventBus.on('current-scene-ready', (scene_instance: Phaser.Scene) =>
         {
-            if (currentActiveScene && typeof currentActiveScene === 'function')
-            {
-
-                currentActiveScene(scene_instance);
-
-            }
-
             if (typeof ref === 'function')
             {
                 ref({ game: game.current, scene: scene_instance });
@@ -71,7 +64,7 @@ export const PhaserGame = forwardRef<IRefPhaserGame, IProps>(function PhaserGame
         {
             EventBus.removeListener('current-scene-ready');
         }
-    }, [currentActiveScene, ref]);
+    }, [ref]);
 
     return (
         <div id="game-container"></div>

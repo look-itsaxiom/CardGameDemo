@@ -1,7 +1,7 @@
 import { Boot } from './scenes/Boot';
 import { GameOver } from './scenes/GameOver';
 import { Game as MainGame } from './scenes/Game';
-import { GameBoard } from './scenes/GameBoard';
+import { PlayableGameBoard } from './scenes/PlayableGameBoard';
 import { MainMenu } from './scenes/MainMenu';
 import { AUTO, Game } from 'phaser';
 import { Preloader } from './scenes/Preloader';
@@ -13,13 +13,13 @@ const config: Phaser.Types.Core.GameConfig = {
     width: 1024,
     height: 768,
     parent: 'game-container',
-    backgroundColor: '#028af8',
+    backgroundColor: '#1a1a2e',
     scene: [
         Boot,
         Preloader,
         MainMenu,
         MainGame,
-        GameBoard,
+        PlayableGameBoard,
         GameOver
     ]
 };

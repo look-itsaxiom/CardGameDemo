@@ -73,6 +73,13 @@ export class GameEngine {
   }
 
   /**
+   * Get card manager for card operations
+   */
+  getCardManager(): CardManager {
+    return this.cardManager;
+  }
+
+  /**
    * Get effect registry for card effect execution
    */
   getEffectRegistry(): EffectTypeRegistry {
