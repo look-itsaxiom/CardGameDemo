@@ -198,6 +198,11 @@ export class GameBoard extends Scene {
             this.handleBoardClick(pointer);
         });
 
+        // Also handle input events from the scene
+        this.input.on('pointerdown', (pointer: Phaser.Input.Pointer) => {
+            this.handleBoardClick(pointer);
+        });
+
         // Add keyboard controls
         this.input.keyboard!.on('keydown-SPACE', () => {
             this.handleEndPhase();
@@ -205,6 +210,10 @@ export class GameBoard extends Scene {
 
         this.input.keyboard!.on('keydown-S', () => {
             this.handleSummonSlot();
+        });
+
+        this.input.keyboard!.on('keydown-H', () => {
+            this.showHelp();
         });
     }
 
@@ -422,7 +431,7 @@ export class GameBoard extends Scene {
             instructions = `${currentPhase.toString().toUpperCase()} PHASE: Press SPACE to continue.`;
         }
         
-        instructions += '\n\nControls:\n- Click: Place summon or target\n- SPACE: End phase\n- S: Show summon slots';
+        instructions += '\n\nControls:\n- Click: Place summon or target\n- SPACE: End phase\n- S: Show summon slots\n- H: Show help';
         
         this.instructionText.setText(instructions);
     }
@@ -436,11 +445,45 @@ export class GameBoard extends Scene {
             color: '#ffff00',
             backgroundColor: '#000000',
             padding: { x: 10, y: 5 }
-        }).setOrigin(0.5);
+        }).setOrigin(0.5).setDepth(1000);
 
         // Auto-remove after 3 seconds
         this.time.delayedCall(3000, () => {
             messageText.destroy();
+        });
+    }
+
+    private showHelp(): void {
+        const helpText = `
+CARD GAME CONTROLS:
+- SPACE: End current phase
+- S: Show available summon slots  
+- H: Show this help
+- Click: Place summon in your territory
+
+GAME PHASES:
+1. SETUP → DRAW → LEVEL → ACTION → END
+2. Click board during ACTION phase to place summons
+3. Player A territory: Bottom 3 rows (blue)
+4. Player B territory: Top 3 rows (red)
+
+Current Game State:
+- Turn: ${this.gameState.turnNumber || 'undefined'}
+- Phase: ${(this.gameState.currentPhase || this.gameState.phase || 'unknown').toString().toUpperCase()}
+- Active Player: ${this.gameState.activePlayer}
+        `;
+
+        const helpDisplay = this.add.text(512, 350, helpText.trim(), {
+            fontSize: '14px',
+            color: '#ffffff',
+            backgroundColor: '#000080',
+            padding: { x: 15, y: 10 },
+            align: 'left'
+        }).setOrigin(0.5).setDepth(1000);
+
+        // Auto-remove after 8 seconds
+        this.time.delayedCall(8000, () => {
+            helpDisplay.destroy();
         });
     }
 
