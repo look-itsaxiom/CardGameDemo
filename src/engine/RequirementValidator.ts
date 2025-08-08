@@ -4,7 +4,7 @@
  * Single Responsibility: Determines if cards can be played and finds valid targets
  */
 
-import { GameState, PlayerId, Requirement, TargetRestriction, SummonUnit } from "../types/index";
+import { GameState, PlayerId, Requirement, TargetRestriction } from "../types/index";
 import { GameStateManager } from "./GameStateManager";
 
 export class RequirementValidator {
@@ -74,7 +74,7 @@ export class RequirementValidator {
 
     const hasFamily = playerSummons.some((summon) => {
       const role = this.gameStateManager.getCurrentRole(summon.id);
-      return role && this.getRoleFamily(role.roleType) === targetFamily;
+      return role && this.getRoleFamily(role.roleFamily) === targetFamily;
     });
 
     return {
@@ -156,7 +156,7 @@ export class RequirementValidator {
     if (restriction.roleFamily) {
       validTargets = validTargets.filter((summon) => {
         const role = this.gameStateManager.getCurrentRole(summon.id);
-        return role && restriction.roleFamily.includes(this.getRoleFamily(role.roleType));
+        return role && restriction.roleFamily.includes(this.getRoleFamily(role.roleFamily));
       });
     }
 

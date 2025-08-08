@@ -29,8 +29,9 @@ function createUniqueCardId(
 // Simple demo cryptographic key (in real app, use proper key management)
 const DEMO_PRIVATE_KEY =
     "CardGameDemo-PrivateKey-2025-ThisIsADemoKey-DontEvenTry";
-const DEMO_PUBLIC_KEY =
-    "CardGameDemo-PublicKey-2025-ThisIsADemoKey-DontEvenTry";
+// Placeholder for future public key functionality if needed
+// const DEMO_PUBLIC_KEY =
+//     "CardGameDemo-PublicKey-2025-ThisIsADemoKey-DontEvenTry";
 
 // Helper function to create a deterministic hash for demo purposes
 function createHash(data: string): string {

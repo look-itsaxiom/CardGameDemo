@@ -4,8 +4,8 @@
  * Single Responsibility: Manages effect type definitions and executors
  */
 
-import { GameState, SummonUnit, PlayerId, CardId, Effect, EffectContext, EffectResult } from "../types/index";
-import { GameStateManager } from "./GameStateManager";
+import { GameState, Effect, EffectContext, EffectResult, EffectChange } from "../types/index";
+import { SummonUnitSynthesisService } from "./SummonUnitSynthesisService";
 
 export interface EffectExecutor {
   (effect: Effect, context: EffectContext, state: GameState): Promise<EffectResult>;
@@ -226,7 +226,7 @@ export class EffectTypeRegistry {
     };
   }
 
-  private validateHealSummon(effect: Effect, context: EffectContext, state: GameState): { valid: boolean; message: string } {
+  private validateHealSummon(_effect: Effect, context: EffectContext, state: GameState): { valid: boolean; message: string } {
     const { targetId } = context;
 
     if (!targetId) {
@@ -245,7 +245,7 @@ export class EffectTypeRegistry {
     return { valid: true, message: "Valid heal target" };
   }
 
-  private targetHealSummon(effect: Effect, context: EffectContext, state: GameState): string[] {
+  private targetHealSummon(_effect: Effect, _context: EffectContext, state: GameState): string[] {
     // Return all summons that could be healed
     return Object.values(state.summonUnits)
       .filter((unit) => unit.currentHP < unit.maxHP)
@@ -254,7 +254,7 @@ export class EffectTypeRegistry {
 
   private async executeDamageSummon(effect: Effect, context: EffectContext, state: GameState): Promise<EffectResult> {
     const { targetId, casterId } = context;
-    const { damageFormula, basePower, canCrit, critMultiplier, damageType } = effect.parameters;
+    const { damageFormula, basePower, canCrit, critMultiplier } = effect.parameters;
 
     const target = state.summonUnits[targetId!];
     const caster = casterId ? state.summonUnits[casterId] : null;
@@ -285,7 +285,7 @@ export class EffectTypeRegistry {
     const actualDamage = target.currentHP - newHP;
     target.currentHP = newHP;
 
-    const changes = [
+    const changes: EffectChange[] = [
       {
         type: "summonDamaged",
         targetId: targetId!,
@@ -324,8 +324,9 @@ export class EffectTypeRegistry {
       changes.push({
         type: "summonDefeated",
         targetId: targetId!,
+        amount: damage,
+        newHP: newHP,
         vpAwarded,
-        awardedTo: opponent,
       });
 
       message += ` - DEFEATED! ${opponent} gains ${vpAwarded} VP`;
@@ -338,7 +339,7 @@ export class EffectTypeRegistry {
     };
   }
 
-  private validateDamageSummon(effect: Effect, context: EffectContext, state: GameState): { valid: boolean; message: string } {
+  private validateDamageSummon(_effect: Effect, context: EffectContext, state: GameState): { valid: boolean; message: string } {
     const { targetId } = context;
 
     if (!targetId) {
@@ -353,7 +354,7 @@ export class EffectTypeRegistry {
     return { valid: true, message: "Valid damage target" };
   }
 
-  private targetDamageSummon(effect: Effect, context: EffectContext, state: GameState): string[] {
+  private targetDamageSummon(_effect: Effect, _context: EffectContext, state: GameState): string[] {
     // Return all summons that could be damaged
     return Object.keys(state.summonUnits);
   }
@@ -371,8 +372,20 @@ export class EffectTypeRegistry {
     const newLevel = Math.min(20, target.level + levels);
     target.level = newLevel;
 
-    // TODO: Recalculate stats using SummonUnitSynthesisService
-    // For now, just update level
+    // Recalculate stats using SummonUnitSynthesisService
+    const synthesisService = SummonUnitSynthesisService.getInstance();
+    const summonSlot = synthesisService.getSummonSlotByCardId(targetId!);
+    
+    // Update the unit with recalculated stats
+    const recalculatedUnit = synthesisService.createSummonUnitFromSlot(summonSlot, target.position);
+    recalculatedUnit.level = newLevel; // Ensure level is set correctly
+    
+    // Update the target with new stats while preserving current HP ratio
+    const hpRatio = target.currentHP / target.maxHP;
+    target.currentStats = recalculatedUnit.currentStats;
+    target.maxHP = recalculatedUnit.maxHP;
+    target.totalMovement = recalculatedUnit.totalMovement;
+    target.currentHP = Math.min(target.currentHP, Math.floor(target.maxHP * hpRatio));
 
     return {
       success: true,
@@ -388,7 +401,7 @@ export class EffectTypeRegistry {
     };
   }
 
-  private validateLevelUp(effect: Effect, context: EffectContext, state: GameState): { valid: boolean; message: string } {
+  private validateLevelUp(_effect: Effect, context: EffectContext, state: GameState): { valid: boolean; message: string } {
     const { targetId } = context;
 
     if (!targetId) {
@@ -407,15 +420,15 @@ export class EffectTypeRegistry {
     return { valid: true, message: "Valid level up target" };
   }
 
-  private targetLevelUp(effect: Effect, context: EffectContext, state: GameState): string[] {
+  private targetLevelUp(_effect: Effect, _context: EffectContext, state: GameState): string[] {
     return Object.values(state.summonUnits)
       .filter((unit) => unit.level < 20)
       .map((unit) => unit.id);
   }
 
-  private async executeChangeZone(effect: Effect, context: EffectContext, state: GameState): Promise<EffectResult> {
-    const { targetId, playerId } = context;
-    const { fromZone, toZone, amount = 1 } = effect.parameters;
+  private async executeChangeZone(effect: Effect, context: EffectContext, _state: GameState): Promise<EffectResult> {
+    const { targetId } = context;
+    const { fromZone, toZone } = effect.parameters;
 
     // TODO: Implement card zone movement logic
     return {
@@ -432,18 +445,18 @@ export class EffectTypeRegistry {
     };
   }
 
-  private validateChangeZone(effect: Effect, context: EffectContext, state: GameState): { valid: boolean; message: string } {
+  private validateChangeZone(_effect: Effect, _context: EffectContext, _state: GameState): { valid: boolean; message: string } {
     // TODO: Validate zone movement
     return { valid: true, message: "Valid zone change" };
   }
 
-  private targetChangeZone(effect: Effect, context: EffectContext, state: GameState): string[] {
+  private targetChangeZone(_effect: Effect, _context: EffectContext, _state: GameState): string[] {
     // TODO: Find valid cards for zone movement
     return [];
   }
 
-  private async executeEnterPlayZone(effect: Effect, context: EffectContext, state: GameState): Promise<EffectResult> {
-    const { sourceCardId, playerId } = context;
+  private async executeEnterPlayZone(_effect: Effect, context: EffectContext, state: GameState): Promise<EffectResult> {
+    const { sourceCardId } = context;
 
     if (!sourceCardId) {
       return { success: false, message: "No source card specified", changes: [] };
@@ -464,11 +477,11 @@ export class EffectTypeRegistry {
     };
   }
 
-  private validateEnterPlayZone(effect: Effect, context: EffectContext, state: GameState): { valid: boolean; message: string } {
+  private validateEnterPlayZone(_effect: Effect, _context: EffectContext, _state: GameState): { valid: boolean; message: string } {
     return { valid: true, message: "Valid enter play" };
   }
 
-  private targetEnterPlayZone(effect: Effect, context: EffectContext, state: GameState): string[] {
+  private targetEnterPlayZone(_effect: Effect, _context: EffectContext, _state: GameState): string[] {
     return [];
   }
 
@@ -484,7 +497,7 @@ export class EffectTypeRegistry {
       if (typeof value === "object" && value !== null) {
         // Handle nested objects like caster.SPI
         for (const [subKey, subValue] of Object.entries(value)) {
-          result = result.replace(new RegExp(`${key}\\.${subKey}`, "g"), subValue.toString());
+          result = result.replace(new RegExp(`${key}\\.${subKey}`, "g"), String(subValue));
         }
       } else if (typeof value === "number") {
         result = result.replace(new RegExp(`\\b${key}\\b`, "g"), value.toString());

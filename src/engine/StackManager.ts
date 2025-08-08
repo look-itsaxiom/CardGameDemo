@@ -4,7 +4,7 @@
  * Single Responsibility: Manages the LIFO stack for effect resolution and player response windows
  */
 
-import { StackEntry, SpeedLevel, PlayerId, GameState, GamePhase, TriggerContext, Effect, EffectContext, GameEvent } from "../types/index";
+import { StackEntry, SpeedLevel, PlayerId, GamePhase, EffectContext, GameEvent } from "../types/index";
 import { GameStateManager } from "./GameStateManager";
 import { EffectTypeRegistry } from "./EffectTypeRegistry";
 

@@ -4,7 +4,7 @@
  * Single Responsibility: Manages the authoritative game state
  */
 
-import { GameState, GamePhase, PlayerId, Player, PlayerZones, positionToId, BoardPosition, GameZones, Deck3v3, CardId, RoleCard, SummonUnit } from "types/index";
+import { GameState, GamePhase, PlayerId, Player, PlayerZones, positionToId, BoardPosition, GameZones, Deck3v3, CardId, RoleCard, SummonUnit } from "../types/index";
 import { SummonUnitSynthesisService } from "./SummonUnitSynthesisService";
 import { cardDatabase } from "./CardDatabaseService";
 
