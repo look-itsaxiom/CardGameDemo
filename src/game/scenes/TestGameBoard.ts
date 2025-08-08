@@ -144,7 +144,7 @@ export class InteractiveGameBoard extends Scene {
     }
 
     private createInfoPanel(): void {
-        this.gameInfoPanel = this.add.container(50, 80);
+        this.gameInfoPanel = this.add.container(150, 120);
         
         // Background for info panel
         const infoBg = this.add.rectangle(0, 0, 220, 200, 0x2c3e50, 0.9);
@@ -256,12 +256,48 @@ Units: ${Object.keys(playerState?.unitsInPlay || {}).length}`;
         const activePlayer = this.gameState.activePlayer;
         const playerState = this.gameState.players[activePlayer];
         
-        if (!playerState) return;
+        console.log('UpdateHand - activePlayer:', activePlayer);
+        console.log('UpdateHand - playerState:', playerState);
+        
+        if (!playerState) {
+            console.log('UpdateHand - No player state found');
+            return;
+        }
+        
+        console.log('UpdateHand - Hand cards:', playerState.hand);
         
         // Display hand cards as simple rectangles with names
         playerState.hand.forEach((cardId, index) => {
+            console.log(`UpdateHand - Processing card ${index}: ${cardId}`);
             const card = this.gameEngine.getCardManager().getCard(cardId);
-            if (!card) return;
+            console.log(`UpdateHand - Retrieved card:`, card);
+            
+            if (!card) {
+                console.log(`UpdateHand - Card ${cardId} not found in card manager`);
+                
+                // Create a placeholder for missing cards
+                const cardX = -350 + index * 70;
+                const cardY = 0;
+                
+                const cardRect = this.add.rectangle(cardX, cardY, 60, 80, 0x95a5a6, 0.8);
+                cardRect.setStrokeStyle(2, 0xffffff);
+                
+                const cardText = this.add.text(cardX, cardY - 10, 'Missing', {
+                    fontFamily: 'Arial',
+                    fontSize: 8,
+                    color: '#ffffff',
+                    align: 'center',
+                }).setOrigin(0.5);
+                
+                const typeText = this.add.text(cardX, cardY + 15, cardId.slice(0, 8), {
+                    fontFamily: 'Arial',
+                    fontSize: 6,
+                    color: '#cccccc',
+                }).setOrigin(0.5);
+                
+                this.handPanel.add([cardRect, cardText, typeText]);
+                return;
+            }
             
             const cardX = -350 + index * 70;
             const cardY = 0;
@@ -303,6 +339,8 @@ Units: ${Object.keys(playerState?.unitsInPlay || {}).length}`;
             
             this.handPanel.add([cardRect, cardText, typeText]);
         });
+        
+        console.log('UpdateHand - Finished updating hand display');
     }
 
     private updateInstructions(): void {
@@ -311,22 +349,22 @@ Units: ${Object.keys(playerState?.unitsInPlay || {}).length}`;
         
         switch (phase) {
             case 'setup':
-                instruction = 'Setup Phase\nInitializing game...';
+                instruction = 'Setup Phase\nInitializing game...\nPress SPACE to continue';
                 break;
             case 'draw':
-                instruction = 'Draw Phase\nDrawing cards...';
+                instruction = 'Draw Phase\nDrawing cards...\nPress SPACE to continue';
                 break;
             case 'level':
-                instruction = 'Level Phase\nUnits gaining levels...';
+                instruction = 'Level Phase\nUnits gaining levels...\nPress SPACE to continue';
                 break;
             case 'action':
-                instruction = 'Action Phase\nPlay cards, move units!';
+                instruction = 'Action Phase\nPlay cards, move units!\nPress SPACE to end turn';
                 break;
             case 'end':
-                instruction = 'End Phase\nTurn ending...';
+                instruction = 'End Phase\nTurn ending...\nPress SPACE to continue';
                 break;
             default:
-                instruction = 'Press SPACE to start';
+                instruction = 'Press SPACE to start\nH for game state\nR to reset';
         }
         
         this.instructionText.setText(instruction);
@@ -368,6 +406,7 @@ Units: ${Object.keys(playerState?.unitsInPlay || {}).length}`;
 
     private advancePhase(): void {
         try {
+            const previousPhase = this.gameState.phase;
             const action = {
                 type: 'endPhase',
                 playerId: this.gameState.activePlayer,
@@ -378,12 +417,22 @@ Units: ${Object.keys(playerState?.unitsInPlay || {}).length}`;
             if (result.success) {
                 this.gameState = this.gameEngine.getState();
                 this.updateDisplay();
-                console.log('Phase advanced successfully');
+                console.log(`Phase advanced: ${previousPhase} -> ${this.gameState.phase}`);
+                
+                // Special handling for draw phase
+                if (this.gameState.phase === 'draw') {
+                    setTimeout(() => {
+                        console.log('Auto-advancing from draw phase');
+                        this.advancePhase();
+                    }, 1000);
+                }
             } else {
                 console.log('Failed to advance phase:', result.message);
+                this.instructionText.setText(`Error: ${result.message || 'Unknown error'}`);
             }
         } catch (error) {
             console.error('Error advancing phase:', error);
+            this.instructionText.setText(`Error: ${error}`);
         }
     }
 
