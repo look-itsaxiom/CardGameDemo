@@ -81,12 +81,11 @@ npm install
 
 ### Development
 
-**⚠️ Note: Build currently fails due to TypeScript errors**
-
 ```bash
-npm run dev        # Will fail - 51 compilation errors
-npm run build      # Will fail - TypeScript errors
-npm run test       # No tests exist
+npm run dev        # Start development server
+npm run build      # Production build
+npm run build-nolog # Production build without gryzor.co logging
+npm run test       # Run tests
 ```
 
 **Working commands:**
@@ -94,6 +93,20 @@ npm run test       # No tests exist
 npm run build:cards # Generate card database (works)
 npm run test:cli    # CLI tester (may not work due to engine issues)
 ```
+
+### Deployment
+
+The game is automatically deployed to GitHub Pages using GitHub Actions:
+
+- **Live Demo**: [https://look-itsaxiom.github.io/CardGameDemo/](https://look-itsaxiom.github.io/CardGameDemo/)
+- **Auto-deployment**: Triggered on every push to `main` branch
+- **Build artifact**: Production build uploaded to `gh-pages` branch
+
+The deployment workflow:
+1. Installs dependencies with `npm ci`
+2. Builds the project with `npm run build-nolog`
+3. Uploads the `dist/` folder to GitHub Pages
+4. Makes the game accessible at the GitHub Pages URL
 
 ## 📁 Project Structure
 

@@ -15,22 +15,27 @@ export class Game extends Scene
     create ()
     {
         this.camera = this.cameras.main;
-        this.camera.setBackgroundColor(0x00ff00);
+        this.camera.setBackgroundColor(0x2c5530);
 
         this.background = this.add.image(512, 384, 'background');
-        this.background.setAlpha(0.5);
+        this.background.setAlpha(0.3);
 
-        this.gameText = this.add.text(512, 384, 'Make something fun!\nand share it with us:\nsupport@phaser.io', {
-            fontFamily: 'Arial Black', fontSize: 38, color: '#ffffff',
-            stroke: '#000000', strokeThickness: 8,
+        this.gameText = this.add.text(512, 384, 'Initializing Card Game Engine...\nStarting Battle Arena', {
+            fontFamily: 'Arial Black', fontSize: 32, color: '#ffffff',
+            stroke: '#000000', strokeThickness: 6,
             align: 'center'
         }).setOrigin(0.5).setDepth(100);
+
+        // Auto-transition to InteractiveGameBoard after engine initialization
+        this.time.delayedCall(1500, () => {
+            this.scene.start('InteractiveGameBoard');
+        });
 
         EventBus.emit('current-scene-ready', this);
     }
 
     changeScene ()
     {
-        this.scene.start('GameOver');
+        this.scene.start('InteractiveGameBoard');
     }
 }

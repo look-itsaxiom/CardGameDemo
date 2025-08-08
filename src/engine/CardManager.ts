@@ -5,6 +5,7 @@
  */
 
 import { PlayerZones, Card, SummonUnit, BaseStats, GrowthRates, GROWTH_RATE_VALUES } from "../types/index.js";
+import { SummonUnitSynthesisService } from "./SummonUnitSynthesisService.js";
 
 export class CardManager {
   constructor(private cardDatabase: Record<string, Card>) {}
@@ -106,7 +107,57 @@ export class CardManager {
    * Get card from database
    */
   getCard(cardId: string): Card | undefined {
-    return this.cardDatabase[cardId];
+    console.log(`CardManager.getCard: Looking for card ${cardId}`);
+    
+    // First check the main card database
+    const dbCard = this.cardDatabase[cardId];
+    if (dbCard) {
+      console.log(`CardManager.getCard: Found card in database: ${dbCard.name}`);
+      return dbCard;
+    }
+    
+    console.log(`CardManager.getCard: Card not in database, checking synthesis service`);
+    
+    // Check if this is a synthesized summon slot card
+    try {
+      const synthesisService = SummonUnitSynthesisService.getInstance();
+      console.log(`CardManager.getCard: Got synthesis service`);
+      
+      const summonSlot = synthesisService.getSummonSlotByCardId(cardId);
+      console.log(`CardManager.getCard: Got summon slot:`, summonSlot);
+      
+      if (summonSlot) {
+        // Create a temporary card representation for the summon slot
+        const summonCard = this.cardDatabase[summonSlot.summonCard];
+        const roleCard = this.cardDatabase[summonSlot.roleCard];
+        
+        console.log(`CardManager.getCard: Found summon card: ${summonCard?.name}, role card: ${roleCard?.name}`);
+        
+        if (summonCard && roleCard) {
+          // Create a composite card name that includes the role
+          const compositeCard = {
+            id: cardId,
+            name: `${summonCard.name} (${roleCard.name})`,
+            type: 'summon',
+            set: summonCard.set,
+            rarity: summonCard.rarity,
+            cost: summonCard.cost || 0,
+            // Include additional info for display
+            ...summonCard,
+            roleCard: roleCard.name,
+            isSlotCard: true
+          } as Card;
+          
+          console.log(`CardManager.getCard: Created composite card:`, compositeCard);
+          return compositeCard;
+        }
+      }
+    } catch (error) {
+      console.log(`CardManager.getCard: Error in synthesis service:`, error);
+    }
+    
+    console.log(`CardManager.getCard: Card not found anywhere`);
+    return undefined;
   }
 
   /**
