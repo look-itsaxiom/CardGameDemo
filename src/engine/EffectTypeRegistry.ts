@@ -4,8 +4,8 @@
  * Single Responsibility: Manages effect type definitions and executors
  */
 
-import { GameState, SummonUnit, PlayerId, CardId, Effect, EffectContext, EffectResult } from "../types/index";
-import { GameStateManager } from "./GameStateManager";
+import { GameState, Effect, EffectContext, EffectResult, EffectChange } from "../types/index";
+// Note: GameStateManager available as singleton, removing unused import
 
 export interface EffectExecutor {
   (effect: Effect, context: EffectContext, state: GameState): Promise<EffectResult>;
@@ -285,7 +285,7 @@ export class EffectTypeRegistry {
     const actualDamage = target.currentHP - newHP;
     target.currentHP = newHP;
 
-    const changes = [
+    const changes: EffectChange[] = [
       {
         type: "summonDamaged",
         targetId: targetId!,
@@ -324,8 +324,9 @@ export class EffectTypeRegistry {
       changes.push({
         type: "summonDefeated",
         targetId: targetId!,
+        amount: damage,
+        newHP: newHP,
         vpAwarded,
-        awardedTo: opponent,
       });
 
       message += ` - DEFEATED! ${opponent} gains ${vpAwarded} VP`;

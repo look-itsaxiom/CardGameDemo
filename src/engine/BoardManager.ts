@@ -4,7 +4,7 @@
  * Single Responsibility: Manages board positions, occupancy, and spatial logic
  */
 
-import { Position, positionToId, BoardPosition, SummonUnit, Player, SummonSlot } from "../types/index.js";
+import { Position, positionToId, SummonUnit, Player } from "../types/index.js";
 import { GameStateManager } from "./GameStateManager.js";
 import { summonUnitSynthesis } from "./SummonUnitSynthesisService.js";
 

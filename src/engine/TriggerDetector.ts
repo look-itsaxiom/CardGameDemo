@@ -4,7 +4,7 @@
  * Single Responsibility: Event detection and trigger matching for card effects
  */
 
-import { GameEvent, Trigger, TriggerCondition, PlayerId, GameState, GamePhase, SpeedLevel, StackEntry } from "../types/index";
+import { GameEvent, Trigger, TriggerCondition, PlayerId, GamePhase } from "../types/index";
 import { GameStateManager } from "./GameStateManager";
 import { StackManager } from "./StackManager";
 
@@ -22,7 +22,9 @@ export class TriggerDetector {
   private eventQueue: GameEvent[] = [];
   private eventIdCounter = 0;
 
-  constructor(private stateManager: GameStateManager, private stackManager: StackManager) {}
+  constructor(private stateManager: GameStateManager, private stackManager: StackManager) {
+    // stackManager will be used for adding triggered effects to the stack
+  }
 
   /**
    * Emit a game event and check for triggered effects
