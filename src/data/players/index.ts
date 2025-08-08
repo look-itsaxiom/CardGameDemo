@@ -689,21 +689,21 @@ const playerB_Collection: PlayerCollection = {
 const playerA_SummonSlots: [SummonSlot, SummonSlot, SummonSlot] = [
     {
         summonCard: playerA_GignenWarrior.id,
-        roleCard: "005-warrior_role-Alpha" as CardId,
+        roleCard: "020-warrior-Alpha" as CardId,
         equipment: {
             weapon: "034-heirloom_sword-Alpha" as CardId,
         },
     },
     {
         summonCard: playerA_GignenScout.id,
-        roleCard: "006-scout_role-Alpha" as CardId,
+        roleCard: "022-scout-Alpha" as CardId,
         equipment: {
             weapon: "036-hunting_bow-Alpha" as CardId,
         },
     },
     {
         summonCard: playerA_GignenMagician.id,
-        roleCard: "007-magician_role-Alpha" as CardId,
+        roleCard: "021-magician-Alpha" as CardId,
         equipment: {
             weapon: "035-apprentices_wand-Alpha" as CardId,
         },
@@ -713,21 +713,21 @@ const playerA_SummonSlots: [SummonSlot, SummonSlot, SummonSlot] = [
 const playerB_SummonSlots: [SummonSlot, SummonSlot, SummonSlot] = [
     {
         summonCard: playerB_StoneheartWarrior.id,
-        roleCard: "005-warrior_role-Alpha" as CardId,
+        roleCard: "020-warrior-Alpha" as CardId,
         equipment: {
             weapon: "034-heirloom_sword-Alpha" as CardId,
         },
     },
     {
         summonCard: playerB_FaeMagician.id,
-        roleCard: "007-magician_role-Alpha" as CardId,
+        roleCard: "021-magician-Alpha" as CardId,
         equipment: {
             weapon: "035-apprentices_wand-Alpha" as CardId,
         },
     },
     {
         summonCard: playerB_WilderlingScout.id,
-        roleCard: "006-scout_role-Alpha" as CardId,
+        roleCard: "022-scout-Alpha" as CardId,
         equipment: {
             weapon: "036-hunting_bow-Alpha" as CardId,
         },
