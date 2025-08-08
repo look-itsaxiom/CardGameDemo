@@ -4,6 +4,7 @@ import {
     CardRarity,
     SpeedLevel,
     GrowthRate,
+    Attribute,
 } from "@types";
 
 /**
@@ -26,7 +27,7 @@ export const alrechtBarkstepScoutmaster: AdvanceCard = {
     rarity: CardRarity.LEGEND,
     description:
         "Transform target Scout summon level 10+ that has completed a Quest into Alrecht Barkstep, Scoutmaster. Inherits equipment, position, and level. Adds 'Follow Me!' to hand on enter play and each turn.",
-    attribute: "earth",
+    attribute: Attribute.EARTH,
 
     // Advance card properties
     speed: SpeedLevel.ACTION,

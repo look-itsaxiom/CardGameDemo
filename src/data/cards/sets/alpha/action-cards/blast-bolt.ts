@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Blast Bolt - Action Card (Alpha Set #001)
@@ -18,7 +18,7 @@ export const blastBolt: ActionCard = {
     rarity: CardRarity.RARE,
     description:
         "A long range bolt of fire that explodes on impact, dealing significant single-target damage.",
-    attribute: "fire",
+    attribute: Attribute.FIRE,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

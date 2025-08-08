@@ -13,6 +13,7 @@ import {
     UniqueCardId,
     PlayerId,
     CardId,
+    Attribute,
 } from "../../types/index.js";
 
 // Helper function to create a unique card ID
@@ -286,7 +287,7 @@ export const playerA_GignenWarrior: SummonCard = {
     ),
     name: "Gignen Warrior A",
     type: CardType.SUMMON,
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
     rarity: CardRarity.COMMON,
     description: "A hardy warrior from the Gignen clan.",
     digitalSignature: {
@@ -347,7 +348,7 @@ export const playerA_GignenScout: SummonCard = {
     ),
     name: "Gignen Scout A",
     type: CardType.SUMMON,
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
     rarity: CardRarity.COMMON,
     description: "A swift scout from the Gignen clan.",
     digitalSignature: {
@@ -408,7 +409,7 @@ export const playerA_GignenMagician: SummonCard = {
     ),
     name: "Gignen Magician A",
     type: CardType.SUMMON,
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
     rarity: CardRarity.COMMON,
     description: "A skilled magician from the Gignen clan.",
     digitalSignature: {
@@ -473,7 +474,7 @@ export const playerB_StoneheartWarrior: SummonCard = {
     ),
     name: "Stoneheart Warrior B",
     type: CardType.SUMMON,
-    attribute: "earth",
+    attribute: Attribute.FIRE,
     rarity: CardRarity.COMMON,
     description: "A resilient warrior of the Stoneheart clan.",
     digitalSignature: {
@@ -534,7 +535,7 @@ export const playerB_FaeMagician: SummonCard = {
     ),
     name: "Fae Magician B",
     type: CardType.SUMMON,
-    attribute: "light",
+    attribute: Attribute.EARTH,
     rarity: CardRarity.COMMON,
     description: "A mystical magician of the Fae realm.",
     digitalSignature: {
@@ -595,7 +596,7 @@ export const playerB_WilderlingScout: SummonCard = {
     ),
     name: "Wilderling Scout B",
     type: CardType.SUMMON,
-    attribute: "wind",
+    attribute: Attribute.WIND,
     rarity: CardRarity.RARE,
     description: "A swift scout from the Wilderling tribes.",
     digitalSignature: {

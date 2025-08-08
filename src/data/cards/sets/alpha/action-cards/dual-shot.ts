@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel, Duration } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Duration, Attribute } from "@types";
 
 /**
  * Dual Shot - Action Card (Alpha Set #017)
@@ -18,7 +18,7 @@ export const dualShot: ActionCard = {
     rarity: CardRarity.UNCOMMON,
     description:
         "Target scout based Summon you control is able to make two basic attacks this turn, instead of one.",
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

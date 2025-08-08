@@ -1,4 +1,4 @@
-import { BuildingCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { BuildingCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Gignen Country - Building Card (Alpha Set #004)
@@ -18,7 +18,7 @@ export const gignenCountry: BuildingCard = {
     rarity: CardRarity.UNCOMMON,
     description:
         "While occupying all Gignen based Summons you control receive an additional level whenever they level up.",
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
 
     // Building card specific properties
     speed: SpeedLevel.ACTION,

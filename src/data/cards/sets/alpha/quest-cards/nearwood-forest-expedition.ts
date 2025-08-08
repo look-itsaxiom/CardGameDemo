@@ -1,4 +1,4 @@
-import { QuestCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { QuestCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Nearwood Forest Expedition - Quest Card (Alpha Set #002)
@@ -20,7 +20,7 @@ export const nearwoodForestExpedition: QuestCard = {
     rarity: CardRarity.COMMON,
     description:
         "While this quest is active, if you control a Warrior, Scout, or Magician summon under level 10, you may activate this quest to have that summon gain 2 levels.",
-    attribute: "earth",
+    attribute: Attribute.EARTH,
 
     // Play characteristics
     speed: SpeedLevel.ACTION,

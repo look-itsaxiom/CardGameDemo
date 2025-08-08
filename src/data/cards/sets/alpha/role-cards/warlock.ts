@@ -1,4 +1,4 @@
-import { RoleCard, CardType, CardRarity } from "@types";
+import { RoleCard, CardType, CardRarity, Attribute } from "@types";
 
 export const warlock: RoleCard = {
     id: "032-warlock-Alpha",
@@ -7,7 +7,7 @@ export const warlock: RoleCard = {
     rarity: CardRarity.RARE,
     description:
         "A master of dark magic who wields forbidden powers to curse enemies and cast devastating spells.",
-    attribute: "dark",
+    attribute: Attribute.DARK,
 
     tier: 3,
     roleFamily: "magician",

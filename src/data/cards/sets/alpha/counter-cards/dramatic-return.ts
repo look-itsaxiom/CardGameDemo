@@ -1,4 +1,4 @@
-import { CounterCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { CounterCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Dramatic Return! - Counter Card (Alpha Set #070)
@@ -20,7 +20,7 @@ export const dramaticReturn: CounterCard = {
     rarity: CardRarity.LEGEND,
     description:
         "Trigger: A Summon you control is removed from In Play. Return that Summon to an unoccupied space within your territory with 10% HP. This effect does not trigger Summon Draws.",
-    attribute: "light",
+    attribute: Attribute.LIGHT,
 
     // Play characteristics
     speed: SpeedLevel.COUNTER,

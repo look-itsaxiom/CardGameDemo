@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel, Duration } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Duration, Attribute } from "@types";
 
 /**
  * Ensnare - Action Card (Alpha Set #011)
@@ -18,7 +18,7 @@ export const ensnare: ActionCard = {
     rarity: CardRarity.UNCOMMON,
     description:
         "A ranged trap that ensnares a target Summon, immobilizing them from a distance and dealing a small amount of damage.",
-    attribute: "earth",
+    attribute: Attribute.EARTH,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

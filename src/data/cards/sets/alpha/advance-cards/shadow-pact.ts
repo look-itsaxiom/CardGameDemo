@@ -1,4 +1,4 @@
-import { AdvanceCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { AdvanceCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Shadow Pact - Role Change Advance Card (Alpha Set #018)
@@ -18,7 +18,7 @@ export const shadowPact: AdvanceCard = {
     rarity: CardRarity.LEGEND, // Corrected to match legacy rarity
     description:
         "Target Magician summon becomes a Warlock. The warlock gains dark magic mastery and powerful offensive capabilities.",
-    attribute: "dark",
+    attribute: Attribute.DARK,
 
     // Advance card properties
     speed: SpeedLevel.ACTION,

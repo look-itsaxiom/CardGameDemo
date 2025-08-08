@@ -1,4 +1,4 @@
-import { QuestCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { QuestCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Taste of Battle - Quest Card (Alpha Set #003)
@@ -21,7 +21,7 @@ export const tasteOfBattle: QuestCard = {
     rarity: CardRarity.UNCOMMON,
     description:
         "While this quest is active, if you control a summon under level 10 that has dealt damage to an enemy summon this turn, you may activate this quest to have that summon gain 2 levels. If any of your summons under level 10 take damage from an enemy, this quest fails.",
-    attribute: "fire",
+    attribute: Attribute.FIRE,
 
     // Play characteristics
     speed: SpeedLevel.ACTION,

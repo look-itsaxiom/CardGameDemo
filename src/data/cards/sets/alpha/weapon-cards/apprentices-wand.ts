@@ -1,4 +1,4 @@
-import { EquipmentCard, CardType, CardRarity, EquipmentSlot } from "@types";
+import { EquipmentCard, CardType, CardRarity, EquipmentSlot, Attribute } from "@types";
 
 /**
  * Apprentice's Wand - Weapon Equipment Card (Alpha Set #035)
@@ -19,7 +19,7 @@ export const apprenticesWand: EquipmentCard = {
     rarity: CardRarity.COMMON,
     description:
         "A simple wand used by apprentices to channel their magical energy.",
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
 
     // Weapon properties
     power: 25,

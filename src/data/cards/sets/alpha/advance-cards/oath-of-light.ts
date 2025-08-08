@@ -1,4 +1,4 @@
-import { AdvanceCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { AdvanceCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Oath of Light - Role Change Advance Card (Alpha Set #033)
@@ -18,7 +18,7 @@ export const oathOfLight: AdvanceCard = {
     rarity: CardRarity.LEGEND,
     description:
         "Promote a target warrior or magician based summon you control to the Paladin role, the epitome of holy warriors in terms of defense and support.",
-    attribute: "light",
+    attribute: Attribute.LIGHT,
 
     // Advance card properties
     speed: SpeedLevel.ACTION,

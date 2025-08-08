@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Sharpened Blade - Action Card (Alpha Set #005)
@@ -18,7 +18,7 @@ export const sharpenedBlade: ActionCard = {
     rarity: CardRarity.COMMON,
     description:
         "Target Weapon equipped to a Warrior-based Summon gains +10 Base Power.",
-    attribute: "earth", // Card attribute applies to the card itself
+    attribute: Attribute.EARTH, // Card attribute applies to the card itself
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

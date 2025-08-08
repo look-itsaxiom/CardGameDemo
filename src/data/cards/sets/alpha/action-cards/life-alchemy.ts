@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Life Alchemy - Action Card (Alpha Set #016)
@@ -19,7 +19,7 @@ export const lifeAlchemy: ActionCard = {
     rarity: CardRarity.COMMON,
     description:
         "Target Summon you control, it loses 25% of its max HP and restores that amount to another target Summon you control.",
-    attribute: "dark",
+    attribute: Attribute.DARK,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

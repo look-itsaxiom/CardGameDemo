@@ -1,4 +1,4 @@
-import { EquipmentCard, CardType, CardRarity, EquipmentSlot } from "@types";
+import { EquipmentCard, CardType, CardRarity, EquipmentSlot, Attribute } from "@types";
 
 /**
  * Heirloom Sword - Weapon Equipment Card (Alpha Set #034)
@@ -19,7 +19,7 @@ export const heirloomSword: EquipmentCard = {
     rarity: CardRarity.COMMON,
     description:
         "A sword passed down through generations, it has done its job for each of its owners, and it will continue to do so for you.",
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
 
     // Weapon properties
     power: 30,

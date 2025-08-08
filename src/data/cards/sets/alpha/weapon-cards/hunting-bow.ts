@@ -1,4 +1,4 @@
-import { EquipmentCard, CardType, CardRarity, EquipmentSlot } from "@types";
+import { EquipmentCard, CardType, CardRarity, EquipmentSlot, Attribute } from "@types";
 
 /**
  * Hunting Bow - Weapon Equipment Card (Alpha Set #036)
@@ -19,7 +19,7 @@ export const huntingBow: EquipmentCard = {
     rarity: CardRarity.COMMON,
     description:
         "A bow designed for hunting, it offers functional precision and power.",
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
 
     // Weapon properties
     power: 20,

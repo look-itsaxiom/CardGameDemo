@@ -4,6 +4,7 @@ import {
     CardRarity,
     SpeedLevel,
     Duration,
+    Attribute,
 } from "@types";
 
 /**
@@ -25,7 +26,7 @@ export const darkAltar: BuildingCard = {
     rarity: CardRarity.RARE,
     description:
         "At the end of your next turn, this building, and any Summons within the spaces it occupies, are destroyed. If a Summon was destroyed by this effect, target magician-based Summon you control becomes level 20 and you can immediately Advance using that Summon as a target.",
-    attribute: "dark",
+    attribute: Attribute.DARK,
 
     // Building card specific properties
     speed: SpeedLevel.ACTION,

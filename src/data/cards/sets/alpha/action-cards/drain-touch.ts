@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Drain Touch - Action Card (Alpha Set #012)
@@ -18,7 +18,7 @@ export const drainTouch: ActionCard = {
     rarity: CardRarity.UNCOMMON,
     description:
         "A close-range attack that siphons life from a target, dealing damage and healing the caster.",
-    attribute: "dark",
+    attribute: Attribute.DARK,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

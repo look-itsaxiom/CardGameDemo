@@ -1,4 +1,4 @@
-import { RoleCard, CardType, CardRarity } from "@types";
+import { RoleCard, CardType, CardRarity, Attribute } from "@types";
 
 export const paladin: RoleCard = {
     id: "031-paladin-Alpha",
@@ -7,7 +7,7 @@ export const paladin: RoleCard = {
     rarity: CardRarity.RARE,
     description:
         "A light magic wielding warrior who excels in both physical and magical defense, using their holy powers to protect and heal allies.",
-    attribute: "light",
+    attribute: Attribute.LIGHT,
 
     tier: 3,
     roleFamily: "warrior", // Hybrid warrior/magician but primarily warrior

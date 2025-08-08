@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Healing Touch - Unique Action Card (Alpha Set #131)
@@ -23,7 +23,7 @@ export const healingTouch: ActionCard = {
     rarity: CardRarity.UNCOMMON,
     description:
         "A Paladin healing spell that restores a significant amount of health to a target summon.",
-    attribute: "light",
+    attribute: Attribute.LIGHT,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

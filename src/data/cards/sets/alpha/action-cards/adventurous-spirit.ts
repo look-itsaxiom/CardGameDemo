@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Adventurous Spirit - Action Card (Alpha Set #013)
@@ -18,7 +18,7 @@ export const adventurousSpirit: ActionCard = {
     rarity: CardRarity.COMMON,
     description:
         "Add target Quest card from your deck, recharge pile, or discard pile to your hand.",
-    attribute: "earth",
+    attribute: Attribute.EARTH,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

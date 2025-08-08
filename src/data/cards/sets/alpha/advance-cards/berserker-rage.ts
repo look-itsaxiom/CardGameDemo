@@ -1,4 +1,4 @@
-import { AdvanceCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { AdvanceCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Berserker Rage - Role Change Advance Card (Alpha Set #080)
@@ -18,7 +18,7 @@ export const berserkerRage: AdvanceCard = {
     rarity: CardRarity.RARE,
     description:
         "Target Warrior summon becomes a Berserker. The berserker gains increased physical prowess at the cost of defense.",
-    attribute: "fire",
+    attribute: Attribute.FIRE,
 
     // Advance card properties
     speed: SpeedLevel.ACTION,

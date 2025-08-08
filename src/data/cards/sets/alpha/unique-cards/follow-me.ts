@@ -4,6 +4,7 @@ import {
     CardRarity,
     SpeedLevel,
     BoardLayer,
+    Attribute
 } from "@types";
 
 /**
@@ -26,7 +27,7 @@ export const followMe: ActionCard = {
     rarity: CardRarity.COMMON,
     description:
         "Teleport target summon you control to an unoccupied space adjacent to Alrecht Barkstep, Scoutmaster. This is not movement.",
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

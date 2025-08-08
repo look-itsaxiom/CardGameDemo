@@ -1,4 +1,4 @@
-import { CounterCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { CounterCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Graverobbing - Counter Card (Alpha Set #019)
@@ -20,7 +20,7 @@ export const graverobbing: CounterCard = {
     rarity: CardRarity.COMMON,
     description:
         "Trigger: A Summon you control is removed from In Play. Return target Action card from your Discard to your hand.",
-    attribute: "dark",
+    attribute: Attribute.DARK,
 
     // Counter card specific properties
     speed: SpeedLevel.COUNTER,

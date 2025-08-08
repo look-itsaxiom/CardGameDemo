@@ -1,4 +1,4 @@
-import { RoleCard, CardType, CardRarity } from "@types";
+import { RoleCard, CardType, CardRarity, Attribute } from "@types";
 
 export const sentinel: RoleCard = {
     id: "030-sentinel-Alpha",
@@ -7,7 +7,7 @@ export const sentinel: RoleCard = {
     rarity: CardRarity.RARE,
     description:
         "A vigilant guardian who stands watch over their allies, ready to intercept threats and shield them from harm.",
-    attribute: "earth",
+    attribute: Attribute.EARTH,
 
     tier: 3,
     roleFamily: "warrior",

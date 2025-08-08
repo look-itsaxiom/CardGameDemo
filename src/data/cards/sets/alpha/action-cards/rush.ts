@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel, Duration } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Duration, Attribute } from "@types";
 
 /**
  * Rush - Action Card (Alpha Set #009)
@@ -19,7 +19,7 @@ export const rush: ActionCard = {
     rarity: CardRarity.COMMON,
     description:
         "Target warrior based summon you control. Until the end of this turn, its movement speed is doubled, while its DEF is halved until the end of the opponent's next turn.",
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

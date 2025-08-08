@@ -10,6 +10,15 @@
 export type PlayerId = string;
 export type CardId = string;
 export type UniqueCardId = string; // For unique summon cards with digital signatures
+export enum Attribute{
+  EARTH = "earth",
+  FIRE = "fire",
+  WATER = "water",
+  WIND = "wind",
+  NEUTRAL = "neutral",
+  LIGHT = "light",
+  DARK = "dark",
+}
 
 // ============================================================================
 // POSITION SYSTEM
@@ -142,7 +151,7 @@ export interface Species {
   name: string;
   description: string;
   baseStatRanges: Record<keyof BaseStats, StatRange>;
-  traits?: Effect[]; // Species-specific passive effects that transfer to summons
+  traits?: Effect[]; 
 }
 
 // ============================================================================
@@ -155,7 +164,7 @@ export interface BaseCard {
   type: CardType;
   rarity: CardRarity;
   description: string;
-  attribute?: string; // Card attribute (e.g., "earth", "fire", "water", "air", "neutral")
+  attribute?: Attribute; 
 }
 
 // Shared properties for playable cards (not summons/roles/equipment)
@@ -567,7 +576,7 @@ export interface CardTargetRestriction extends BaseTargetRestriction {
   cardType: "action" | "building" | "quest" | "counter" | "reaction" | "advance";
   requiresRoleFamily?: string;
   rarity?: string;
-  attribute?: string;
+  attribute?: Attribute;
 }
 
 // Space-specific target restriction (for board positions)
@@ -583,7 +592,7 @@ export interface SpaceTargetRestriction extends BaseTargetRestriction {
 export interface BuildingTargetRestriction extends BaseTargetRestriction {
   type: "building";
   buildingType?: "standard" | "trap";
-  attribute?: string;
+  attribute?: Attribute;
 }
 
 // Equipment-specific target restriction

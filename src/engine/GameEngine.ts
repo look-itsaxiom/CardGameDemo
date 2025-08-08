@@ -1,25 +1,13 @@
-/**
- * Core Game Engine - Orchestrates game components and provides public API
- *
- * This engine follows SOLID principles:
- * - Single Responsibility: Orchestrates components, doesn't handle specifics
- * - Open/Closed: Extensible through component interfaces
- * - Liskov Substitution: Components can be swapped with compatible implementations
- * - Interface Segregation: Each component has focused, specific interfaces
- * - Dependency Inversion: Depends on abstractions, not concrete implementations
- */
-
-import { GameState, GameAction, Player, Deck3v3, Card, PlayerId, GameEvent } from "../types/index.js";
-
-import { GameStateManager } from "./GameStateManager.js";
-import { CardManager } from "./CardManager.js";
-import { BoardManager } from "./BoardManager.js";
-import { PhaseManager } from "./PhaseManager.js";
-import { ActionProcessor } from "./ActionProcessor.js";
-import { EffectTypeRegistry } from "./EffectTypeRegistry.js";
-import { StackManager } from "./StackManager.js";
-import { TriggerDetector } from "./TriggerDetector.js";
-import { RequirementValidator } from "./RequirementValidator.js";
+import { GameState, GameAction, Player, Deck3v3, Card, PlayerId } from "@types";
+import { GameStateManager } from "./GameStateManager";
+import { CardManager } from "./CardManager";
+import { BoardManager } from "./BoardManager";
+import { PhaseManager } from "./PhaseManager";
+import { ActionProcessor } from "./ActionProcessor";
+import { EffectTypeRegistry } from "./EffectTypeRegistry";
+import { StackManager } from "./StackManager";
+import { TriggerDetector } from "./TriggerDetector";
+import { RequirementValidator } from "./RequirementValidator";
 
 export interface GameEngineConfig {
   players: Player[];

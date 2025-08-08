@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Spell Recall - Action Card (Alpha Set #015)
@@ -19,7 +19,7 @@ export const spellRecall: ActionCard = {
     rarity: CardRarity.COMMON,
     description:
         "Cost: Send one card from your hand or the top of your deck to the recharge pile. If you do, you can add a target magician based Action card from your recharge or discard pile to your hand.",
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

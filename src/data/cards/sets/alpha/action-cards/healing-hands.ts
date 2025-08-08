@@ -1,4 +1,4 @@
-import { ActionCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { ActionCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Healing Hands - Action Card (Alpha Set #006)
@@ -18,7 +18,7 @@ export const healingHands: ActionCard = {
     rarity: CardRarity.UNCOMMON,
     description:
         "Target Summon heals HP equal to the caster's SPI * 1.4. Can critically heal for 50% more.",
-    attribute: "light",
+    attribute: Attribute.LIGHT,
 
     // Action card specific properties
     speed: SpeedLevel.ACTION,

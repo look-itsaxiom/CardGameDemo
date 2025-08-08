@@ -1,4 +1,4 @@
-import { AdvanceCard, CardType, CardRarity, SpeedLevel } from "@types";
+import { AdvanceCard, CardType, CardRarity, SpeedLevel, Attribute } from "@types";
 
 /**
  * Knighthood Ceremony - Role Change Advance Card (Alpha Set #081)
@@ -18,7 +18,7 @@ export const knighthoodCeremony: AdvanceCard = {
     rarity: CardRarity.UNCOMMON,
     description:
         "Target Warrior summon becomes a Knight. The knight gains balanced combat prowess and defensive capabilities.",
-    attribute: "neutral",
+    attribute: Attribute.NEUTRAL,
 
     // Advance card properties
     speed: SpeedLevel.ACTION,
