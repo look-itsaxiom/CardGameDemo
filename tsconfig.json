@@ -17,11 +17,10 @@
         /* Path mapping */
         "baseUrl": "./src",
         "paths": {
-            "@types": ["./types/index.ts"],
-            "@types/*": ["./types/*"],
-            "@data/*": ["./data/*"],
-            "@engine/*": ["./engine/*"],
-            "@game/*": ["./game/*"]
+            "@/*": ["./*"],
+            "@/types": ["./types/index.ts"],
+            "@/types/*": ["./types/*"],
+            "@/engine/*": ["./engine/*"]
         },
 
         /* Linting */
