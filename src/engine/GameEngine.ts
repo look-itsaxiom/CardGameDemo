@@ -42,7 +42,7 @@ export class GameEngine {
     // Initialize Phase 6 components - Effects Engine
     this.effectRegistry = EffectTypeRegistry.getInstance();
     this.stackManager = new StackManager(this.stateManager, config.players);
-    this.triggerDetector = new TriggerDetector(this.stateManager, this.stackManager);
+    this.triggerDetector = new TriggerDetector(this.stateManager);
     this.requirementValidator = new RequirementValidator(this.stateManager);
 
     // Initialize action processor with all dependencies

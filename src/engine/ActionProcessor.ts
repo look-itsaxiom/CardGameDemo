@@ -4,7 +4,7 @@
  * Single Responsibility: Processes and validates player actions
  */
 
-import { GameAction, GamePhase, PlayerZones } from "types/index";
+import { GameAction, GamePhase, PlayerZones } from "../types/index";
 import { GameStateManager } from "./GameStateManager";
 import { CardManager } from "./CardManager";
 import { BoardManager } from "./BoardManager";

@@ -6,7 +6,6 @@
 
 import { GameEvent, Trigger, TriggerCondition, PlayerId, GamePhase } from "../types/index";
 import { GameStateManager } from "./GameStateManager";
-import { StackManager } from "./StackManager";
 
 export interface TriggerMatch {
   triggerId: string;
@@ -22,8 +21,8 @@ export class TriggerDetector {
   private eventQueue: GameEvent[] = [];
   private eventIdCounter = 0;
 
-  constructor(private stateManager: GameStateManager, private stackManager: StackManager) {
-    // stackManager will be used for adding triggered effects to the stack
+  constructor(private stateManager: GameStateManager) {
+    // TODO: Add stackManager when trigger processing is implemented
   }
 
   /**
@@ -164,7 +163,6 @@ export class TriggerDetector {
    * Process an event to find matching triggers
    */
   private processEventForTriggers(event: GameEvent): void {
-    const state = this.stateManager.getState();
     const matches: TriggerMatch[] = [];
 
     // Check face-down counters for trigger matches
@@ -185,9 +183,8 @@ export class TriggerDetector {
   /**
    * Check face-down counter cards for trigger matches
    */
-  private checkCounterTriggers(event: GameEvent): TriggerMatch[] {
+  private checkCounterTriggers(_event: GameEvent): TriggerMatch[] {
     const matches: TriggerMatch[] = [];
-    const state = this.stateManager.getState();
 
     // TODO: Scan in-play zone for face-down counter cards
     // For now, return empty array until we implement counter card system
@@ -224,7 +221,7 @@ export class TriggerDetector {
   /**
    * Check building effects for trigger matches
    */
-  private checkBuildingTriggers(event: GameEvent): TriggerMatch[] {
+  private checkBuildingTriggers(_event: GameEvent): TriggerMatch[] {
     const matches: TriggerMatch[] = [];
 
     // TODO: Check building cards in play for triggered abilities
