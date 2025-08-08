@@ -36,6 +36,6 @@ export class MainMenu extends Scene
     
     changeScene ()
     {
-        this.scene.start('PlayableGameBoard');
+        this.scene.start('InteractiveGameBoard');
     }
 }

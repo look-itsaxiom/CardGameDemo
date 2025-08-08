@@ -441,8 +441,9 @@ export class PlayableGameBoard extends Scene {
         const bg = this.add.circle(0, 0, 18, color);
         bg.setStrokeStyle(2, 0x000000);
         
-        // Unit name
-        const name = this.add.text(0, -8, unit.name.slice(0, 3), {
+        // Unit name from base card
+        const baseCard = this.gameEngine.getCardManager().getCard(unit.baseCard);
+        const name = this.add.text(0, -8, baseCard?.name.slice(0, 3) || 'UNK', {
             fontFamily: 'Arial',
             fontSize: 8,
             color: '#ffffff',
@@ -502,7 +503,8 @@ export class PlayableGameBoard extends Scene {
             this.selectedUnit = unit;
             this.selectedCard = null;
             this.highlightValidMoves(unit);
-            this.actionText.setText(`Unit selected: ${unit.name} - Click to move or attack`);
+            const baseCard = this.gameEngine.getCardManager().getCard(unit.baseCard);
+            this.actionText.setText(`Unit selected: ${baseCard?.name || 'Unknown'} - Click to move or attack`);
         }
     }
 

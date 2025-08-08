@@ -26,9 +26,9 @@ export class Game extends Scene
             align: 'center'
         }).setOrigin(0.5).setDepth(100);
 
-        // Auto-transition to PlayableGameBoard after engine initialization
+        // Auto-transition to InteractiveGameBoard after engine initialization
         this.time.delayedCall(1500, () => {
-            this.scene.start('PlayableGameBoard');
+            this.scene.start('InteractiveGameBoard');
         });
 
         EventBus.emit('current-scene-ready', this);
@@ -36,6 +36,6 @@ export class Game extends Scene
 
     changeScene ()
     {
-        this.scene.start('PlayableGameBoard');
+        this.scene.start('InteractiveGameBoard');
     }
 }
