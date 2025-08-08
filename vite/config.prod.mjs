@@ -1,5 +1,6 @@
 import { defineConfig } from 'vite';
 import react from '@vitejs/plugin-react';
+import path from 'path';
 
 const phasermsg = () => {
     return {
@@ -18,11 +19,19 @@ const phasermsg = () => {
 }
 
 export default defineConfig({
-    base: './',
+    base: '/CardGameDemo/',
     plugins: [
         react(),
         phasermsg()
     ],
+    resolve: {
+        alias: {
+            '@types': path.resolve(__dirname, '../src/types/index.ts'),
+            '@data': path.resolve(__dirname, '../src/data'),
+            '@engine': path.resolve(__dirname, '../src/engine'),
+            '@game': path.resolve(__dirname, '../src/game'),
+        }
+    },
     logLevel: 'warning',
     build: {
         rollupOptions: {
